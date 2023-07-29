@@ -30,8 +30,8 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: .
+          name: node-app
+          path: ./build
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: build
+          name: node-app
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
@@ -53,4 +53,4 @@ jobs:
           app-name: 'ereferralonline'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5CF5450E05374A8A97501E2BABA9C9EE }}
-          package: .
+          package: ./build
