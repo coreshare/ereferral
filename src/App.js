@@ -15,11 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-<<<<<<< HEAD
           Learn React - Test 512
-=======
-          Learn React - Testing deployment.
->>>>>>> 5eb5ff54f106918d164f846031d1454e6608df03
         </a>
       </header>
     </div>
