@@ -59,4 +59,4 @@ jobs:
           app-name: 'ereferralweb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D1A6CF7159F5411A8055318493DA3390 }}
-          package: .
+          package: release.zip
