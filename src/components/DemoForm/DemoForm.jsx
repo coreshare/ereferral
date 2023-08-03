@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./DemoForm.css";
-import { submitData } from "../../../src/services/api";
+import { submitData, uploadFile } from "../../../src/services/api";
 
 const DemoForm = () => {
     const initialFormData = {
@@ -8,26 +8,38 @@ const DemoForm = () => {
         TargetDate: "",
         Description: "",
         ConditionGood: false,
-      };
+    };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [selectedFile, setSelectedFile] = useState(null);
     
-      const handleChange = (e) => {
+    const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         const newValue = type === "checkbox" ? checked : value;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: newValue }));
-      };
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]; // Get the selected file from the input
+        setSelectedFile(file);
+    };
     
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await submitData(formData);
+        if (!selectedFile) {
+            alert("Please select a file");
+            return;
+        }
+        await submitData(formData);
+        await uploadFile(selectedFile);
         resetForm();
         alert("Data submitted successfully.");
-      };
+    };
 
-      const resetForm = () => {
-        setFormData(initialFormData); // Reset the form fields to their initial values
-      };
+    const resetForm = () => {
+        setFormData(initialFormData);
+        setSelectedFile(null);
+    };
 
     return(
         <div className="form-container">
@@ -78,6 +90,16 @@ const DemoForm = () => {
             <label className="checkbox-label" htmlFor="ConditionGood">
                 Condition is Good
             </label>
+            </div>
+            <div className="form-group">
+                <label htmlFor="file">Upload File</label>
+                <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    onChange={handleFileChange}
+                    required
+                />
             </div>
             <div className="form-group">
             <button type="submit">Submit</button>
