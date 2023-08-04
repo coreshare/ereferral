@@ -32,7 +32,7 @@ const DemoForm = () => {
         }
         await submitData(formData);
         //await uploadFile(selectedFile);
-        await uploadFilesTest(selectedFile);
+        //await uploadFilesTest(selectedFile);
         await uploadFiles(selectedFile);
         
         
