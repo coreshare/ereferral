@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./DemoForm.css";
-import { submitData, uploadFile } from "../../../src/services/api";
+import { submitData, uploadFile, uploadFiles, uploadFilesTest } from "../../../src/services/api";
 
 const DemoForm = () => {
     const initialFormData = {
@@ -20,7 +20,7 @@ const DemoForm = () => {
     };
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0]; // Get the selected file from the input
+        const file = e.target.files;
         setSelectedFile(file);
     };
     
@@ -31,7 +31,11 @@ const DemoForm = () => {
             return;
         }
         await submitData(formData);
-        await uploadFile(selectedFile);
+        //await uploadFile(selectedFile);
+        await uploadFilesTest(selectedFile);
+        await uploadFiles(selectedFile);
+        
+        
         resetForm();
         alert("Data submitted successfully.");
     };
@@ -99,6 +103,7 @@ const DemoForm = () => {
                     name="file"
                     onChange={handleFileChange}
                     required
+                    multiple
                 />
             </div>
             <div className="form-group">

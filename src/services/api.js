@@ -1,6 +1,6 @@
 const BASE_URL = "https://ereferralapi.azurewebsites.net";
 
-export const submitData = async (data) => {alert(data);
+export const submitData = async (data) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
@@ -25,7 +25,7 @@ export const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${BASE_URL}/SPData/AddFile`, {
+    const response = await fetch(`${BASE_URL}/SPData/UploadFile`, {
       method: "POST",
       body: formData,
     });
@@ -35,6 +35,55 @@ export const uploadFile = async (file) => {
     }
 
     return response;
+  } catch (error) {
+    throw new Error("Failed to upload file");
+  }
+};
+
+export const uploadFiles = async (files) => {
+  try {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+
+    const response = await fetch(`${BASE_URL}/SPData/UploadFiles`, {
+      method: "POST",
+      body: formData,
+    });
+
+    //const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Failed to upload file1");
+    }
+    
+    return response;
+  } catch (error) {
+    alert(error)
+    //throw new Error("Failed to upload file2");
+  }
+};
+
+export const uploadFilesTest = async (files) => {
+  try {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+
+    const response = await fetch(`${BASE_URL}/SPData/UploadFilesTest`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Failed to upload file");
+    }
+    alert(responseData);
+    return responseData;
   } catch (error) {
     throw new Error("Failed to upload file");
   }
