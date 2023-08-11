@@ -28,7 +28,7 @@ const Parent = () => {
 
   const handleJson = async () => {debugger;
     var itemId = await getJsonData(formData);
-    debugger;
+    debugger; 
     //console.log('Form Data:', formData);
     //console.log('Attachments:', attachments);
   };
