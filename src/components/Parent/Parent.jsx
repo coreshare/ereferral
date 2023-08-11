@@ -25,7 +25,7 @@ const Parent = () => {
     var itemId = await saveData(formData);
     console.log(itemId);
     for(var i=0;i < attachments.length;i++){
-        attachmentsMetadata[attachments[i].name].DataSetID=itemId;
+        attachmentsMetadata[attachments[i].name].DataSetID=itemId.ToString();
         console.log(attachmentsMetadata[attachments[i].name]);
         console.log(JSON.stringify(attachmentsMetadata[attachments[i].name]));
         uploadFileToLib(attachments[i],attachmentsMetadata[attachments[i].name]);
