@@ -22,14 +22,11 @@ export const submitData = async (data) => {debugger;
 
 export const saveData = async (data) => {debugger;
   const formData = new FormData();
-  formData.append("metadata", JSON.stringify(data));
+  formData.append("jsonObject", JSON.stringify(data));
 
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: formData//JSON.stringify(data),
     });
 
@@ -50,9 +47,6 @@ export const getJsonData = async (data) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetJsonString`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: formData//JSON.stringify(data),
     });
 
