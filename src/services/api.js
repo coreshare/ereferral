@@ -21,8 +21,9 @@ export const submitData = async (data) => {debugger;
 };
 
 export const saveData = async (data) => {debugger;
+  const transformedData = transformData(data);
   const formData = new FormData();
-  formData.append("jsonObject", JSON.stringify(data));
+  formData.append("jsonObject", JSON.stringify(transformedData));
 
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
@@ -129,4 +130,18 @@ export const uploadFilesTest = async (files) => {
   } catch (error) {
     throw new Error("Failed to upload file");
   }
+};
+
+const transformData = (data) => {
+  const transformed = {};
+
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      const value = data[key];
+      // Convert null values to a special symbol, e.g., 'null'
+      transformed[key] = value === null ? 'null' : value;
+    }
+  }
+
+  return transformed;
 };

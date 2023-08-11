@@ -1,29 +1,28 @@
 class FormDataSet {
     constructor() {
       this.Address = '';
-      this.cccClinicalOncologist = '';
-      this.cccMedicalOncologist = '';
-      this.decisionDate = null;
-      this.dob = null;
-      this.diagnostics = '';
-      this.ethnicOrigin = '';
-      this.firstName = '';
-      this.gpName = '';
-      this.gpPractice = '';
-      this.histology = '';
-      this.maritalStatus = '';
-      this.nextOfKinContact = '';
-      this.nextOfKinName = '';
-      this.nhsNumber = '';
-      this.patientAwareOfDiagnosis = false;
-      this.pathwayInfo = '';
-      this.primaryDiagnosis = '';
-      this.referringConsultant = '';
-      this.referringOrganisation = '';
-      this.religion = '';
-      this.surname = '';
-      this.tumourLocation = '';
-      this.upgradeScreening = '';
+      this.ClinicalOncologistCCCConsultant = '';
+      this.MedicalOncologistCCCConsultant = '';
+      this.DateDecisiontoRefer = null;
+      this.DateofBirth = null;
+      this.Diagnostics = '';
+      this.Ethnicorigin = '';
+      this.FirstName = '';
+      this.GPName = '';
+      this.GPPractice = '';
+      this.Histology = '';
+      this.MaritalStatus = '';
+      this.NextofKincontactdetails = '';
+      this.NextofKinname = '';
+      this.NHSNumber = '';
+      this.PatientAwareofDiagnosis = false;
+      this.PathwayInformation = '';
+      this.PrimaryDiagnosis = '';
+      this.ReferringOrganisation = '';
+      this.Religion = '';
+      this.Surname = '';
+      this.TumourLocation = '';
+      this.Upgrade = '';
     }
   }
   

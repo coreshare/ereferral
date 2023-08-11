@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import Child1 from '../Child1/Child1';
 import Child2 from '../Child2/Child2';
 import { saveData, uploadFileToLib } from "../../../src/services/api";
+import FormDataSet from '../../Models/FormDataSet';
 
 const Parent = () => {
-  const [formData, setFormData] = useState({
-    Title: ''
-  });
+  const [formData, setFormData] = useState(new FormDataSet);
 
   const [attachments, setAttachments] = useState([]);
   const [attachmentsMetadata, setattachmentsMetadata] = useState([]);
@@ -16,7 +15,7 @@ const Parent = () => {
     setFormData(newFormData);
   };
 
-  const handleAttachmentsChange = (newAttachments, metadata) => {//debugger;
+  const handleAttachmentsChange = (newAttachments, metadata) => {
     setAttachments(newAttachments);
     setattachmentsMetadata(metadata);
   };
