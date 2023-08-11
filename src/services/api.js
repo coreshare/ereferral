@@ -33,8 +33,8 @@ export const saveData = async (data) => {debugger;
     if (!response.ok) {
       throw new Error("Failed to submit data");
     }
-
-    return response;
+    const responseBody = await response.json();
+    return responseBody;
   } catch (error) {
     throw new Error("Failed to submit data");
   }
