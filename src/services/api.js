@@ -43,7 +43,7 @@ export const saveData = async (data) => {debugger;
 export const uploadFileToLib = (file, metadata) => {debugger;
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('metadata', metadata);
+  formData.append('metadata', JSON.stringify(metadata));
 
   try {
     const response = fetch(`${BASE_URL}/SPData/UploadFile`, {
