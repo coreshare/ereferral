@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Child1 from '../Child1/Child1';
 import Child2 from '../Child2/Child2';
-import { submitData, uploadFile, uploadFiles, uploadFilesTest } from "../../../src/services/api";
+import { saveData, getJsonData } from "../../../src/services/api";
 
 const Parent = () => {
   const [formData, setFormData] = useState({
