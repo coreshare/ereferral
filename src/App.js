@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import DemoForm from './components/DemoForm/DemoForm';
+import Parent from './components/Parent/Parent';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <header className="App-header">
         
         <p>Welcome to e-Referral Programme.</p>
-        <DemoForm/>
+        <Parent/>
         {/*<img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.

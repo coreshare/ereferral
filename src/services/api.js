@@ -1,6 +1,6 @@
 const BASE_URL = "https://ereferralapi.azurewebsites.net";
 
-export const submitData = async (data) => {
+export const submitData = async (data) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
@@ -49,13 +49,14 @@ export const uploadFiles = async (files) => {
 
     const response = await fetch(`${BASE_URL}/SPData/UploadFiles`, {
       method: "POST",
-      body: formData,
+      body: formData
     });
 
     //const responseData = await response.json();
 
     if (!response.ok) {
-      throw new Error("Failed to upload file1");
+      alert(response.json())
+      //throw new Error("Failed to upload file1");
     }
     
     return response;
