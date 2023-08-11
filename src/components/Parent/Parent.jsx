@@ -6,9 +6,7 @@ import { submitData, uploadFile, uploadFiles, uploadFilesTest } from "../../../s
 
 const Parent = () => {
   const [formData, setFormData] = useState({
-    field1: '',
-    field2: '',
-    field3: '',
+    Title: ''
   });
 
   const [attachments, setAttachments] = useState([]);
@@ -22,7 +20,14 @@ const Parent = () => {
   };
 
   const handleSubmit = async () => {debugger;
-    var itemId = await submitData(formData);
+    var itemId = await saveData(formData);
+    debugger;
+    //console.log('Form Data:', formData);
+    //console.log('Attachments:', attachments);
+  };
+
+  const handleJson = async () => {debugger;
+    var itemId = await getJsonData(formData);
     debugger;
     //console.log('Form Data:', formData);
     //console.log('Attachments:', attachments);
@@ -34,6 +39,7 @@ const Parent = () => {
       <Child1 onChange={handleFormDataChange} />
       <Child2 onChange={handleAttachmentsChange} />
       <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleJson}>Submit</button>
     </div>
   );
 };

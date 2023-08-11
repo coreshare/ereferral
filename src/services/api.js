@@ -20,6 +20,52 @@ export const submitData = async (data) => {debugger;
   }
 };
 
+export const saveData = async (data) => {debugger;
+  const formData = new FormData();
+  formData.append("metadata", JSON.stringify(data));
+
+  try {
+    const response = await fetch(`${BASE_URL}/SPData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: formData//JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error("Failed to submit data");
+  }
+};
+
+export const getJsonData = async (data) => {debugger;
+  const formData = new FormData();
+  formData.append("metadata", JSON.stringify(data));
+
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/GetJsonString`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: formData//JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error("Failed to submit data");
+  }
+};
+
 export const uploadFile = async (file) => {
   try {
     const formData = new FormData();
