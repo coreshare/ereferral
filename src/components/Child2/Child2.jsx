@@ -84,9 +84,9 @@ const Child2 = ({ onChange }) => {
                 <td>
                   <input
                     type="text"
-                    value={fileInfo[file.name].Description || ''}
+                    value={fileInfo[file.name].DocDescription || ''}
                     onChange={(e) =>
-                      handleFileInfoChange(e, file.name, 'Description')
+                      handleFileInfoChange(e, file.name, 'DocDescription')
                     }
                   />
                 </td>
