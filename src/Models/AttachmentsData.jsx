@@ -1,11 +1,10 @@
 class AttachmentsData{
     constructor() {
-        this.attachments = [];
-        this.detailClass = '';
-        this.detailType = '';
-        this.notes = '';
-        this.description = '';
-        this.dataSetID = '';
+        this.DetailClass = '';
+        this.DetailType = '';
+        this.Notes = '';
+        this.Description = '';
+        this.DataSetID = '';
     }
 }
 export default AttachmentsData;

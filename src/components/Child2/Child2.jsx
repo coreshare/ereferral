@@ -1,9 +1,10 @@
 // EReferralDocuments.js
 import React, { useState, useEffect } from 'react';
+import AttachmentsData from '../../Models/AttachmentsData';
 
 const Child2 = ({ onChange }) => {
   const [attachments, setAttachments] = useState([]);
-  const [fileInfo, setFileInfo] = useState({}); // Combine file notes and descriptions
+  const [fileInfo, setFileInfo] = useState(new AttachmentsData); // Combine file notes and descriptions
 
   useEffect(() => {
     onChange(attachments, fileInfo);
@@ -16,10 +17,7 @@ const Child2 = ({ onChange }) => {
       setAttachments(newAttachments);
       const initialFileInfo = {};
       newAttachments.forEach((file) => {
-        initialFileInfo[file.name] = {
-          notes: '',
-          description: '',
-        };
+        initialFileInfo[file.name] = new AttachmentsData;
       });
       setFileInfo(initialFileInfo);
     }
@@ -45,6 +43,8 @@ const Child2 = ({ onChange }) => {
           <thead>
             <tr>
               <th>File Name</th>
+              <th>Detail Class</th>
+              <th>Detail Type</th>
               <th>Notes</th>
               <th>Description</th>
             </tr>
@@ -54,18 +54,39 @@ const Child2 = ({ onChange }) => {
               <tr key={file.name}>
                 <td>{file.name}</td>
                 <td>
+                  <select
+                        value={fileInfo[file.name]?.DetailClass || ''}
+                        onChange={(e) => handleFileInfoChange(e, file.name, 'DetailClass')}>
+                        <option value=""></option>
+                        <option value="Referral inc IPT">Referral inc IPT</option>
+                        <option value="Medical">Medical</option>
+                    </select>
+
+                </td>
+                <td>
+                  <select
+                        value={fileInfo[file.name]?.DetailType || ''}
+                        onChange={(e) => handleFileInfoChange(e, file.name, 'DetailType')}>
+                        <option value=""></option>
+                        <option value="Histology">Histology</option>
+                        <option value="Referral Letter">Referral Letter</option>
+                        <option value="CT">CT</option>
+                        <option value="IPT">IPT</option>
+                    </select>
+                </td>
+                <td>
                   <input
                     type="text"
-                    value={fileInfo[file.name].notes || ''}
-                    onChange={(e) => handleFileInfoChange(e, file.name, 'notes')}
+                    value={fileInfo[file.name].Notes || ''}
+                    onChange={(e) => handleFileInfoChange(e, file.name, 'Notes')}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
-                    value={fileInfo[file.name].description || ''}
+                    value={fileInfo[file.name].Description || ''}
                     onChange={(e) =>
-                      handleFileInfoChange(e, file.name, 'description')
+                      handleFileInfoChange(e, file.name, 'Description')
                     }
                   />
                 </td>

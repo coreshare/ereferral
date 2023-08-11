@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Child1 from '../Child1/Child1';
 import Child2 from '../Child2/Child2';
-import { saveData, getJsonData } from "../../../src/services/api";
+import { saveData, uploadFileToLib } from "../../../src/services/api";
 
 const Parent = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,7 @@ const Parent = () => {
   });
 
   const [attachments, setAttachments] = useState([]);
+  const [attachmentsMetadata, setattachmentsMetadata] = useState([]);
 
   const handleFormDataChange = (newFormData) => {
     setFormData(newFormData);
@@ -17,20 +18,15 @@ const Parent = () => {
 
   const handleAttachmentsChange = (newAttachments, metadata) => {//debugger;
     setAttachments(newAttachments);
+    setattachmentsMetadata(metadata);
   };
 
   const handleSubmit = async () => {debugger;
     var itemId = await saveData(formData);
-    debugger;
-    //console.log('Form Data:', formData);
-    //console.log('Attachments:', attachments);
-  };
-
-  const handleJson = async () => {debugger;
-    var itemId = await getJsonData(formData);
-    debugger; 
-    //console.log('Form Data:', formData);
-    //console.log('Attachments:', attachments);
+    for(var i=0;i < attachments.length;i++){
+        attachmentsMetadata[attachments[i].name].DataSetID=itemId;
+        uploadFileToLib(attachments[i],attachmentsMetadata[attachments[i].name]);
+    }
   };
 
   return (
@@ -39,7 +35,6 @@ const Parent = () => {
       <Child1 onChange={handleFormDataChange} />
       <Child2 onChange={handleAttachmentsChange} />
       <button onClick={handleSubmit}>Submit</button>
-      <button onClick={handleJson}>Submit</button>
     </div>
   );
 };

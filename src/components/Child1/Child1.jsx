@@ -1,5 +1,6 @@
 // EReferralFormData.js
 import React, { useState } from 'react';
+import './Child1.css';
 
 const Child1 = ({ onChange }) => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const Child1 = ({ onChange }) => {
       ...prevData,
       [name]: value,
     }));
-    onChange(formData); // Notify parent about form data change
+    onChange(formData);
   };
 
   return (

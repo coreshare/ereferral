@@ -27,7 +27,7 @@ export const saveData = async (data) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
-      body: formData//JSON.stringify(data),
+      body: formData
     });
 
     if (!response.ok) {
@@ -40,23 +40,24 @@ export const saveData = async (data) => {debugger;
   }
 };
 
-export const getJsonData = async (data) => {debugger;
+export const uploadFileToLib = (file, metadata) => {debugger;
   const formData = new FormData();
-  formData.append("metadata", JSON.stringify(data));
+  formData.append('file', file);
+  formData.append('metadata', metadata);
 
   try {
-    const response = await fetch(`${BASE_URL}/SPData/GetJsonString`, {
-      method: "POST",
-      body: formData//JSON.stringify(data),
+    const response = fetch(`${BASE_URL}/SPData/UploadFile`, {
+      method: 'POST',
+      body: formData
     });
 
     if (!response.ok) {
-      throw new Error("Failed to submit data");
+      throw new Error("Failed to upload file");
     }
 
     return response;
   } catch (error) {
-    throw new Error("Failed to submit data");
+    throw new Error("Failed to upload file");
   }
 };
 

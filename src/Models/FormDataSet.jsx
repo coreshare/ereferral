@@ -1,31 +1,31 @@
-class PatientData {
+class FormDataSet {
     constructor() {
-      this.address = '';
+      this.Address = '';
       this.cccClinicalOncologist = '';
       this.cccMedicalOncologist = '';
-      this.decisionDate = null; // You can set the initial value as needed
-      this.dob = null; // You can set the initial value as needed
+      this.decisionDate = null;
+      this.dob = null;
       this.diagnostics = '';
       this.ethnicOrigin = '';
       this.firstName = '';
       this.gpName = '';
       this.gpPractice = '';
       this.histology = '';
-      this.maritalStatus = ''; // Should be one of the choices
+      this.maritalStatus = '';
       this.nextOfKinContact = '';
       this.nextOfKinName = '';
       this.nhsNumber = '';
-      this.patientAwareOfDiagnosis = false; // Default to false
+      this.patientAwareOfDiagnosis = false;
       this.pathwayInfo = '';
       this.primaryDiagnosis = '';
       this.referringConsultant = '';
       this.referringOrganisation = '';
       this.religion = '';
       this.surname = '';
-      this.tumourLocation = ''; // Should be one of the choices
+      this.tumourLocation = '';
       this.upgradeScreening = '';
     }
   }
   
-  export default PatientData;
+  export default FormDataSet;
   
