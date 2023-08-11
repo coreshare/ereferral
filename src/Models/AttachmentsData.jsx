@@ -3,7 +3,7 @@ class AttachmentsData{
         this.DetailClass = '';
         this.DetailType = '';
         this.Notes = '';
-        this.Description = '';
+        this.DocDescription = '';
         this.DataSetID = '';
     }
 }
