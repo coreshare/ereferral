@@ -34,7 +34,7 @@ export const saveData = async (data) => {debugger;
       throw new Error("Failed to submit data");
     }
     const responseBody = await response.json();
-    return responseBodytoString();
+    return responseBody.toString();
   } catch (error) {
     throw new Error("Failed to submit data");
   }
