@@ -1,0 +1,44 @@
+input1{max-width: 300px;}
+/* EmailForOTP Component Styles */
+.email-for-otp-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px;
+  }
+  
+  .email-for-otp-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .email-for-otp-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .email-for-otp-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Common Styles */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    background-color: white;
+  }
+  

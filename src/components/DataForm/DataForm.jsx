@@ -1,9 +1,9 @@
 // EReferralFormData.js
 import React, { useState } from 'react';
-import './Child1.css';
+import './DataForm.css';
 import FormDataSet from '../../Models/FormDataSet';
 
-const Child1 = ({ onChange }) => {
+const DataForm = ({ onChange, onUserFormNext }) => {
   const [formData, setFormData] = useState(new FormDataSet);
 
   const handleChange = (e) => {
@@ -15,9 +15,13 @@ const Child1 = ({ onChange }) => {
     onChange(formData);
   };
 
+  const handleNext = () => {
+    onUserFormNext();
+  }
+
   return (
     <div>
-        <div className="form-container">
+        <div className="container form-container">
         <form className="form">
             <div className="form-field">
             <label htmlFor="Address">Address:</label>
@@ -134,11 +138,11 @@ const Child1 = ({ onChange }) => {
             <label htmlFor="UpgradeScreening">Upgrade/Screening/62 Day:</label>
             <input type="text" id="UpgradeScreening" name="UpgradeScreening" onChange={handleChange} />
             </div>
-            
+            <button className="home-button" onClick={handleNext}>Next</button>
         </form>
         </div>
     </div>
   );
 };
 
-export default Child1;
+export default DataForm;

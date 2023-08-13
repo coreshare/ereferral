@@ -1,4 +1,25 @@
 const BASE_URL = "https://ereferralapi.azurewebsites.net";
+const Email_URL = "https://prod-122.westeurope.logic.azure.com:443/workflows/c06414d2d9f04468bbea2ea190967ab5/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dm-lLnTWj6korfDk-n5G7zefHrKfPu4QUGtpSYi_vvI";
+
+export const emailOTP = async (data) => {debugger;
+  try {
+    const response = await fetch(`${Email_URL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error("Failed to submit data");
+  }
+};
 
 export const submitData = async (data) => {debugger;
   try {

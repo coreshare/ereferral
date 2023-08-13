@@ -22,7 +22,7 @@ class FormDataSet {
       this.Religion = '';
       this.Surname = '';
       this.TumourLocation = '';
-      this.Upgrade = '';
+      this.UpgradeScreening = '';
     }
   }
   

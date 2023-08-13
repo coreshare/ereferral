@@ -1,10 +1,11 @@
 // EReferralDocuments.js
 import React, { useState, useEffect } from 'react';
 import AttachmentsData from '../../Models/AttachmentsData';
+import './Attachments.css';
 
-const Child2 = ({ onChange }) => {
+const Attachments = ({ onChange }) => {
   const [attachments, setAttachments] = useState([]);
-  const [fileInfo, setFileInfo] = useState(new AttachmentsData); // Combine file notes and descriptions
+  const [fileInfo, setFileInfo] = useState(new AttachmentsData);
 
   useEffect(() => {
     onChange(attachments, fileInfo);
@@ -35,10 +36,10 @@ const Child2 = ({ onChange }) => {
   };
 
   return (
-    <div>
-      <h2>EReferral Documents</h2>
+    <div className='form-container'>
+      <h4>EReferral Documents</h4>
       <input type="file" multiple onChange={handleFileUpload} />
-      {attachments.length > 0 && (
+      {attachments.length > 0 && (<div>
         <table>
           <thead>
             <tr>
@@ -75,28 +76,31 @@ const Child2 = ({ onChange }) => {
                     </select>
                 </td>
                 <td>
-                  <input
-                    type="text"
-                    value={fileInfo[file.name].Notes || ''}
-                    onChange={(e) => handleFileInfoChange(e, file.name, 'Notes')}
-                  />
+                  <textarea
+                      value={fileInfo[file.name].Notes || ''}
+                      onChange={(e) =>
+                        handleFileInfoChange(e, file.name, 'Notes')
+                      }
+                      rows="4"
+                    />
                 </td>
                 <td>
-                  <input
-                    type="text"
-                    value={fileInfo[file.name].DocDescription || ''}
-                    onChange={(e) =>
-                      handleFileInfoChange(e, file.name, 'DocDescription')
-                    }
-                  />
+                  <textarea
+                      value={fileInfo[file.name].DocDescription || ''}
+                      onChange={(e) =>
+                        handleFileInfoChange(e, file.name, 'DocDescription')
+                      }
+                      rows="4"
+                    />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );
 };
 
-export default Child2;
+export default Attachments;
