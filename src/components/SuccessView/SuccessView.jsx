@@ -8,7 +8,6 @@ const SuccessView = () => {
                 <form className="form">
                     Data submitted successfully. Thank you.
                 </form>
-                <button className="otp-validation-button" onClick={validateOTP}>Validate</button>
             </div>
         </div>
     )

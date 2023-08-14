@@ -5,6 +5,7 @@ import FormDataSet from '../../Models/FormDataSet';
 import ModalDialog from '../ModalDialog/ModalDialog';
 import DataForm from '../DataForm/DataForm';
 import Attachments from '../Attachments/Attachments';
+import SuccessView from '../SuccessView/SuccessView';
 
 const UserForm = ({ onNext }) => {
   const [userFormStep, setuserFormStep] = useState(0);
@@ -62,7 +63,7 @@ const UserForm = ({ onNext }) => {
       {userFormStep === 0 && <DataForm onChange={handleFormDataChange} onUserFormNext={onUserFormNext} />}
       {userFormStep === 1 && <div><Attachments onChange={handleAttachmentsChange} /><br/>
       <button onClick={handleSubmit}>Submit</button></div>}
-      {userFormStep === 2 && <div><Attachments onChange={handleAttachmentsChange} /><br/>
+      {userFormStep === 2 && <div><SuccessView /><br/>
       <button onClick={handleNextReferral}>Submit another referral</button></div>}
       <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
         <p>Submitting data... please wait.</p>
