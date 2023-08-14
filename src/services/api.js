@@ -52,13 +52,10 @@ export const saveData = async (data) => {debugger;
       body: formData
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to submit data");
-    }
     const responseBody = await response.json();
     return responseBody.toString();
   } catch (error) {
-    throw new Error("Failed to submit data");
+    console.log(error);
   }
 };
 
@@ -76,7 +73,7 @@ export const uploadFileToLib = async (file, metadata) => {debugger;
     const responseBody = await response.json();
     return responseBody;
   } catch (error) {
-    throw new Error("Failed to upload file");
+    console.log(error);
   }
 };
 
