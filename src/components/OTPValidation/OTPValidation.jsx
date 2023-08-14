@@ -18,16 +18,24 @@ const OTPValidation = ({onNext, generatedOTP}) =>{
     }
 
     return(
-        <div className="container otp-validation-container">
-            <input
-                type="text"
-                className="otp-validation-input"
-                placeholder="Enter OTP"
-                value={enteredOTP}
-                onChange={handleChange}
-            />
-            <button className="otp-validation-button" onClick={validateOTP}>Validate</button>
+        <div>
+            <div className="container form-container">
+                <form className="form">
+                    <div className="form-field">
+                    <label htmlFor="Address">Validate OTP:</label>
+                    <input
+                        type="text"
+                        className="otp-validation-input"
+                        placeholder="Enter OTP"
+                        value={enteredOTP}
+                        onChange={handleChange}
+                    />
+                    </div>
+                </form>
+                <button className="otp-validation-button" onClick={validateOTP}>Validate</button>
+            </div>
         </div>
+
     )
 }
 export default OTPValidation

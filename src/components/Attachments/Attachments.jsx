@@ -13,7 +13,7 @@ const Attachments = ({ onChange }) => {
 
   const handleFileUpload = (e) => {
     const newFiles = e.target.files;
-    if (newFiles.length > 0) {
+    if (newFiles.length > 0 && newFiles.length <= 10) {
       const newAttachments = Array.from(newFiles);
       setAttachments(newAttachments);
       const initialFileInfo = {};
@@ -22,6 +22,11 @@ const Attachments = ({ onChange }) => {
       });
       setFileInfo(initialFileInfo);
     }
+    else
+    {
+      alert("Only upto 10 documents allowed to attach.")
+    }
+    
   };
 
   const handleFileInfoChange = (e, fileName, field) => {

@@ -73,11 +73,8 @@ export const uploadFileToLib = async (file, metadata) => {debugger;
       body: formData
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to upload file");
-    }
-
-    return response;
+    const responseBody = await response.json();
+    return responseBody;
   } catch (error) {
     throw new Error("Failed to upload file");
   }

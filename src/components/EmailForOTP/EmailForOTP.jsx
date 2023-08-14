@@ -6,8 +6,14 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
     const [email,SetEmail] = useState("");
 
     const handleNext = () =>{
-        generateOTP();
-        onNext();
+        if(email == "devops@coreshare.co.uk" || email == "keith@coreshare.co.uk" || email == "tony@coreshare.co.uk" || email == "pete@coreshare.co.uk")
+        {
+            generateOTP();
+            onNext();
+        }
+        else{
+            alert("Email address is not valid.");
+        }
     }
 
     const generateOTP = () => {
@@ -26,7 +32,11 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
       }
 
     return(
-        <div className="container email-for-otp-container">
+        <div>
+        <div className="container form-container">
+        <form className="form">
+            <div className="form-field">
+            <label htmlFor="Address">Email Address:</label>
             <input
                 type="text"
                 className="email-for-otp-input"
@@ -34,7 +44,10 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
                 value={email}
                 onChange={handleChange}
             />
-            <button className="email-for-otp-button" onClick={handleNext}>Request OTP</button>
+            </div>
+        </form>
+        <button className="email-for-otp-button" onClick={handleNext}>Request OTP</button>
+        </div>
         </div>
     )
 }

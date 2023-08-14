@@ -38,7 +38,6 @@ const UserForm = ({ onNext }) => {
         attachmentsMetadata[attachments[i].name].DataSetID=itemId;
         console.log(attachmentsMetadata[attachments[i].name]);
         console.log(JSON.stringify(attachmentsMetadata[attachments[i].name]));
-        //uploadFileToLib(attachments[i],attachmentsMetadata[attachments[i].name]);
     }
     const uploadPromises = attachments.map((attachment) => {
       return uploadFileToLib(attachment, attachmentsMetadata[attachment.name]);
@@ -47,22 +46,24 @@ const UserForm = ({ onNext }) => {
     await Promise.all(uploadPromises);
 
     closeModal();
+    setuserFormStep(userFormStep+1);
   };
 
   const onUserFormNext = () =>{
     setuserFormStep(userFormStep + 1);
   }
 
+  const handleNextReferral = () => {
+    setuserFormStep(0);
+  }
+
   return (
     <div>
-      {/*<button onClick={openModal}>Open Modal</button>
-      <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
-        <h2>Modal Content</h2>
-        <p>This is the content of the modal.</p>
-      </ModalDialog>*/}
       {userFormStep === 0 && <DataForm onChange={handleFormDataChange} onUserFormNext={onUserFormNext} />}
       {userFormStep === 1 && <div><Attachments onChange={handleAttachmentsChange} /><br/>
       <button onClick={handleSubmit}>Submit</button></div>}
+      {userFormStep === 2 && <div><Attachments onChange={handleAttachmentsChange} /><br/>
+      <button onClick={handleNextReferral}>Submit another referral</button></div>}
       <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
         <p>Submitting data... please wait.</p>
       </ModalDialog>
