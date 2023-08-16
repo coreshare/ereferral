@@ -68,7 +68,7 @@ export const generateOTP = async (emailval) => {debugger;
       body: formData
     });
 
-    const responseBody = await response.json();
+    const responseBody = response;
     return responseBody.toString();
   } catch (error) {
     console.log(error);
@@ -102,7 +102,7 @@ export const uploadFileToLib = async (file, metadata) => {debugger;
       body: formData
     });
 
-    const responseBody = response;
+    const responseBody = await response.json();
     return responseBody;
   } catch (error) {
     console.log(error);
