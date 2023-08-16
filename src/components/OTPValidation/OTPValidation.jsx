@@ -2,17 +2,22 @@ import React,{useEffect, useState} from "react";
 import './OTPValidation.css';
 import { validateOTP } from "../../services/api";
 
-const OTPValidation = ({onNext, generatedOTP}) =>{
+const OTPValidation = ({onNext}) =>{
     const [enteredOTP, setEnteredOTP] = useState("");
 
     const validateEnteredOTP = async () =>{
-        var response = await validateOTP(enteredOTP);
-        if(response == "Success"){
-            alert("OTP has been validate successfully.")
-            onNext();
+        if(enteredOTP != ""){
+            var response = await validateOTP(enteredOTP);
+            if(response == "Success"){
+                alert("OTP has been validated successfully.")
+                onNext();
+            }
+            else{
+                alert(response)
+            }
         }
         else{
-            alert(response)
+            alert("Enter OTP");
         }
     }
 

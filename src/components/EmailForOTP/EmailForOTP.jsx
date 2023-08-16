@@ -19,12 +19,13 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
         if(email == "devops@coreshare.co.uk" || email == "ivy@coreshare.co.uk" || email == "keith@coreshare.co.uk" || 
             email == "tony@coreshare.co.uk" || email == "pete@coreshare.co.uk")
         {
-            //generateOTP();
             openModal();
             await generateOTP(email);
             closeModal();
             onNext();
-            alert("OTP has been sent to your email.")
+            setTimeout(() => {
+                alert("OTP has been sent to your email.");
+            }, 100);
         }
         else{
             alert("Email address is not valid.");
@@ -63,8 +64,8 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
             </div>
         </form>
         <button className="email-for-otp-button" onClick={handleNext}>Request OTP</button>
-        <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
-            <p>Generating OTP and will be send to your email... please wait.</p>
+        <ModalDialog isOpen={isModalOpen}>
+            <p>Generating OTP... please wait.</p>
         </ModalDialog>
         </div>
         </div>
