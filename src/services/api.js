@@ -69,8 +69,12 @@ export const generateOTP = async (emailval) => {debugger;
       credentials: "include"
     });
 
-    const responseBody = response;
-    return responseBody.toString();
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+    
+    const responseBody = await response.text();
+    return responseBody;
   } catch (error) {
     console.log(error);
   }
@@ -86,8 +90,14 @@ export const validateOTP = async (otpval) => {debugger;
       credentials: "include"
     });
 
-    const responseBody = response;
-    return responseBody.toString();
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text();
+
+    console.log("Response:", responseBody);
+    return responseBody;
   } catch (error) {
     console.log(error);
   }
