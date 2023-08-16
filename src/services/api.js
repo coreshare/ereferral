@@ -84,7 +84,7 @@ export const validateOTP = async (otpval) => {debugger;
       body: formData
     });
 
-    const responseBody = await response.json();
+    const responseBody = response;
     return responseBody.toString();
   } catch (error) {
     console.log(error);
@@ -102,7 +102,7 @@ export const uploadFileToLib = async (file, metadata) => {debugger;
       body: formData
     });
 
-    const responseBody = await response.json();
+    const responseBody = response;
     return responseBody;
   } catch (error) {
     console.log(error);
