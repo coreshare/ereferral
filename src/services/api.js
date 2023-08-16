@@ -63,7 +63,7 @@ export const generateOTP = async (email) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/OTP/generate`, {
       method: "POST",
-      body: JSON.stringify(email)
+      body: email
     });
 
     const responseBody = await response.json();
@@ -77,7 +77,7 @@ export const validateOTP = async (otp) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/OTP/validate`, {
       method: "POST",
-      body: JSON.stringify(otp)
+      body: otp
     });
 
     const responseBody = await response.json();
