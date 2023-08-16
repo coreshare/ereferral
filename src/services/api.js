@@ -59,7 +59,8 @@ export const saveData = async (data) => {debugger;
   }
 };
 
-export const generateOTP = async (email) => {debugger;
+export const generateOTP = async (emailval) => {debugger;
+  var email = emailval;
   try {
     const response = await fetch(`${BASE_URL}/OTP/generate`, {
       method: "POST",
@@ -76,7 +77,8 @@ export const generateOTP = async (email) => {debugger;
   }
 };
 
-export const validateOTP = async (otp) => {debugger;
+export const validateOTP = async (otpval) => {debugger;
+  var otp = otpval;
   try {
     const response = await fetch(`${BASE_URL}/OTP/validate`, {
       method: "POST",
