@@ -10,7 +10,7 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
             email == "tony@coreshare.co.uk" || email == "pete@coreshare.co.uk")
         {
             //generateOTP();
-            await generateOTP();
+            await generateOTP(email);
             onNext();
         }
         else{

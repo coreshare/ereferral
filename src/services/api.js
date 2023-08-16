@@ -59,10 +59,11 @@ export const saveData = async (data) => {debugger;
   }
 };
 
-export const generateOTP = async () => {debugger;
+export const generateOTP = async (email) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/OTP/generate`, {
-      method: "POST"
+      method: "POST",
+      body: JSON.stringify(email)
     });
 
     const responseBody = await response.json();
