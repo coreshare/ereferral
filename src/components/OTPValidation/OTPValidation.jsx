@@ -1,15 +1,17 @@
 import React,{useEffect, useState} from "react";
 import './OTPValidation.css';
+import { validateOTP } from "../../services/api";
 
 const OTPValidation = ({onNext, generatedOTP}) =>{
     const [enteredOTP, setEnteredOTP] = useState("");
 
-    const validateOTP = () =>{
-        if(enteredOTP == generatedOTP){
+    const validateEnteredOTP = async () =>{
+        var response = await validateOTP(enteredOTP);
+        if(response.indexOf("Successfully") >= 0){
             onNext();
         }
         else{
-            alert("Entered OTP is not valid")
+            alert(response)
         }
     }
 
@@ -32,7 +34,7 @@ const OTPValidation = ({onNext, generatedOTP}) =>{
                     />
                     </div>
                 </form>
-                <button className="otp-validation-button" onClick={validateOTP}>Validate</button>
+                <button className="otp-validation-button" onClick={validateEnteredOTP}>Validate</button>
             </div>
         </div>
 

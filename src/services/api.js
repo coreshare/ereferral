@@ -59,6 +59,33 @@ export const saveData = async (data) => {debugger;
   }
 };
 
+export const generateOTP = async () => {debugger;
+  try {
+    const response = await fetch(`${BASE_URL}/OTP/generate`, {
+      method: "POST"
+    });
+
+    const responseBody = await response.json();
+    return responseBody.toString();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const validateOTP = async (otp) => {debugger;
+  try {
+    const response = await fetch(`${BASE_URL}/OTP/validate`, {
+      method: "POST",
+      body: JSON.stringify(otp)
+    });
+
+    const responseBody = await response.json();
+    return responseBody.toString();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const uploadFileToLib = async (file, metadata) => {debugger;
   const formData = new FormData();
   formData.append('file', file);
