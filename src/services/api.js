@@ -65,7 +65,8 @@ export const generateOTP = async (emailval) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/OTP/generate`, {
       method: "POST",
-      body: formData
+      body: formData,
+      credentials: "include"
     });
 
     const responseBody = response;
@@ -81,7 +82,8 @@ export const validateOTP = async (otpval) => {debugger;
   try {
     const response = await fetch(`${BASE_URL}/OTP/validate`, {
       method: "POST",
-      body: formData
+      body: formData,
+      credentials: "include"
     });
 
     const responseBody = response;
