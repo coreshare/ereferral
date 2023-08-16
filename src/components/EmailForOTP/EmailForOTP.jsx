@@ -4,14 +4,26 @@ import { generateOTP } from "../../services/api";
 
 const EmailForOTP = ({onNext,onOTPGenerate}) =>{
     const [email,SetEmail] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+    
     const handleNext = async () =>{
         if(email == "devops@coreshare.co.uk" || email == "ivy@coreshare.co.uk" || email == "keith@coreshare.co.uk" || 
             email == "tony@coreshare.co.uk" || email == "pete@coreshare.co.uk")
         {
             //generateOTP();
+            openModal();
             await generateOTP(email);
+            closeModal();
             onNext();
+            alert("OTP has been sent to your email.")
         }
         else{
             alert("Email address is not valid.");
@@ -50,6 +62,9 @@ const EmailForOTP = ({onNext,onOTPGenerate}) =>{
             </div>
         </form>
         <button className="email-for-otp-button" onClick={handleNext}>Request OTP</button>
+        <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
+            <p>Generating OTP and will be send to your email... please wait.</p>
+        </ModalDialog>
         </div>
         </div>
     )

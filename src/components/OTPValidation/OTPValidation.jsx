@@ -7,7 +7,8 @@ const OTPValidation = ({onNext, generatedOTP}) =>{
 
     const validateEnteredOTP = async () =>{
         var response = await validateOTP(enteredOTP);
-        if(response.indexOf("Successfully") >= 0){
+        if(response == "Success"){
+            alert("OTP has been validate successfully.")
             onNext();
         }
         else{
