@@ -98,7 +98,7 @@ const DataForm = ({ onChange, onUserFormNext }) => {
                 type="checkbox"
                 id="PatientAwareofDiagnosis"
                 name="PatientAwareofDiagnosis"
-                checked={formData.patientAwareOfDiagnosis}
+                checked={formData.PatientAwareofDiagnosis}
                 onChange={handleChange}
             />
             </div>
