@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './EmailForOTP.css';
 import { generateOTP } from "../../services/api";
+import ModalDialog from "../ModalDialog/ModalDialog";
 
 const EmailForOTP = ({onNext,onOTPGenerate}) =>{
     const [email,SetEmail] = useState("");
