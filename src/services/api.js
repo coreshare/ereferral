@@ -60,14 +60,12 @@ export const saveData = async (data) => {debugger;
 };
 
 export const generateOTP = async (emailval) => {debugger;
-  var email = emailval;
+  const formData = new FormData();
+  formData.append("email", emailval);
   try {
     const response = await fetch(`${BASE_URL}/OTP/generate`, {
       method: "POST",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: email
+      body: formData
     });
 
     const responseBody = await response.json();
@@ -78,14 +76,12 @@ export const generateOTP = async (emailval) => {debugger;
 };
 
 export const validateOTP = async (otpval) => {debugger;
-  var otp = otpval;
+  const formData = new FormData();
+  formData.append("otp", otpval);
   try {
     const response = await fetch(`${BASE_URL}/OTP/validate`, {
       method: "POST",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: otp
+      body: formData
     });
 
     const responseBody = await response.json();
