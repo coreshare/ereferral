@@ -6,11 +6,13 @@ import FormDataSet from '../../Models/FormDataSet';
 const DataForm = ({ onChange, onUserFormNext }) => {
   const [formData, setFormData] = useState(new FormDataSet);
 
-  const handleChange = (e) => {
+  const handleChange = (e) => {debugger;
     const { name, value } = e.target;
+    const newValue = e.target.type === 'checkbox' ? e.target.checked : value;
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue,
     }));
     onChange(formData);
   };
