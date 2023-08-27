@@ -41,14 +41,15 @@ const OTPValidation = ({ onNext, otp }) => {
   };
 
   const handleOTPValidation = async () => {
+    
     const concatenatedNumberString = enteredOTP.map(String).join("");
     const concatenatedNumber = parseInt(concatenatedNumberString, 10);
     debugger;
-    if(concatenatedNumber != "" && enteredOTP.length == 6){
+    if(concatenatedNumber.toString().length == 6){
+      openModal();
+      setModalText("Validating OTP... Please wait.");
       var response = await validateOTP(concatenatedNumber);
       if(response == "Success"){
-          openModal();
-          setModalText("Validating OTP... Please wait.");
           closeModal();
           onNext();
       }
