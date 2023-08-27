@@ -1,14 +1,9 @@
-import React from "react";
-import './SuccessView.css';
+import React from "react"
 
 const SuccessView = () => {
-    return (
+    return(
         <div>
-            <div className="container form-container">
-                <form className="form">
-                    Data submitted successfully. Thank you.
-                </form>
-            </div>
+            Success View
         </div>
     )
 }

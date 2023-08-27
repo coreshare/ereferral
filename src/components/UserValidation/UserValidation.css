@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .vertical-center {
+    margin: 0;
+  }
+
+  .boldtxt{font-weight: 600;}
+  

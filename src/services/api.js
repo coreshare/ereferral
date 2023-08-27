@@ -103,6 +103,28 @@ export const validateOTP = async (otpval) => {debugger;
   }
 };
 
+export const validateDomain = async (domainval) => {debugger;
+  const formData = new FormData();
+  formData.append("domain", domainval);
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/ValidateDomain`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text().toLowerCase() === 'true';
+
+    console.log("Response:", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const uploadFileToLib = async (file, metadata) => {debugger;
   const formData = new FormData();
   formData.append('file', file);

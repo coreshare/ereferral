@@ -1,49 +1,92 @@
-import React,{useEffect, useState} from "react";
-import './OTPValidation.css';
-import { validateOTP } from "../../services/api";
+import React,{useState} from "react";
+import "./OTPValidation.css";
+import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
+import { validateOTP } from "../../Services/api";
+import ModalDialog from "../ModalDialog/ModalDialog";
 
-const OTPValidation = ({onNext}) =>{
-    const [enteredOTP, setEnteredOTP] = useState("");
+const OTPValidation = ({ onNext, otp }) => {
+  const [enteredOTP, setEnteredOTP] = useState(Array(6).fill(""));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showCloseButton,setShowCloseButton] = useState(true);
+  const [modalText, setModalText] = useState("");
+  //const [otpValues, setOtpValues] = useState(Array(6).fill(""));
 
-    const validateEnteredOTP = async () =>{
-        if(enteredOTP != ""){
-            var response = await validateOTP(enteredOTP);
-            if(response == "Success"){
-                alert("OTP has been validated successfully.")
-                onNext();
-            }
-            else{
-                alert(response)
-            }
-        }
-        else{
-            alert("Enter OTP");
-        }
+  const handleKeyDown = (event, index) => {
+    if (/^[0-9]$/.test(event.key) && index < 5) {
+      const nextInput = event.target.parentElement.querySelector(
+        `input:nth-child(${index + 2})`
+      );
+      if (nextInput) {
+        nextInput.focus();
+      }
     }
-
-    const handleChange = (e) => {
-        setEnteredOTP(e.target.value)
+  };
+  const handleTextboxChange = (event, index) => {
+    const newValue = parseInt(event.target.value, 10);
+    if (!isNaN(newValue)) {
+      setEnteredOTP((prevValues) => {
+        const newValues = [...prevValues];
+        newValues[index] = newValue;
+        return newValues;
+      });
     }
+  };
+  
+  const openModal = () => {
+      setIsModalOpen(true);
+  };
 
-    return(
-        <div>
-            <div className="container form-container">
-                <form className="form">
-                    <div className="form-field">
-                    <label htmlFor="Address">Validate OTP:</label>
-                    <input
-                        type="text"
-                        className="otp-validation-input"
-                        placeholder="Enter OTP"
-                        value={enteredOTP}
-                        onChange={handleChange}
-                    />
-                    </div>
-                </form>
-                <button className="otp-validation-button" onClick={validateEnteredOTP}>Validate</button>
-            </div>
-        </div>
+  const closeModal = () => {
+      setIsModalOpen(false);
+  };
 
-    )
-}
-export default OTPValidation
+  const handleOTPValidation = async () => {
+    const concatenatedNumberString = enteredOTP.map(String).join("");
+    const concatenatedNumber = parseInt(concatenatedNumberString, 10);
+    
+    if(concatenatedNumber != "" && enteredOTP.length == 6){
+      var response = await validateOTP(concatenatedNumber);
+      if(response == "Success"){
+          openModal();
+          setModalText("Validating OTP... Please wait.");
+          closeModal();
+          onNext();
+      }
+      else{
+          alert(response)
+      }
+    }
+    else{
+      openModal();
+      setShowCloseButton(true);
+      setModalText("Enter OTP");
+      closeModal();
+    }
+    onNext();
+  };
+
+  return (
+    <div className="OTPValidation">
+      <center>
+        <p>Please enter the six digit code sent to your email address</p>{enteredOTP}
+        <p>
+          {[...Array(6)].map((_, index) => (
+            <input
+              key={index}
+              type="text"
+              maxLength={1}
+              onKeyUp={(event) => handleKeyDown(event, index)}
+              onChange={(event) => handleTextboxChange(event, index)}
+            />
+          ))}
+        </p>
+        <p><ButtonCtrl btnText="Send" btnClickHandler={handleOTPValidation} /></p>
+        <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
+          <p>{modalText}</p>
+        </ModalDialog>
+      </center>
+    </div>
+  );
+};
+
+export default OTPValidation;
