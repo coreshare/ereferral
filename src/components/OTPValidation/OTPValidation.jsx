@@ -44,9 +44,9 @@ const OTPValidation = ({ onNext, otp }) => {
     
     const concatenatedNumberString = enteredOTP.map(String).join("");
     const concatenatedNumber = parseInt(concatenatedNumberString, 10);
-    debugger;
-    if(concatenatedNumber.toString().length == 6){
+    if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
       openModal();
+      setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
       var response = await validateOTP(concatenatedNumber);
       if(response == "Success"){
@@ -61,7 +61,6 @@ const OTPValidation = ({ onNext, otp }) => {
       openModal();
       setShowCloseButton(true);
       setModalText("Enter OTP");
-      closeModal();
     }
   };
 
