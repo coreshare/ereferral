@@ -125,6 +125,25 @@ export const validateDomain = async (domainval) => {debugger;
   }
 };
 
+export const getReferralTypeStages = async (domainval) => {debugger;
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {
+      method: "POST"
+    });
+    debugger;
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text().toLowerCase() === 'true';
+
+    console.log("Response:", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const uploadFileToLib = async (file, metadata) => {debugger;
   const formData = new FormData();
   formData.append('file', file);

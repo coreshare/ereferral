@@ -1,8 +1,15 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import "./ChooseStages.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
+import { getReferralTypeStages } from "../../Services/api";
 
 const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
+    const [stages, setStages] = useState([])
+    useEffect(async () => {
+        debugger;
+        var stages = await getReferralTypeStages();
+        setStages(stages);
+    })
 
     const handleNext = () => {
         onNext();

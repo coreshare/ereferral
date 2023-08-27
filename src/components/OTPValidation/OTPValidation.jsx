@@ -30,6 +30,9 @@ const OTPValidation = ({ onNext, otp }) => {
         return newValues;
       });
     }
+    else{
+      setEnteredOTP([]);
+    }
   };
   
   const openModal = () => {
