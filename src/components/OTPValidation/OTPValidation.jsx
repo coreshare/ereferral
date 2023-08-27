@@ -70,7 +70,7 @@ const OTPValidation = ({ onNext, otp }) => {
   return (
     <div className="OTPValidation">
       <center>
-        <p>Please enter the six digit code sent to your email address</p>{enteredOTP}
+        <p>Please enter the six digit code sent to your email address</p>
         <p>
           {[...Array(6)].map((_, index) => (
             <input
