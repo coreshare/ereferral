@@ -135,10 +135,10 @@ export const getReferralTypeStages = async (domainval) => {debugger;
       throw new Error("Request failed with status: " + response.status);
     }
 
-    const responseBody = await response.text().toLowerCase() === 'true';
+    const data = await response.json();
 
-    console.log("Response:", responseBody);
-    return responseBody;
+    console.log("Response:", data);
+    return data;
   } catch (error) {
     console.log(error);
   }
