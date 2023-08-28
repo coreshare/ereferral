@@ -38,7 +38,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                     <ul>
                         {stages.map((stage, index) => (
                         <li key={index}>
-                            <strong>Title:</strong> {stage.Title}, <strong>Stage:</strong> {stage.Stage}
+                            <strong>Title:</strong> {stage.title}, <strong>Stage:</strong> {stage.stage}
                         </li>
                         ))}
                     </ul>
