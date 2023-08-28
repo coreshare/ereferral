@@ -34,9 +34,9 @@ const DiagnosisDetails = ({onNext,getDiagnosisData,diagnosisData}) => {debugger;
 
     return (
         <div className="detailssection">
-            <div style={{float:'left'}}>
+            <div style={{float:'left',width:'870px'}}>
                 <h3 className="detailsHeader">Diagnosis Details</h3>
-                <div style={{display:'inline-block',width:'100%'}}>
+                <div style={{display:'inline-block',width:'870px'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
                         <FormTextBoxCtrl label="Tumour Location" onChangeText={onChangeTextHandle} title="TumourLocation" value={diagnosisData.find(detail => detail.title === "TumourLocation")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="Primary Diagnosis" onChangeText={onChangeTextHandle} title="PrimaryDiagnosis" value={diagnosisData.find(detail => detail.title === "PrimaryDiagnosis")?.value || ""}/>
@@ -46,7 +46,7 @@ const DiagnosisDetails = ({onNext,getDiagnosisData,diagnosisData}) => {debugger;
                         <FormTextBoxCtrl label="CCC Consultant - Clinical Oncologist" onChangeText={onChangeTextHandle} title="ClinicalOncologistCCCConsultant" value={diagnosisData.find(detail => detail.title === "ClinicalOncologistCCCConsultant")?.value || ""}/>
                     </div>
                 </div>
-                <div style={{display:'inline-block',width:'100%'}}><br/>
+                <div style={{display:'inline-block',width:'856px'}}><br/>
                     <FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={diagnosisData.find(detail => detail.title === "PathwayInformation")?.value || ""}/><br/>
                     <FormTextAreaCtrl label="Upgrade/Screening/62 Day - including PPI/UPI number/Clock start date" onChangeText={onChangeTextHandle} title="UpgradeScreening" value={diagnosisData.find(detail => detail.title === "UpgradeScreening")?.value || ""}/><br/>
                     <FormTextAreaCtrl label="Diagnostics" onChangeText={onChangeTextHandle} title="Diagnostics" value={diagnosisData.find(detail => detail.title === "Diagnostics")?.value || ""}/>

@@ -35,7 +35,7 @@ const MDTDetails = ({onNext,getMDTData,mdtData}) => {debugger;
 
     return (
         <div className="detailssection">
-            <div style={{float:'left'}}>
+            <div style={{float:'left',width:'870px'}}>
                 <h3 className="detailsHeader">MDT Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div>
