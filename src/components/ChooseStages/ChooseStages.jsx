@@ -28,8 +28,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         setIsModalOpen(false);
     };
 
-    const fetchStages = async () => {debugger;
-        debugger;
+    const fetchStages = async () => {
         setShowCloseButton(false);
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
@@ -61,11 +60,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
             return result;
         }, {});
         const finalStages = Object.values(groupedStages);
-        /*var stages = await getReferralTypeStages();
-        const filteredStages = referralType
-            ? stages.filter(stage => stage.title === referralType)
-            : stages;
-*/
+
         setStages(finalStages);
         closeModal();
     }
@@ -80,8 +75,9 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
 
     const handleCreateReferral = () => {
         if(agreed == "Yes"){
-            returnReferralStage();
-            onNext();
+            returnReferralStage();debugger;
+            console.log(selectedStage);
+            onNext(selectedStage);
         }
         else{
             setShowCloseButton(true);
@@ -107,17 +103,6 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                 </div>
                 <div className="choosestage-gallery">
                     <div className="leftColumn">
-                        {/*<ul>
-                            {stages.map((stage, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handleStageClick(stage)}
-                                className={selectedStage === stage ? "selected" : ""}
-                            >
-                                {stage.stage}
-                            </li>
-                            ))}
-                        </ul>*/}
                         {stages.map((stage, index) => (
                         <div><button
                             key={index}

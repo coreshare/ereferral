@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import HomeVideo from "../HomeVideo/HomeVideo";
 import ChooseReferralType from "../ChooseReferralType/ChooseReferralType";
 import ChooseStages from "../ChooseStages/ChooseStages";
@@ -8,9 +8,11 @@ import "./ReferralTypeSelection.css"
 const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [referralType, setReferralType] = useState("");
-    const [referralStage, setReferralStage] = useState(null);
-    const [selectedReferralStage, setSelectedReferralStage] = useState(null);
+    const [selReferralStage, setSelectedReferralStage] = useState(null);
 
+    useEffect(() => {
+        debugger;
+    },[selReferralStage])
     const handleNext = () => {
         setCurrentStep(currentStep + 1);
     };
@@ -19,9 +21,8 @@ const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
         setCurrentStep(currentStep - 1);
     };
 
-    const goToDetails = () => {debugger;
-        console.log(selectedReferralStage);
-        returnSelectedStage();
+    const goToDetails = (stage) => {debugger;
+        getSelectedReferralStage(stage);
         onNext();
     }
 
@@ -34,7 +35,7 @@ const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
     }
 
     const returnSelectedStage = () => {debugger;
-        getSelectedReferralStage(selectedReferralStage)
+        getSelectedReferralStage(selReferralStage)
     }
     
     return(
