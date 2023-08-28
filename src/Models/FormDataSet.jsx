@@ -19,10 +19,17 @@ class FormDataSet {
       this.PathwayInformation = '';
       this.PrimaryDiagnosis = '';
       this.ReferringOrganisation = '';
+      this.ReferringConsultant = '';
       this.Religion = '';
       this.Surname = '';
       this.TumourLocation = '';
       this.UpgradeScreening = '';
+      this.NextofKinAddress = '';
+      this.GPPracticeAddress = '';
+      this.MDTComments = '';
+      this.OverseasPatient = false;
+      this.HasAssessmentbeenCompleted = false;
+      this.OutcomeofAssessment = '';
     }
   }
   

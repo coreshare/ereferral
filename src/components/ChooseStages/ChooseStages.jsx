@@ -9,15 +9,15 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     const [selectedStage, setSelectedStage] = useState(null);
     const [agreed, setAgreed] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showCloseButton,setShowCloseButton] = useState(true);
+    const [modalText, setModalText] = useState("");
 
     const handleStageClick = (stage) => {
         setSelectedStage(stage);
     };
 
     useEffect(() => {
-        
         fetchStages();
-        
     },[]);
     
     const openModal = () => {
@@ -30,9 +30,11 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
 
     const fetchStages = async () => {debugger;
         debugger;
+        setShowCloseButton(false);
+        setModalText("Validating OTP... Please wait.");
         openModal();
-        var stages = await getReferralTypeStages();
-        /*[{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+        var stages = //await getReferralTypeStages();//checkonce
+        [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
         {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
         {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
         {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
@@ -41,7 +43,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
         {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
         {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
-        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}]*/
+        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];
         const filteredStages = referralType
             ? stages.filter(stage => stage.title === referralType)
             : stages;
@@ -82,7 +84,10 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
             onNext();
         }
         else{
-            alert("select agreed");
+            setShowCloseButton(true);
+            setModalText("select agreed");
+            openModal();
+            //alert("select agreed");
         }
     }
 
@@ -98,31 +103,38 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
             <div className="choosestage-container">
                 <div className="choosestage-header">
                     <div style={{float: 'left'}}>Please choose a {referralType} cancer stage</div>
-                    <div style={{float: 'right'}}><button onClick={handleBack}>Back</button></div>
+                    <div style={{float: 'right'}}><button onClick={handleBack} className="backbtn">Back</button></div>
                 </div>
-                <div className="choosestage-gallery" style={{display: 'inline-block',width: '100%'}}>
-                    <div style={{float:'left',width: '40%'}}>
-                        <ul>
+                <div className="choosestage-gallery">
+                    <div className="leftColumn">
+                        {/*<ul>
                             {stages.map((stage, index) => (
                             <li
                                 key={index}
                                 onClick={() => handleStageClick(stage)}
                                 className={selectedStage === stage ? "selected" : ""}
                             >
-                                {stage.title} - {stage.stage}
+                                {stage.stage}
                             </li>
                             ))}
-                        </ul>
+                        </ul>*/}
+                        {stages.map((stage, index) => (
+                        <div><button
+                            key={index}
+                            onClick={() => handleStageClick(stage)}
+                            className={`stagebutton ${selectedStage === stage ? "selected" : ""}`}
+                            >
+                            {stage.stage}
+                        </button><br/></div>
+                        ))}
                     </div>
-                    <div style={{float:'left'}}>
+                    <div className="rightColumn">
                         {selectedStage && (
                             <div>
-                            <h3>Reports for {selectedStage.title} - {selectedStage.stage}</h3>
-                            <ul>
-                                {selectedStage.reports.map((report, index) => (
-                                    <li key={index}>{report}</li>
+                            <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make a {selectedStage.stage} referral, the following information will be required:</h3>
+                            {   selectedStage.reports.map((report, index) => (
+                                    <span key={index} style={{fontWeight: '600'}}>{report}</span>
                                 ))}
-                            </ul>
                             </div>
                         )}
                     </div>
@@ -135,8 +147,8 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                 <div style={{float: 'right'}}>
                     <ButtonCtrl className="btnCreate" btnText="Create a Referral" btnClickHandler={handleCreateReferral} />
                 </div>
-                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false}>
-                    <p>Getting referral types... Please wait.</p>
+                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
+                    <p>{modalText}</p>
                 </ModalDialog>
             </div>
         </div>

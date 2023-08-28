@@ -1,7 +1,7 @@
 import React, {useState} from "react"
-import "./FormTextBoxCtrl.css"
+import "./FormTextAreaCtrl.css"
 
-const FormTextBoxCtrl = ({label, onChangeText, title, value}) => {
+const FormTextAreaCtrl = ({label, onChangeText, title, value}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
 
   const onChangeHandle = (e) => {
@@ -11,9 +11,9 @@ const FormTextBoxCtrl = ({label, onChangeText, title, value}) => {
   return (
     <div className="detailsform">
       <label>{label}</label><br/>
-      <input className="textbox" type="text" onChange={onChangeHandle} value={textboxvalue} />
+      <textarea className="textbox" type="text" onChange={onChangeHandle} value={textboxvalue} rows={4} />
     </div>
   )
 }
 
-export default FormTextBoxCtrl
+export default FormTextAreaCtrl

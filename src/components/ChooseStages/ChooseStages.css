@@ -15,8 +15,30 @@
     font-weight: 600;
     font-size: 20px;
 }
+.stagebutton.selected{
+    background-color: #005cbb;
+    border: 1px solid green;
+    padding: 10px 20px;
+    color: white;
+}
+.stagebutton{
+    background-color: white;
+    border: 1px solid green;
+    padding: 10px 20px;
+    color: #005cbb;
+    margin-bottom: 10px;
+    width: 180px;
+    font-weight: bold;
+    font-size: 20px;
+}
 .choosestage-gallery{
     border: 1px solid grey;
     padding: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 .btnCreate {float: right;}
+.leftColumn{width: 25%;}
+.rightColumn{width: 75%;}
+.backbtn{background-color: transparent;border: 0px;cursor: pointer;}

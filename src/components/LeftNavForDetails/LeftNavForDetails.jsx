@@ -1,4 +1,5 @@
 import React from "react"
+import "./LeftNavForDetails.css"
 
 const LeftNavForDetails = ({goToStep}) => {
 
@@ -7,11 +8,11 @@ const LeftNavForDetails = ({goToStep}) => {
     }
 
     return(
-        <div>
-            <button onClick={() => handleGoToStep (0)}>Patient Details</button>
-            <button onClick={() => handleGoToStep (1)}>Refer Details</button>
-            <button onClick={() => handleGoToStep (2)}>Diagnosis Details</button>
-            <button onClick={() => handleGoToStep (3)}>MDT Details</button>
+        <div className="leftnav">
+            <button onClick={() => handleGoToStep (0)}>Patient Details</button><br/>
+            <button onClick={() => handleGoToStep (1)}>Refer Details</button><br/>
+            <button onClick={() => handleGoToStep (2)}>Diagnosis Details</button><br/>
+            <button onClick={() => handleGoToStep (3)}>MDT Details</button><br/>
             <button onClick={() => handleGoToStep (4)}>Reports</button>
         </div>
     )
