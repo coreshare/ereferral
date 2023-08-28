@@ -15,9 +15,9 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     };
 
     useEffect(() => {
-        openModal();
+        
         fetchStages();
-        closeModal();
+        
     },[]);
     
     const openModal = () => {
@@ -29,12 +29,43 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     };
 
     const fetchStages = async () => {debugger;
+        debugger;
+        openModal();
         var stages = await getReferralTypeStages();
+        /*[{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+        {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
+        {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
+        {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
+        {title: 'Breast', stage: 'Stage IV', report: 'Report 3'},
+        {title: 'Lung', stage: 'Stage I-II', report: 'Report 11'},
+        {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
+        {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
+        {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
+        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}]*/
         const filteredStages = referralType
             ? stages.filter(stage => stage.title === referralType)
             : stages;
 
-        setStages(filteredStages);
+        const groupedStages = filteredStages.reduce((result, item) => {
+            const key = `${item.title}-${item.stage}`;
+            if (!result[key]) {
+                result[key] = {
+                    title: item.title,
+                    stage: item.stage,
+                    reports: []
+                };
+            }
+            result[key].reports.push(item.report);
+            return result;
+        }, {});
+        const finalStages = Object.values(groupedStages);
+        /*var stages = await getReferralTypeStages();
+        const filteredStages = referralType
+            ? stages.filter(stage => stage.title === referralType)
+            : stages;
+*/
+        setStages(finalStages);
+        closeModal();
     }
 
     const returnReferralStage = () => {debugger;
@@ -88,8 +119,8 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                             <div>
                             <h3>Reports for {selectedStage.title} - {selectedStage.stage}</h3>
                             <ul>
-                                {selectedStage.Report.map((report, index) => (
-                                <li key={index}>{report}</li>
+                                {selectedStage.reports.map((report, index) => (
+                                    <li key={index}>{report}</li>
                                 ))}
                             </ul>
                             </div>
