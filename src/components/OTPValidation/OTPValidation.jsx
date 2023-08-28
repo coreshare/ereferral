@@ -44,14 +44,14 @@ const OTPValidation = ({ onNext, otp }) => {
   };
 
   const handleOTPValidation = async () => {
-    
+    debugger;
     const concatenatedNumberString = enteredOTP.map(String).join("");
     const concatenatedNumber = parseInt(concatenatedNumberString, 10);
     if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
       openModal();
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
-      var response = await validateOTP(concatenatedNumber);
+      var response = await validateOTP(concatenatedNumber);//"Success";//
       if(response == "Success"){
           closeModal();
           onNext();

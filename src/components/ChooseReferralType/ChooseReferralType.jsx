@@ -12,7 +12,7 @@ const imageNames = ["Breast", "Lung", "", "", "", "", "", "", "", "", "", "", ""
 const ChooseReferralType = ({ onNext, getReferralType }) => {
   const imageUrls = [Breast, Lung, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel];
 
-  const handleImageClick = (e) => {debugger;
+  const handleImageClick = (e) => {
     getReferralType(e.target.title);
     onNext();
   };

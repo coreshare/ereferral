@@ -5,10 +5,11 @@ import ChooseStages from "../ChooseStages/ChooseStages";
 import Header from "../Header/Header";
 import "./ReferralTypeSelection.css"
 
-const ReferralTypeSelection = ({onNext}) => {
+const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [referralType, setReferralType] = useState("");
-    const [referralStage, setReferralStage] = useState("");
+    const [referralStage, setReferralStage] = useState(null);
+    const [selectedReferralStage, setSelectedReferralStage] = useState(null);
 
     const handleNext = () => {
         setCurrentStep(currentStep + 1);
@@ -18,7 +19,9 @@ const ReferralTypeSelection = ({onNext}) => {
         setCurrentStep(currentStep - 1);
     };
 
-    const goToDetails = () => {
+    const goToDetails = () => {debugger;
+        console.log(selectedReferralStage);
+        returnSelectedStage();
         onNext();
     }
 
@@ -26,8 +29,12 @@ const ReferralTypeSelection = ({onNext}) => {
         setReferralType(referraltype);
     }
 
-    const getReferralStage = (referralstage) => {
-        setReferralStage(referralstage);
+    const getReferralStage = (referralstage) => {debugger;
+        setSelectedReferralStage(referralstage);
+    }
+
+    const returnSelectedStage = () => {debugger;
+        getSelectedReferralStage(selectedReferralStage)
     }
     
     return(

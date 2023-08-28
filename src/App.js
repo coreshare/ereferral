@@ -6,16 +6,21 @@ import ReferralSubmission from './components/ReferralSubmission/ReferralSubmissi
 
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [selectedStage, setSelectedStage] = useState(null);
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
   };
 
+  const selectedReferralStage = (stage) => {debugger;
+    setSelectedStage(stage)
+  }
+
   return (
     <div className="App">
       {currentStep === 0 && <UserValidation onNext={handleNext} />}
-      {currentStep === 1 && <ReferralTypeSelection onNext={handleNext} />}
-      {currentStep === 2 && <ReferralSubmission onNext={handleNext} />}
+      {currentStep === 1 && <ReferralTypeSelection onNext={handleNext} getSelectedReferralStage={selectedReferralStage} />}
+      {currentStep === 2 && <ReferralSubmission onNext={handleNext} selectedStage={selectedStage}/>}
     </div>
   );
 }

@@ -9,7 +9,6 @@ const DiagnosisDetails = ({onNext}) => {
     return(
         <div>
             Diagnosis Details
-            <button onClick={handleNext}>Next</button>
         </div>
     )
 }

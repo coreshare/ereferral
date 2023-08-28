@@ -9,7 +9,6 @@ const MDTDetails = ({onNext}) => {
     return(
         <div>
             MDT Details
-            <button onClick={handleNext}>Next</button>
         </div>
     )
 }
