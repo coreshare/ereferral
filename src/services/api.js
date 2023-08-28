@@ -116,7 +116,7 @@ export const validateDomain = async (domainval) => {debugger;
       throw new Error("Request failed with status: " + response.status);
     }
 
-    const responseBody = await response.text().toLowerCase() === 'true';
+    const responseBody = await response.text();
 
     console.log("Response:", responseBody);
     return responseBody;
