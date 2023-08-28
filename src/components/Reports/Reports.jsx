@@ -1,46 +1,14 @@
-import React, {useEffect, useState} from "react"
-import FormDataSet from '../../Models/FormDataSet'
-import ModalDialog from "../ModalDialog/ModalDialog";
-import { saveData, uploadFileToLib } from "../../Services/api";
+import React from "react"
 
-const Reports = ({onNext, patientData, referData}) => {
-    const [formData, setFormData] = useState(new FormDataSet);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        const updatedFormData = { ...formData };
-        patientData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        referData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        setFormData(updatedFormData);
-    },[patientData,referData])
-
-    const onSubmitHandle = async () =>{debugger;
-        openModal();
-        var itemId = await saveData(formData);
-        console.log(itemId);
-        closeModal();
-        //onNext();
+const Reports = ({onNext}) => {
+    const handleNext = () => {
+        onNext();
     }
-
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
     return(
         <div>
-            Reports
-            <button onClick={onSubmitHandle}>Submit</button>
-            <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false}>
-                <p>Submitting data... please wait.</p>
-            </ModalDialog>
+            Reports - In-Progress. Please click Next to go to submit page.
+            <button onClick={handleNext}>Next</button>
         </div>
     )
 }

@@ -38,10 +38,10 @@ const ReferralSubmission = ({onNext,selectedStage}) => {
           {currentStep === 1 && <RefererDetails onNext={handleNext} getReferData={getReferData} referData={referData} />}
           {currentStep === 2 && <DiagnosisDetails onNext={handleNext} />}
           {currentStep === 3 && <MDTDetails onNext={handleNext} />}
-          {currentStep === 4 && <Reports onNext={handleNext} patientData={patientData} referData={referData} />}
-          {currentStep === 5 && <SubmitReferral onNext={handleNext} />}
+          {currentStep === 4 && <Reports onNext={handleNext} />}
+          {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} />}
           {currentStep === 6 && <SuccessView onNext={handleNext} />}
-          <div>
+          {/*<div>
               {patientData.map((detail, index) => (
                   <p key={index}>{detail.title}: {detail.value}</p>
               ))}
@@ -50,7 +50,7 @@ const ReferralSubmission = ({onNext,selectedStage}) => {
               {referData.map((detail, index) => (
                   <p key={index}>{detail.title}: {detail.value}</p>
               ))}
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

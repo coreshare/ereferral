@@ -22,17 +22,18 @@ const OTPValidation = ({ onNext, otp }) => {
     }
   };
   const handleTextboxChange = (event, index) => {
-    const newValue = parseInt(event.target.value, 10);
-    if (!isNaN(newValue)) {
-      setEnteredOTP((prevValues) => {
-        const newValues = [...prevValues];
-        newValues[index] = newValue;
-        return newValues;
-      });
-    }
-    else{
-      setEnteredOTP([]);
-    }
+    var newValue = event.target.value;
+    //const newValue = parseInt(event.target.value, 10);
+    //if (!isNaN(newValue)) {
+    setEnteredOTP((prevValues) => {
+      const newValues = [...prevValues];
+      newValues[index] = newValue;
+      return newValues;
+    });
+    //}
+    //else{
+    //  setEnteredOTP([]);
+    //}
   };
   
   const openModal = () => {
@@ -46,12 +47,13 @@ const OTPValidation = ({ onNext, otp }) => {
   const handleOTPValidation = async () => {
     debugger;
     const concatenatedNumberString = enteredOTP.map(String).join("");
-    const concatenatedNumber = parseInt(concatenatedNumberString, 10);
-    if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
+    //const concatenatedNumber = parseInt(concatenatedNumberString, 10);
+    //if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
+    if(concatenatedNumberString.length == 6){
       openModal();
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
-      var response = await validateOTP(concatenatedNumber);//"Success";//
+      var response = await validateOTP(concatenatedNumberString);//"Success";//
       if(response == "Success"){
           closeModal();
           onNext();
@@ -63,7 +65,7 @@ const OTPValidation = ({ onNext, otp }) => {
     else{
       openModal();
       setShowCloseButton(true);
-      setModalText("Enter OTP");
+      setModalText("Enter valid OTP");
     }
   };
 

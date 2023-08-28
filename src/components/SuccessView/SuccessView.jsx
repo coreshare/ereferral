@@ -3,7 +3,7 @@ import React from "react"
 const SuccessView = () => {
     return(
         <div>
-            Success View
+            Your referral has been submitted successfully.
         </div>
     )
 }
