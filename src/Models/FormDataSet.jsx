@@ -30,6 +30,8 @@ class FormDataSet {
       this.OverseasPatient = false;
       this.HasAssessmentbeenCompleted = false;
       this.OutcomeofAssessment = '';
+      this.ReferralType = '';
+      this.ReferralTypeStage = '';
     }
   }
   

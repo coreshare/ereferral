@@ -3,7 +3,7 @@ import FormDataSet from '../../Models/FormDataSet'
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { saveData, uploadFileToLib } from "../../Services/api";
 
-const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData}) => {
+const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,selectedReferralType,selectedStage}) => {
     const [formData, setFormData] = useState(new FormDataSet);
     const [isModalOpen, setIsModalOpen] = useState(false);
     
@@ -21,6 +21,8 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData}
         mdtData.forEach((detail) => {
             updatedFormData[detail.title] = detail.value;
         });
+        updatedFormData["ReferralType"] = selectedReferralType;
+        updatedFormData["ReferralTypeStage"] = selectedStage;
         setFormData(updatedFormData);
     },[patientData,referData])
 

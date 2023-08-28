@@ -10,7 +10,7 @@ import LeftNavForDetails from "../LeftNavForDetails/LeftNavForDetails";
 import Header from "../Header/Header";
 import "./ReferralSubmission.css"
 
-const ReferralSubmission = ({onNext,selectedStage}) => {
+const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [patientData, setPatientData] = useState([])
   const [referData, setReferData] = useState([])
@@ -50,7 +50,8 @@ const ReferralSubmission = ({onNext,selectedStage}) => {
             {currentStep === 2 && <DiagnosisDetails onNext={handleNext} getDiagnosisData={getDiagnosisData} diagnosisData={diagnosisData}  />}
             {currentStep === 3 && <MDTDetails onNext={handleNext} getMDTData={getMDTData} mdtData={mdtData}  />}
             {currentStep === 4 && <Reports onNext={handleNext} />}
-            {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} diagnosisData={diagnosisData} mdtData={mdtData} />}
+            {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} 
+              diagnosisData={diagnosisData} mdtData={mdtData} selectedReferralType={selectedReferralType} selectedStage={selectedStage} />}
             {currentStep === 6 && <SuccessView onNext={handleNext} />}
             {/*<div>
                 {patientData.map((detail, index) => (
