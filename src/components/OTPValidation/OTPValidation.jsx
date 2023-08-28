@@ -53,7 +53,7 @@ const OTPValidation = ({ onNext, otp }) => {
       openModal();
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
-      var response = "Success";//await validateOTP(concatenatedNumberString);//"Success";//checkonce
+      var response = await validateOTP(concatenatedNumberString);//"Success";//checkonce
       if(response == "Success"){
           closeModal();
           onNext();
