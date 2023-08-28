@@ -11,7 +11,7 @@ const MDTDetails = ({onNext,getMDTData,mdtData}) => {debugger;
         onNext();
     }
 
-    const onChangeTextHandle = (title, value) => {
+    const onChangeTextHandle = (title, value) => {debugger;
         const existingDetail = mdtDetails.find(detail => detail.title === title);
 
         if (existingDetail) {
