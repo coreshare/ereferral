@@ -18,7 +18,7 @@ const EmailOTPRequest = ({onNext}) =>{
             return;
         }
         else{
-            var isValid = true;// await validateDomain(email);
+            var isValid = await validateDomain(email);//true;// 
             if(!isValid){
                 setShowCloseButton(true)
                 setModalText("Enter valid domain")
