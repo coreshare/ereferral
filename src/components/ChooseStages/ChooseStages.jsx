@@ -34,7 +34,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                     <div style={{float: 'left'}}>Please choose a {referralType} cancer stage</div>
                     <div style={{float: 'right'}}><button onClick={handleBack}>Back</button></div>
                 </div>
-                <div className="choosestage-gallery">{stages.Count()}
+                <div className="choosestage-gallery">
                     <ul>
                         {stages.map((stage, index) => (
                         <li key={index}>
