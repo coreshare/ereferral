@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
+import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 
 const PatientDetails = ({onNext,getPatientData,patientData}) => {
     const [patientDetails, setPatientDetails] = useState(patientData)
@@ -41,7 +42,7 @@ const PatientDetails = ({onNext,getPatientData,patientData}) => {
                         <FormTextBoxCtrl label="Surname" onChangeText={onChangeTextHandle} title="Surname" value={patientData.find(detail => detail.title === "Surname")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={patientData.find(detail => detail.title === "FirstName")?.value || ""}/><br/>
                         <FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={patientData.find(detail => detail.title === "Address")?.value || ""}/><br/>
-                        <FormTextBoxCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={patientData.find(detail => detail.title === "DateofBirth")?.value || ""}/><br/>
+                        <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={patientData.find(detail => detail.title === "DateofBirth")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="Ethnic Origin" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={patientData.find(detail => detail.title === "Ethnicorigin")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={patientData.find(detail => detail.title === "Religion")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={patientData.find(detail => detail.title === "NHSNumber")?.value || ""}/><br/>

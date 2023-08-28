@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
+import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 
 const RefererDetails = ({onNext,getReferData,referData}) => {debugger;
     const [referDetails, setReferDetails] = useState(referData)
@@ -45,7 +46,7 @@ const RefererDetails = ({onNext,getReferData,referData}) => {debugger;
                     <div style={{float:'left'}}>
                         <FormTextBoxCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={referData.find(detail => detail.title === "ReferringOrganisation")?.value || ""}/><br/>
                         <FormTextBoxCtrl label="Referring Consultant" onChangeText={onChangeTextHandle} title="ReferringConsultant" value={referData.find(detail => detail.title === "ReferringConsultant")?.value || ""}/><br/>
-                        <FormTextBoxCtrl label="Date Decision to Refer" onChangeText={onChangeTextHandle} title="DateDecisiontoRefer" value={referData.find(detail => detail.title === "DateDecisiontoRefer")?.value || ""}/>
+                        <FormDateCtrl label="Date Decision to Refer" onChangeText={onChangeTextHandle} title="DateDecisiontoRefer" value={referData.find(detail => detail.title === "DateDecisiontoRefer")?.value || ""}/>
                         
                     </div>
                 </div>

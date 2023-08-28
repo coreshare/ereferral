@@ -22,7 +22,7 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
             updatedFormData[detail.title] = detail.value;
         });
         updatedFormData["ReferralType"] = selectedReferralType;
-        updatedFormData["ReferralTypeStage"] = selectedStage;
+        updatedFormData["ReferralTypeStage"] = selectedStage.stage;
         setFormData(updatedFormData);
     },[patientData,referData])
 
