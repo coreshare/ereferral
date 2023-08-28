@@ -2,25 +2,33 @@ import React, {useEffect, useState} from "react"
 import "./ChooseStages.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import { getReferralTypeStages } from "../../Services/api";
+import ModalDialog from "../ModalDialog/ModalDialog";
 
 const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     const [stages, setStages] = useState([])
     const [selectedStage, setSelectedStage] = useState(null);
     const [agreed, setAgreed] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleStageClick = (stage) => {
         setSelectedStage(stage);
     };
+
     useEffect(() => {
+        openModal();
         fetchStages();
-    },[]);/*
-    [{"title": "Lung","stage": "Stage I-II", "Report": ["r1","r2","r3"]},
-    {"title": "Lung","stage": "Stage III", "Report": ["r10","r20","r30"]},
-    {"title": "Lung","stage": "Stage IV", "Report": ["r11","r23","r32"]},
-    {"title": "Breast","stage": "Stage I-II0", "Report": ["r11","r21","r31"]},
-    {"title": "Breast","stage": "Stage III0", "Report": ["r101","r201","r301"]},
-    {"title": "Breast","stage": "Stage IV0", "Report": ["r111","r231","r321"]}];*/
-    const fetchStages = async () => {
+        closeModal();
+    },[]);
+    
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const fetchStages = async () => {debugger;
         var stages = await getReferralTypeStages();
         const filteredStages = referralType
             ? stages.filter(stage => stage.title === referralType)
@@ -96,7 +104,9 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                 <div style={{float: 'right'}}>
                     <ButtonCtrl className="btnCreate" btnText="Create a Referral" btnClickHandler={handleCreateReferral} />
                 </div>
-                
+                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false}>
+                    <p>Getting referral types... Please wait.</p>
+                </ModalDialog>
             </div>
         </div>
     )
