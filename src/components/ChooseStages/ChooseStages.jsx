@@ -31,7 +31,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     const fetchStages = async () => {debugger;
         debugger;
         setShowCloseButton(false);
-        setModalText("Validating OTP... Please wait.");
+        setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
         var stages = await getReferralTypeStages();//checkonce
         /*[{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
