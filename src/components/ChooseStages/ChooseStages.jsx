@@ -8,7 +8,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     useEffect(() => {
         debugger;
         fetchStages();
-    },[]);
+    },[stages]);
 
     const fetchStages = async () => {
         var stages = await getReferralTypeStages();
