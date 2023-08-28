@@ -11,7 +11,7 @@ const FormDateCtrl = ({label, onChangeText, title, value}) => {
   return (
     <div className="detailsform">
       <label>{label}</label><br/>
-      <input className="textbox" type="date" onChange={onChangeHandle} value={textboxvalue} />
+      <input className="textbox" dateFormat="dd-MM-yyyy" type="date" onChange={onChangeHandle} value={textboxvalue} />
     </div>
   )
 }
