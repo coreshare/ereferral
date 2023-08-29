@@ -20,7 +20,7 @@ const EmailOTPRequest = ({onNext}) =>{
         }
         else{
             const atIndex = email.indexOf("@");
-            const domain = "";
+            var domain = "";
             if (atIndex !== -1) {
                 domain = email.slice(atIndex + 1);
             }
