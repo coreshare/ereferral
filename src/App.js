@@ -5,7 +5,7 @@ import ReferralTypeSelection from './components/ReferralTypeSelection/ReferralTy
 import ReferralSubmission from './components/ReferralSubmission/ReferralSubmission';
 
 function App() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);//checkonce
   const [selectedStage, setSelectedStage] = useState(null);
   const [selReferralType, setSelReferralType] = useState(null);
 

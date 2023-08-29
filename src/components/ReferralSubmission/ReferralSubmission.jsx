@@ -16,6 +16,7 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
   const [referData, setReferData] = useState([])
   const [diagnosisData, setDiagnosisData] = useState([])
   const [mdtData, setMDTData] = useState([])
+  const [files, setFiles] = useState([])
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
@@ -37,6 +38,10 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
   const getMDTData = (data) => {
     setMDTData(data);
   }
+  const getFiles = (files) => {
+    setFiles(files)
+  }
+
   return (
     <div className="App">
       <div style={{display:'inline-block',width:'100%'}}>
@@ -49,9 +54,10 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
             {currentStep === 1 && <RefererDetails onNext={handleNext} getReferData={getReferData} referData={referData} />}
             {currentStep === 2 && <DiagnosisDetails onNext={handleNext} getDiagnosisData={getDiagnosisData} diagnosisData={diagnosisData}  />}
             {currentStep === 3 && <MDTDetails onNext={handleNext} getMDTData={getMDTData} mdtData={mdtData}  />}
-            {currentStep === 4 && <Reports onNext={handleNext} selectedStage={selectedStage} />}
+            {currentStep === 4 && <Reports onNext={handleNext} selectedStage={selectedStage} getFiles={getFiles} />}
             {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} 
-              diagnosisData={diagnosisData} mdtData={mdtData} selectedReferralType={selectedReferralType} selectedStage={selectedStage} />}
+              diagnosisData={diagnosisData} mdtData={mdtData} reports={files} selectedReferralType={selectedReferralType} 
+              selectedStage={selectedStage} />}
             {currentStep === 6 && <SuccessView onNext={handleNext} />}
             {/*<div>
                 {patientData.map((detail, index) => (

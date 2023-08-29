@@ -3,7 +3,7 @@ import FormDataSet from '../../Models/FormDataSet'
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { saveData, uploadFileToLib } from "../../Services/api";
 
-const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,selectedReferralType,selectedStage}) => {
+const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,reports,selectedReferralType,selectedStage}) => {
     const [formData, setFormData] = useState(new FormDataSet);
     const [isModalOpen, setIsModalOpen] = useState(false);
     
@@ -30,6 +30,21 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
         openModal();
         var itemId = await saveData(formData);
         console.log(itemId);
+        var reportsMetadata = {};debugger;
+        for(var i=0;i < reports.length;i++){
+            if(!reportsMetadata.hasOwnProperty(reports[i].name))
+            {
+                reportsMetadata[reports[i].ReportFile.name] = {};
+            }
+            reportsMetadata[reports[i].ReportFile.name].ReportID=itemId;
+            reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
+        }
+        
+        const uploadPromises = reports.map((report) => {
+          return uploadFileToLib(report.ReportFile, reportsMetadata[report.ReportFile.name]);
+        });
+    
+        await Promise.all(uploadPromises);
         closeModal();
         onNext();
     }
