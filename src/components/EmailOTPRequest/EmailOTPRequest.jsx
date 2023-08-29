@@ -24,17 +24,20 @@ const EmailOTPRequest = ({onNext}) =>{
             if (atIndex !== -1) {
                 domain = email.slice(atIndex + 1);
             }
-            var isValid = await validateDomain(domain);//true;// 
+            setShowCloseButton(false)
+            setModalText("Validating email... Please wait.")
+            openModal();
+            var isValid = await validateDomain(domain);
             if(isValid==undefined || isValid == "Not valid"){
                 setShowCloseButton(true)
                 setModalText("Entered email is not valid.")
-                openModal();
+                //openModal();
                 return;
             }
             else{
                 setShowCloseButton(false)
                 setModalText("Sending OTP... Please wait.")
-                openModal();
+                //openModal();
                 await generateOTP(email);
                 closeModal();
                 onNext();
