@@ -45,7 +45,7 @@ const OTPValidation = ({ onNext, otp }) => {
   };
 
   const handleOTPValidation = async () => {
-    debugger;
+    
     const concatenatedNumberString = enteredOTP.map(String).join("");
     //const concatenatedNumber = parseInt(concatenatedNumberString, 10);
     //if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
@@ -78,7 +78,7 @@ const OTPValidation = ({ onNext, otp }) => {
           {[...Array(6)].map((_, index) => (
             <input
               key={index}
-              type="text"
+              type="number"
               maxLength={1}
               onKeyUp={(event) => handleKeyDown(event, index)}
               onChange={(event) => handleTextboxChange(event, index)}

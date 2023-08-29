@@ -3,7 +3,7 @@ import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 
-const RefererDetails = ({onNext,getReferData,referData}) => {debugger;
+const RefererDetails = ({onNext,getReferData,referData}) => {
     const [referDetails, setReferDetails] = useState(referData)
 
     const handleNext = () => {

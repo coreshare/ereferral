@@ -5,7 +5,7 @@ import ReferralTypeSelection from './components/ReferralTypeSelection/ReferralTy
 import ReferralSubmission from './components/ReferralSubmission/ReferralSubmission';
 
 function App() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [selectedStage, setSelectedStage] = useState(null);
   const [selReferralType, setSelReferralType] = useState(null);
 
@@ -13,7 +13,7 @@ function App() {
     setCurrentStep(currentStep + 1);
   };
 
-  const selectedReferralStage = (stage) => {debugger;
+  const selectedReferralStage = (stage) => {
     setSelectedStage(stage)
     if(stage){
       setSelReferralType(stage.title)

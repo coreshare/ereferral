@@ -3,7 +3,7 @@ import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import FormCheckBoxCtrl from "../FormCheckBoxCtrl/FormCheckBoxCtrl";
 
-const MDTDetails = ({onNext,getMDTData,mdtData}) => {debugger;
+const MDTDetails = ({onNext,getMDTData,mdtData}) => {
     const [mdtDetails, setMDTDetails] = useState(mdtData)
 
     const handleNext = () => {
@@ -11,7 +11,7 @@ const MDTDetails = ({onNext,getMDTData,mdtData}) => {debugger;
         onNext();
     }
 
-    const onChangeTextHandle = (title, value) => {debugger;
+    const onChangeTextHandle = (title, value) => {
         const existingDetail = mdtDetails.find(detail => detail.title === title);
 
         if (existingDetail) {

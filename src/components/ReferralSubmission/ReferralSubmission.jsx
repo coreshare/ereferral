@@ -25,16 +25,16 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
     setCurrentStep(step)
   }
 
-  const getPatientData = (data) => {debugger;
+  const getPatientData = (data) => {
     setPatientData(data);
   }
-  const getReferData = (data) => {debugger;
+  const getReferData = (data) => {
     setReferData(data);
   }
-  const getDiagnosisData = (data) => {debugger;
+  const getDiagnosisData = (data) => {
     setDiagnosisData(data);
   }
-  const getMDTData = (data) => {debugger;
+  const getMDTData = (data) => {
     setMDTData(data);
   }
   return (
@@ -49,7 +49,7 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
             {currentStep === 1 && <RefererDetails onNext={handleNext} getReferData={getReferData} referData={referData} />}
             {currentStep === 2 && <DiagnosisDetails onNext={handleNext} getDiagnosisData={getDiagnosisData} diagnosisData={diagnosisData}  />}
             {currentStep === 3 && <MDTDetails onNext={handleNext} getMDTData={getMDTData} mdtData={mdtData}  />}
-            {currentStep === 4 && <Reports onNext={handleNext} />}
+            {currentStep === 4 && <Reports onNext={handleNext} selectedStage={selectedStage} />}
             {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} 
               diagnosisData={diagnosisData} mdtData={mdtData} selectedReferralType={selectedReferralType} selectedStage={selectedStage} />}
             {currentStep === 6 && <SuccessView onNext={handleNext} />}

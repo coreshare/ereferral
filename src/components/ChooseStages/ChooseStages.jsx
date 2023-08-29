@@ -65,7 +65,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         closeModal();
     }
 
-    const returnReferralStage = () => {debugger;
+    const returnReferralStage = () => {
         getReferralStage(selectedStage);
     }
 
@@ -74,17 +74,21 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
     }
 
     const handleCreateReferral = () => {
-        if(agreed == "Yes"){
-            returnReferralStage();debugger;
-            console.log(selectedStage);
-            onNext(selectedStage);
-        }
-        else{
+        if(selectedStage == null){
             setShowCloseButton(true);
-            setModalText("select agreed");
+            setModalText("Select Stage");
             openModal();
-            //alert("select agreed");
+            return;
         }
+        if(agreed != "Yes"){
+            setShowCloseButton(true);
+            setModalText("Select declaration");
+            openModal();
+            return;
+        }
+        returnReferralStage();
+        console.log(selectedStage);
+        onNext(selectedStage);
     }
 
     const handleAgreedClick = (e) => {

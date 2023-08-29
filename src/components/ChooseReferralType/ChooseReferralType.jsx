@@ -13,8 +13,14 @@ const ChooseReferralType = ({ onNext, getReferralType }) => {
   const imageUrls = [Breast, Lung, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel];
 
   const handleImageClick = (e) => {
-    getReferralType(e.target.title);
-    onNext();
+    if(e.target.title != ""){
+      getReferralType(e.target.title);
+      onNext();
+    }
+    else
+    {
+      alert("This Referral Type not configured.")
+    }
   };
 
   return (

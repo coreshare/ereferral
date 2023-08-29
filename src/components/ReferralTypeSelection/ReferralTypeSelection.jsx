@@ -11,7 +11,7 @@ const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
     const [selReferralStage, setSelectedReferralStage] = useState(null);
 
     useEffect(() => {
-        debugger;
+        
     },[selReferralStage])
     const handleNext = () => {
         setCurrentStep(currentStep + 1);
@@ -21,7 +21,7 @@ const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
         setCurrentStep(currentStep - 1);
     };
 
-    const goToDetails = (stage) => {debugger;
+    const goToDetails = (stage) => {
         getSelectedReferralStage(stage);
         onNext();
     }
@@ -30,11 +30,11 @@ const ReferralTypeSelection = ({onNext,getSelectedReferralStage}) => {
         setReferralType(referraltype);
     }
 
-    const getReferralStage = (referralstage) => {debugger;
+    const getReferralStage = (referralstage) => {
         setSelectedReferralStage(referralstage);
     }
 
-    const returnSelectedStage = () => {debugger;
+    const returnSelectedStage = () => {
         getSelectedReferralStage(selReferralStage)
     }
     

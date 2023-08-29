@@ -4,7 +4,7 @@ import "./FormCheckBoxCtrl.css"
 const FormCheckBoxCtrl = ({label, onChangeText, title, value}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
 
-  const onChangeHandle = (e) => {debugger;
+  const onChangeHandle = (e) => {
     setTextBoxValue(e.target.checked)
     onChangeText(title, e.target.checked)
   }

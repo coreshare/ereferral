@@ -1,7 +1,7 @@
 const BASE_URL = "https://ereferralapi.azurewebsites.net";
 const Email_URL = "https://prod-122.westeurope.logic.azure.com:443/workflows/c06414d2d9f04468bbea2ea190967ab5/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dm-lLnTWj6korfDk-n5G7zefHrKfPu4QUGtpSYi_vvI";
 
-export const emailOTP = async (data) => {debugger;
+export const emailOTP = async (data) => {
   try {
     const response = await fetch(`${Email_URL}`, {
       method: "POST",
@@ -21,7 +21,7 @@ export const emailOTP = async (data) => {debugger;
   }
 };
 
-export const submitData = async (data) => {debugger;
+export const submitData = async (data) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
@@ -41,7 +41,7 @@ export const submitData = async (data) => {debugger;
   }
 };
 
-export const saveData = async (data) => {debugger;
+export const saveData = async (data) => {
   const transformedData = transformData(data);
   const formData = new FormData();
   formData.append("jsonObject", JSON.stringify(transformedData));
@@ -59,7 +59,7 @@ export const saveData = async (data) => {debugger;
   }
 };
 
-export const generateOTP = async (emailval) => {debugger;
+export const generateOTP = async (emailval) => {
   const formData = new FormData();
   formData.append("email", emailval);
   try {
@@ -80,7 +80,7 @@ export const generateOTP = async (emailval) => {debugger;
   }
 };
 
-export const validateOTP = async (otpval) => {debugger;
+export const validateOTP = async (otpval) => {
   const formData = new FormData();
   formData.append("otp", otpval);
   try {
@@ -103,7 +103,7 @@ export const validateOTP = async (otpval) => {debugger;
   }
 };
 
-export const validateDomain = async (domainval) => {debugger;
+export const validateDomain = async (domainval) => {
   const formData = new FormData();
   formData.append("domain", domainval);
   try {
@@ -125,12 +125,12 @@ export const validateDomain = async (domainval) => {debugger;
   }
 };
 
-export const getReferralTypeStages = async (domainval) => {debugger;
+export const getReferralTypeStages = async (domainval) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {
       method: "POST"
     });
-    debugger;
+    
     if (!response.ok) {
       throw new Error("Request failed with status: " + response.status);
     }
@@ -144,7 +144,7 @@ export const getReferralTypeStages = async (domainval) => {debugger;
   }
 };
 
-export const uploadFileToLib = async (file, metadata) => {debugger;
+export const uploadFileToLib = async (file, metadata) => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('metadata', JSON.stringify(metadata));

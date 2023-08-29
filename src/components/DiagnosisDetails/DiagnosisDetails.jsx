@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 
-const DiagnosisDetails = ({onNext,getDiagnosisData,diagnosisData}) => {debugger;
+const DiagnosisDetails = ({onNext,getDiagnosisData,diagnosisData}) => {
     const [diagnosisDetails, setDiagnosisDetails] = useState(diagnosisData)
 
     const handleNext = () => {

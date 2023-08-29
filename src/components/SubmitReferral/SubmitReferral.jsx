@@ -26,7 +26,7 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
         setFormData(updatedFormData);
     },[patientData,referData])
 
-    const onSubmitHandle = async () =>{debugger;
+    const onSubmitHandle = async () =>{
         openModal();
         var itemId = await saveData(formData);
         console.log(itemId);

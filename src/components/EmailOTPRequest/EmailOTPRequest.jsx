@@ -9,19 +9,25 @@ const EmailOTPRequest = ({onNext}) =>{
     const [email, setEmail] = useState("");
     const [modalText, setModalText] = useState("");
     const [showCloseButton,setShowCloseButton] = useState(true)
+    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
     const handleEmailOTPRequest = async () =>{
-        if(email == ""){
+        if(email == "" || !(emailPattern.test(email))){
             setShowCloseButton(true)
-            setModalText("Enter email address")
+            setModalText("Enter valid email address")
             openModal();
             return;
         }
         else{
-            var isValid = await validateDomain(email);//true;// 
-            if(isValid == "Not valid"){
+            const atIndex = email.indexOf("@");
+            const domain = "";
+            if (atIndex !== -1) {
+                domain = email.slice(atIndex + 1);
+            }
+            var isValid = await validateDomain(domain);//true;// 
+            if(isValid==undefined || isValid == "Not valid"){
                 setShowCloseButton(true)
-                setModalText("Enter valid domain")
+                setModalText("Entered email is not valid.")
                 openModal();
                 return;
             }
