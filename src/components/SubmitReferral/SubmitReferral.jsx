@@ -1,7 +1,9 @@
-import React,{useState,useEffect} from "react"
+import React,{useState,useEffect, cloneElement} from "react"
 import FormDataSet from '../../Models/FormDataSet'
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { saveData, uploadFileToLib } from "../../Services/api";
+import "./SubmitReferral.css"
+import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 
 const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,reports,selectedReferralType,selectedStage}) => {
     const [formData, setFormData] = useState(new FormDataSet);
@@ -58,9 +60,13 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
     };
 
     return(
-        <div>
-            Submit Referral
-            <button onClick={onSubmitHandle}>Submit</button>
+        <div className="container-submit">
+            <h3 className="detailsHeader">Submit Referral</h3>
+            <p>Delcaration to be Agreed.</p>
+            <p>Thank you for making the referral today. Please note this will be reviewed by a Caltterbridge consultant and you
+                will be notified if the referral has been accepted.
+            </p>
+            <div style={{textAlign:"center", marginTop:'40px'}}><ButtonCtrl btnClickHandler={onSubmitHandle} btnText="Submit" /></div>
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false}>
                 <p>Submitting data... please wait.</p>
             </ModalDialog>

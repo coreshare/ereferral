@@ -2,7 +2,7 @@ import React from "react"
 
 const SuccessView = () => {
     return(
-        <div>
+        <div style={{textAlign:"center"}}>
             Your referral has been submitted successfully.
         </div>
     )

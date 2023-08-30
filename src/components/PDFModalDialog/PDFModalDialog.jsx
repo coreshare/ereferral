@@ -13,7 +13,7 @@ const PDFModalDialog = ({ isOpen, onClose, showCloseButton, children }) => {
   return (
     <div className="modal-overlay-pdf">
       <div className="modal-content-pdf">
-        {children}
+        {children}<br/>
         {showCloseButton && <button style={{marginTop: '0px'}} className="btn-primary close-button" onClick={onClose}>
           Close
         </button>}

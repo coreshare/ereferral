@@ -116,7 +116,7 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
           const filename = files.map((file) => file.ReportFile.name);
           return (
             <div style={{display:'flex'}}>
-                {hasFile && <div><img src={viewIcon} title={report} onClick={handlePDFView} style={{width: '40px',cursor: 'pointer'}}/></div>}
+                <div style={{width:'40px'}}>{hasFile && <img src={viewIcon} title={report} onClick={handlePDFView} style={{width: '40px',cursor: 'pointer'}}/>}</div>
                 <div
                 key={index}
                 title={report}
@@ -143,7 +143,7 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
       </div>
       <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false} isConfirmation={true} 
       confirmationFn={confirmDelete}>
-        Are you sure to delete the file?
+        <>Are you sure to delete the file?</>
       </ModalDialog>
     </div>
   );

@@ -23,6 +23,12 @@ const OTPValidation = ({ onNext, otp }) => {
   };
   const handleTextboxChange = (event, index) => {
     var newValue = event.target.value;
+    const isValidDigit = /^[0-9]$/.test(newValue);
+    if(!isValidDigit)
+    {
+      event.target.value="";
+      return;
+    }
     //const newValue = parseInt(event.target.value, 10);
     //if (!isNaN(newValue)) {
     setEnteredOTP((prevValues) => {
@@ -78,8 +84,8 @@ const OTPValidation = ({ onNext, otp }) => {
           {[...Array(6)].map((_, index) => (
             <input
               key={index}
-              type="number"
-              maxLength={1}
+              type="text"
+              maxLength="1"
               onKeyUp={(event) => handleKeyDown(event, index)}
               onChange={(event) => handleTextboxChange(event, index)}
             />

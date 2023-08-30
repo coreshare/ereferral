@@ -40,9 +40,9 @@ const MDTDetails = ({onNext,getMDTData,mdtData}) => {
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div>
                         <FormCheckBoxCtrl label="Is the Patient Aware of Diagnosis?" onChangeText={onChangeTextHandle} title="PatientAwareofDiagnosis" value={mdtData.find(detail => detail.title === "PatientAwareofDiagnosis")?.value || ""}/><br/>
+                        <FormCheckBoxCtrl label="Overseas Patient?" onChangeText={onChangeTextHandle} title="OverseasPatient" value={mdtData.find(detail => detail.title === "OverseasPatient")?.value || ""}/><br/>                        
+                        <FormCheckBoxCtrl label="Has Assessment been Completed?" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={mdtData.find(detail => detail.title === "HasAssessmentbeenCompleted")?.value || ""}/><br/>
                         <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" value={mdtData.find(detail => detail.title === "MDTComments")?.value || ""}/><br/>
-                        <FormCheckBoxCtrl label="Overseas Patient" onChangeText={onChangeTextHandle} title="OverseasPatient" value={mdtData.find(detail => detail.title === "OverseasPatient")?.value || ""}/><br/>
-                        <FormCheckBoxCtrl label="Has Assessment been Completed" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={mdtData.find(detail => detail.title === "HasAssessmentbeenCompleted")?.value || ""}/><br/>
                         <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} title="OutcomeofAssessment" value={mdtData.find(detail => detail.title === "OutcomeofAssessment")?.value || ""}/>
                     </div>
                 </div>
