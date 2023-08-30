@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import EmailOTPRequest from '../EmailOTPRequest/EmailOTPRequest';
 import OTPValidation from '../OTPValidation/OTPValidation';
-import NHSLogo from '../../Images/NHSLogo.png';
+import ClatterbridgeLogo from '../../Images/Clatterbridge-logo.png';
 import "./UserValidation.css";
 
 const UserValidation = ({onNext}) => {
@@ -24,9 +24,9 @@ const UserValidation = ({onNext}) => {
         <div class="container">
             <div class="vertical-center">
                 <p>
-                    <img src={NHSLogo} style={{width: '200px'}}/>
+                    <img src={ClatterbridgeLogo} style={{width: '400px'}}/>
                 </p>
-                <p class="boldtxt" style={{ lineHeight: '60px', fontSize: '30px' }}>
+                <p class="boldtxt" style={{ lineHeight: '50px', fontSize: '30px', marginTop: '0px' }}>
                     Clatterbridge Cancer Centre<br />
                     Patient Referral Portal
                 </p>
