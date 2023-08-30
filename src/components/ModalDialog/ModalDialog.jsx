@@ -2,7 +2,6 @@ import React from 'react';
 import './ModalDialog.css';
 
 const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirmationFn, children }) => {
-  debugger;
   if (!isOpen) {
     return null;
   }

@@ -111,9 +111,14 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
                 </>}
             </Worker>
         </div>*/}
-        {selectedStage.reports.map((report, index) => {debugger;
+        {selectedStage.reports.map((report, index) => {
           const hasFile = files.some((file) => file.ReportName === report);
-          const filename = files.map((file) => file.ReportFile.name);
+          var filename = null;
+          if (hasFile) {
+            var file = files.find(file => file.ReportName === report);
+            filename = file.ReportFile.name;
+          }
+
           return (
             <div style={{display:'flex'}}>
                 <div style={{width:'40px'}}>{hasFile && <img src={viewIcon} title={report} onClick={handlePDFView} style={{width: '40px',cursor: 'pointer'}}/>}</div>
