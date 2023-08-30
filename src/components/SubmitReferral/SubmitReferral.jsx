@@ -38,7 +38,7 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
             {
                 reportsMetadata[reports[i].ReportFile.name] = {};
             }
-            reportsMetadata[reports[i].ReportFile.name].ReportID=itemId;
+            reportsMetadata[reports[i].ReportFile.name].ReferralID=itemId;
             reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
         }
         
