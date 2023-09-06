@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const appSlice = createSlice({
     name: "appStep",
-    initialState: 1,
+    initialState: 0,//checkonce
     reducers: {
         setAppStep: (state, action) => {
             return action.payload;
