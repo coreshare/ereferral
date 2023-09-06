@@ -8,6 +8,7 @@ import reportsReducer from "./Reports/ReportsSlice"
 import appReducer from "./AppSlice"
 import referralTypeStageReducer from "./ReferralTypeSlice"
 import referralSubmissionReducer from "./ReferralSubmissionSlice"
+import userValidationReducer from "./UserValidation/UserValidationSlice"
 
 const rootReducer = combineReducers({
   referralType: referralTypeReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   reports: reportsReducer,
   appStep: appReducer,
   referralTypeStageStep: referralTypeStageReducer,
-  referralSubmissionStep: referralSubmissionReducer
+  referralSubmissionStep: referralSubmissionReducer,
+  userValidationStep: userValidationReducer
 });
 
 export default rootReducer;

@@ -3,13 +3,15 @@ import "./OTPValidation.css";
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import { validateOTP } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
+import { useDispatch } from "react-redux";
+import { setAppStep } from "../AppSlice";
 
-const OTPValidation = ({ onNext, otp }) => {
+const OTPValidation = () => {
+  const dispatch = useDispatch()
   const [enteredOTP, setEnteredOTP] = useState(Array(6).fill(""));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCloseButton,setShowCloseButton] = useState(true);
   const [modalText, setModalText] = useState("");
-  //const [otpValues, setOtpValues] = useState(Array(6).fill(""));
 
   const handleKeyDown = (event, index) => {
     if (/^[0-9]$/.test(event.key) && index < 5) {
@@ -29,17 +31,11 @@ const OTPValidation = ({ onNext, otp }) => {
       event.target.value="";
       return;
     }
-    //const newValue = parseInt(event.target.value, 10);
-    //if (!isNaN(newValue)) {
     setEnteredOTP((prevValues) => {
       const newValues = [...prevValues];
       newValues[index] = newValue;
       return newValues;
     });
-    //}
-    //else{
-    //  setEnteredOTP([]);
-    //}
   };
   
   const openModal = () => {
@@ -53,8 +49,6 @@ const OTPValidation = ({ onNext, otp }) => {
   const handleOTPValidation = async () => {
     
     const concatenatedNumberString = enteredOTP.map(String).join("");
-    //const concatenatedNumber = parseInt(concatenatedNumberString, 10);
-    //if(concatenatedNumber != "NaN" && concatenatedNumber.toString().length == 6){
     if(concatenatedNumberString.length == 6){
       openModal();
       setShowCloseButton(false);
@@ -62,7 +56,8 @@ const OTPValidation = ({ onNext, otp }) => {
       var response = await validateOTP(concatenatedNumberString);//"Success";//checkonce
       if(response == "Success"){
           closeModal();
-          onNext();
+          dispatch(setAppStep(1))
+          //onNext();
       }
       else{
           closeModal();

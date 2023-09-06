@@ -3,9 +3,11 @@ import EmailOTPRequest from '../EmailOTPRequest/EmailOTPRequest';
 import OTPValidation from '../OTPValidation/OTPValidation';
 import ClatterbridgeLogo from '../../Images/Clatterbridge-logo.png';
 import "./UserValidation.css";
+import { useSelector } from "react-redux";
 
-const UserValidation = ({onNext}) => {
-    const [currentStep, setCurrentStep] = useState(0);
+const UserValidation = () => {
+    const currentStep = useSelector(state => state.userValidationStep)
+    /*const [currentStep, setCurrentStep] = useState(0);
     const [otp, setOTP] = useState("");
 
     const handleNext = () => {
@@ -18,7 +20,7 @@ const UserValidation = ({onNext}) => {
 
     const goToReferralSelection = () => {
         onNext();
-    }
+    }*/
     
     return(
         <div class="container">
@@ -30,8 +32,8 @@ const UserValidation = ({onNext}) => {
                     Clatterbridge Cancer Centre<br />
                     Patient Referral Portal
                 </p>
-                {currentStep === 0 && <EmailOTPRequest onNext={handleNext} onOTPGenerate={handleOTPGeneration} />}
-                {currentStep === 1 && <OTPValidation onNext={goToReferralSelection} generatedOTP={otp} />}
+                {currentStep === 0 && <EmailOTPRequest />}
+                {currentStep === 1 && <OTPValidation />}
             </div>
         </div>
     )

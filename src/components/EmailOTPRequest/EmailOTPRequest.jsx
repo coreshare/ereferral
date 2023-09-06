@@ -3,13 +3,16 @@ import TextBoxCtrl from "../TextBoxCtrl/TextBoxCtrl";
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { validateDomain, generateOTP } from "../../Services/api";
+import { useDispatch } from "react-redux";
+import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
 
-const EmailOTPRequest = ({onNext}) =>{
+const EmailOTPRequest = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [modalText, setModalText] = useState("");
     const [showCloseButton,setShowCloseButton] = useState(true)
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    const dispatch = useDispatch()
 
     const handleEmailOTPRequest = async () =>{
         if(email == "" || !(emailPattern.test(email))){
@@ -40,7 +43,7 @@ const EmailOTPRequest = ({onNext}) =>{
                 //openModal();
                 await generateOTP(email);
                 closeModal();
-                onNext();
+                dispatch(setUserValidationStep(1))
             }
         }
         //generate otp
