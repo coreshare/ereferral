@@ -4,7 +4,7 @@ import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import { getReferralTypeStages } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch,useSelector } from "react-redux";
-import { setStage } from "./StagesSlice";
+import { setStage, setStagesList } from "./StagesSlice";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setAppStep } from "../AppSlice";
@@ -16,8 +16,10 @@ const ChooseStages = () => {
     const selectedStage = useSelector(state => state.stage.currentStage)
     
     const refTypeStageStep = useSelector(state => state.referralTypeStageStep)
-
+    const stagesMasterData = useSelector(state => state.stage.stagesData)
     const [stages, setStages] = useState([])
+
+    //const [stages, setStages] = useState([])
     //const [selectedStage, setSelectedStage] = useState(selectedReferralState);
     const [agreed, setAgreed] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,14 +33,18 @@ const ChooseStages = () => {
         dispatch(updateDetails({title, value}));
         dispatch(setStage(stage))
         let reportIndex = 0;
-        dispatch(updateReportsList(stage.reports.map(report => {
+        const filteredReports = stage.reports.map(report => {
             return { ReportName: report, IsMain: true, ReportIndex: ++reportIndex }
-        })));
+        });
+        dispatch(updateReportsList(filteredReports));
         //setSelectedStage(stage);
     };
 
     useEffect(() => {
-        fetchStages();
+        if(stagesMasterData.length == 0){
+            fetchStages();
+        }
+        filterStagesOnReferralType();
     },[]);
     
     const openModal = () => {
@@ -49,24 +55,10 @@ const ChooseStages = () => {
         setIsModalOpen(false);
     };
 
-    const fetchStages = async () => {
-        setShowCloseButton(false);
-        setModalText("Getting Referral Type Stages... Please wait.");
-        openModal();
-        var stages = //await getReferralTypeStages();//checkonce
-        [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
-        {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
-        {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
-        {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
-        {title: 'Breast', stage: 'Stage IV', report: 'Report 3'},
-        {title: 'Lung', stage: 'Stage I-II', report: 'Report 11'},
-        {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
-        {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
-        {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
-        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];
+    const filterStagesOnReferralType = () => {debugger;
         const filteredStages = selectedReferralType
-            ? stages.filter(stage => stage.title === selectedReferralType)
-            : stages;
+            ? stagesMasterData.filter(stage => stage.title === selectedReferralType)
+            : stagesMasterData;
 
         const groupedStages = filteredStages.reduce((result, item) => {
             const key = `${item.title}-${item.stage}`;
@@ -81,9 +73,27 @@ const ChooseStages = () => {
             return result;
         }, {});
         const finalStages = Object.values(groupedStages);
-
         setStages(finalStages);
         closeModal();
+    }
+
+    const fetchStages = async () => {
+        setShowCloseButton(false);
+        setModalText("Getting Referral Type Stages... Please wait.");
+        openModal();
+        //var stages = await getReferralTypeStages();//checkonce
+        var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+        {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
+        {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
+        {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
+        {title: 'Breast', stage: 'Stage IV', report: 'Report 3'},
+        {title: 'Lung', stage: 'Stage I-II', report: 'Report 11'},
+        {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
+        {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
+        {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
+        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];
+        
+        dispatch(setStagesList(stages))
     }
 
     const handleBack = () => {
