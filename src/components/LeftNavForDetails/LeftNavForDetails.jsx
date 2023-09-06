@@ -1,10 +1,13 @@
 import React from "react"
 import "./LeftNavForDetails.css"
+import { useDispatch } from "react-redux"
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice"
 
-const LeftNavForDetails = ({goToStep}) => {
+const LeftNavForDetails = () => {
+    const dispatch = useDispatch()
 
-    const handleGoToStep = (stepToGo) =>{
-        goToStep(stepToGo);
+    const handleGoToStep = (step) => {
+        dispatch(setReferralSubmissionStep(step))
     }
 
     return(

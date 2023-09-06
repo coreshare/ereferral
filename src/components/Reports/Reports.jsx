@@ -3,26 +3,64 @@ import "./Reports.css";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import PDFModalDialog from "../PDFModalDialog/PDFModalDialog";
 import viewIcon from "../../Images/viewIcon.png";
+import addReport from "../../Images/addReport.png";
 import deleteIcon from "../../Images/deleteIcon.png";
 import ModalDialog from "../ModalDialog/ModalDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFiles, updateReportsList } from "./ReportsSlice";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
-const Reports = ({ onNext, selectedStage, getFiles }) => {
+const Reports = () => {
+  const dispatch = useDispatch()
+  const selectedStage = useSelector(state => state.stage.currentStage)
+  const files = useSelector((state) => state.reports.files);
+  const reportslist = useSelector((state) => state.reports.reportsList);
   const [draggingOver, setDraggingOver] = useState(null);
-  const [files, setFiles] = useState([]);
   const [fileToView, setFileToView] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPDFModalOpen, setIsPDFModalOpen] = useState(false)
-  const [showCloseButton,setShowCloseButton] = useState(true);
+  const [showCloseButton, setShowCloseButton] = useState(true)
   const [reportFileToDelete,setReportFileToDelete] = useState(null)
+  const [reportIndex, setReportIndex] = useState(reportslist.length)
+  const currentStep = useSelector(state => state.referralSubmissionStep)
   
-  useEffect(() => {
-    return () => {
-        getFiles(files);
+  const handleAddDuplicateReport = (e) => {
+    const newIndex = reportIndex + 1;
+    const newReport = { ReportName: e.target.title, IsMain: false, ReportIndex: newIndex };
+    
+    const existingReport = reportslist.find((report) => report.ReportName === e.target.title && !files.some((file) => file.ReportIndex === report.ReportIndex));
+    if (existingReport) {
+      alert("Cannot add duplicate report without a file.");
+      return;
     }
-  }, [files]);
+    
+    const updatedReports = [...reportslist, newReport];
+
+    setReportIndex(newIndex);
+    dispatch(updateReportsList(updatedReports.sort((a, b) => a.ReportName.localeCompare(b.ReportName))))
+    //setReportsList(updatedReports.sort((a, b) => a.ReportName.localeCompare(b.ReportName)));
+  }
+
+  useEffect(() => {
+    if(reportslist.length == 0){
+      var newIndex = 0;
+      const reportstemp = selectedStage.reports.map(report => {
+        newIndex = newIndex + 1;
+        setReportIndex(newIndex);
+        return {ReportName: report, IsMain: true, ReportIndex: newIndex }
+      })
+      reportstemp.sort((a, b) => a.ReportName.localeCompare(b.ReportName));
+      dispatch(updateReportsList(reportstemp))
+      //setReportsList(reportstemp)
+    }
+  },[])
 
   const handleNext = () => {
-    onNext();
+    dispatch(setReferralSubmissionStep(currentStep + 1))
+  };
+
+  const handleBack = () => {
+    dispatch(setReferralSubmissionStep(currentStep - 1))
   };
 
   const handleDragEnter = (e, report) => {
@@ -38,7 +76,7 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
     setDraggingOver(null);
   };
 
-  const handleDrop = (e, report) => {
+  const handleDrop = (e, report, reportIndex) => {
     e.preventDefault();
     setDraggingOver(null);
 
@@ -52,9 +90,19 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
         alert("Only PDF files are allowed.");
         return;
     }
-    
-    const newStage = { ReportName: report, ReportFile: droppedFile };
-    setFiles([...files, newStage]);
+
+    const existingFile = files.find((file) => file.ReportIndex === reportIndex);
+    if (existingFile) {
+      const replaceFile = window.confirm("This report already has a file. Do you want to replace it?");
+      if (!replaceFile) {
+        return;
+      }
+    }
+
+    const newStage = { ReportName: report, ReportFile: droppedFile, ReportIndex: reportIndex };
+    const updatedFiles = files.filter((file) => file.ReportIndex !== reportIndex);
+    //setFiles([...updatedFiles, newStage]);
+    dispatch(updateFiles([...updatedFiles, newStage]))
   };
 
   const handlePDFView = (e) => {
@@ -83,15 +131,29 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
         setIsPDFModalOpen(false);
     };
 
-    const handleDeleteFile = (e) => {
-        openModal();
-        setReportFileToDelete(e.target.title);
+    const handleDeleteFile = (e, hasFile, isMain) => {
+        if(hasFile){
+          openModal();
+          setReportFileToDelete(e.target.title);
+        }
+        else if(!isMain){
+          const updatedReports = reportslist.filter((report) =>
+            report.ReportIndex !== parseInt(e.target.title)
+          );
+          dispatch(updateReportsList(updatedReports))
+          //setReportsList(updatedReports);
+        }
     }
     
     const confirmDelete = (confirmedToDelete) => {
         if(confirmedToDelete){
-            const updatedFiles = files.filter(file => file.ReportName !== reportFileToDelete);
-            setFiles(updatedFiles);
+            const updatedFiles = files.filter(file => file.ReportIndex !== parseInt(reportFileToDelete));
+            dispatch(updateFiles(updatedFiles))
+            //setFiles(updatedFiles);
+            const updateReports = reportslist.filter(report => 
+              report.ReportIndex !== parseInt(reportFileToDelete) || report.IsMain)
+            dispatch(updateReportsList(updateReports))
+            //setReportsList(updateReports)
         }
         setReportFileToDelete(null);
         closeModal();
@@ -101,41 +163,38 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
     <div>
       <div style={{ float: "left" }}>
         <h3 className="detailsHeader">Reports</h3>
-        {/*}
-        <input type="file" onChange={handleChange} />
-        <button onClick={handlePDFView}>View</button>
-        <div className="pdf-container">
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                {viewPDF && <>
-                    <Viewer fileUrl={viewPDF} plugins={[newplugin]}/>
-                </>}
-            </Worker>
-        </div>*/}
-        {selectedStage.reports.map((report, index) => {
-          const hasFile = files.some((file) => file.ReportName === report);
+        {reportslist.map((report, index) => {
+          const hasFile = files.some((file) => file.ReportIndex === report.ReportIndex);
           var filename = null;
           if (hasFile) {
-            var file = files.find(file => file.ReportName === report);
+            var file = files.find(file => file.ReportIndex === report.ReportIndex);
             filename = file.ReportFile.name;
           }
 
           return (
             <div style={{display:'flex'}}>
-                <div style={{width:'40px'}}>{hasFile && <img src={viewIcon} title={report} onClick={handlePDFView} style={{width: '40px',cursor: 'pointer'}}/>}</div>
+                <div style={{width:'80px',display:'flex',alignItems:'center',height:'40px'}}>{hasFile && <>
+                  <img src={viewIcon} title={report.ReportName} onClick={handlePDFView} 
+                  style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px'}}/>
+                  {report.IsMain && <img src={addReport} title={report.ReportName} onClick={handleAddDuplicateReport} 
+                  style={{width: '30px',cursor: 'pointer',marginRight:'5px'}}/>}
+                  </>
+                }</div>
                 <div
                 key={index}
-                title={report}
+                title={report.ReportName}
                 className={`report-strip drop-area ${
-                    draggingOver === report ? "dragging" : ""
+                    draggingOver === report.ReportName ? "dragging" : ""
                 } ${hasFile ? "with-file" : ""}`}
                 onDragEnter={(e) => handleDragEnter(e, report)}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, report)}
+                onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex)}
                 >
-                {report}{hasFile && " - "}{hasFile && filename}
+                {report.ReportIndex}.{report.ReportName}{hasFile && " - "}{hasFile && filename}
                 </div>
-                {hasFile && <div><img src={deleteIcon} title={report} onClick={handleDeleteFile} style={{width: '25px',margin:'7px 0px 0px 5px',cursor:'pointer'}}/></div>}
+                {(hasFile || !report.IsMain) && <div><img src={deleteIcon} title={report.ReportIndex} 
+                  onClick={(e) => {handleDeleteFile(e, hasFile, report.IsMain)}} style={{width: '25px',margin:'7px 0px 0px 5px',cursor:'pointer'}}/></div>}
             </div>
           );
         })}
@@ -145,10 +204,11 @@ const Reports = ({ onNext, selectedStage, getFiles }) => {
       </div>
       <div className="detailsNext">
         <button onClick={handleNext}>Next</button>
+        <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
       </div>
       <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false} isConfirmation={true} 
       confirmationFn={confirmDelete}>
-        <>Are you sure to delete the file?</>
+        Are you sure to delete the file?
       </ModalDialog>
     </div>
   );

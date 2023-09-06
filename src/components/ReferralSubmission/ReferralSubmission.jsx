@@ -9,38 +9,10 @@ import SuccessView from "../SuccessView/SuccessView";
 import LeftNavForDetails from "../LeftNavForDetails/LeftNavForDetails";
 import Header from "../Header/Header";
 import "./ReferralSubmission.css"
+import { useSelector } from "react-redux";
 
-const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [patientData, setPatientData] = useState([])
-  const [referData, setReferData] = useState([])
-  const [diagnosisData, setDiagnosisData] = useState([])
-  const [mdtData, setMDTData] = useState([])
-  const [files, setFiles] = useState([])
-
-  const handleNext = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const handleLeftNav = (step) => {
-    setCurrentStep(step)
-  }
-
-  const getPatientData = (data) => {
-    setPatientData(data);
-  }
-  const getReferData = (data) => {
-    setReferData(data);
-  }
-  const getDiagnosisData = (data) => {
-    setDiagnosisData(data);
-  }
-  const getMDTData = (data) => {
-    setMDTData(data);
-  }
-  const getFiles = (files) => {
-    setFiles(files)
-  }
+const ReferralSubmission = () => {
+  const currentStep = useSelector(state => state.referralSubmissionStep)
 
   return (
     <div className="App">
@@ -48,28 +20,18 @@ const ReferralSubmission = ({onNext,selectedStage,selectedReferralType}) => {
         <Header />
         <div style={{padding: '40px'}}>
           {(currentStep === 0 || currentStep === 1 || currentStep === 2 || currentStep === 3 || currentStep === 4) &&  
-          <div style={{float:'left',width:'20%'}}><LeftNavForDetails goToStep={handleLeftNav}/></div>}
-          <div style={{float:'left',width:'80%'}}>
-            {currentStep === 0 && <PatientDetails onNext={handleNext} getPatientData={getPatientData} patientData={patientData}/>}
-            {currentStep === 1 && <RefererDetails onNext={handleNext} getReferData={getReferData} referData={referData} />}
-            {currentStep === 2 && <DiagnosisDetails onNext={handleNext} getDiagnosisData={getDiagnosisData} diagnosisData={diagnosisData}  />}
-            {currentStep === 3 && <MDTDetails onNext={handleNext} getMDTData={getMDTData} mdtData={mdtData}  />}
-            {currentStep === 4 && <Reports onNext={handleNext} selectedStage={selectedStage} getFiles={getFiles} />}
-            {currentStep === 5 && <SubmitReferral onNext={handleNext} patientData={patientData} referData={referData} 
-              diagnosisData={diagnosisData} mdtData={mdtData} reports={files} selectedReferralType={selectedReferralType} 
-              selectedStage={selectedStage} />}
-            {currentStep === 6 && <SuccessView onNext={handleNext} />}
-            {/*<div>
-                {patientData.map((detail, index) => (
-                    <p key={index}>{detail.title}: {detail.value}</p>
-                ))}
+            <div style={{float:'left',width:'20%'}}>
+              <LeftNavForDetails />
+            </div>}
+            <div style={{float:'left',width:'80%'}}>
+              {currentStep === 0 && <PatientDetails />}
+              {currentStep === 1 && <RefererDetails />}
+              {currentStep === 2 && <DiagnosisDetails />}
+              {currentStep === 3 && <MDTDetails />}
+              {currentStep === 4 && <Reports />}
+              {currentStep === 5 && <SubmitReferral />}
+              {currentStep === 6 && <SuccessView />}
             </div>
-            <div>
-                {referData.map((detail, index) => (
-                    <p key={index}>{detail.title}: {detail.value}</p>
-                ))}
-            </div>*/}
-          </div>
         </div>
       </div>
     </div>

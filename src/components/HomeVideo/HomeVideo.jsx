@@ -1,11 +1,15 @@
 import React from "react"
 import videoSrc from "../../Images/NHSVideo.mp4"
 import "./HomeVideo.css"
+import { useDispatch, useSelector } from "react-redux"
+import { setReferralTypeStageStep } from "../ReferralTypeSlice"
 
-const HomeVideo = ({onNext}) => {
+const HomeVideo = () => {
+    const dispatch = useDispatch()
+    const currentStep = useSelector(state => state.referralTypeStageStep)
 
     const handleNext = () =>{
-        onNext();
+        dispatch(setReferralTypeStageStep(currentStep + 1))
     }
 
     return(

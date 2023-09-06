@@ -3,17 +3,38 @@ import "./ChooseStages.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import { getReferralTypeStages } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
+import { useDispatch,useSelector } from "react-redux";
+import { setStage } from "./StagesSlice";
+import { updateDetails } from "../DetailsSlice";
+import { setReferralTypeStageStep } from "../ReferralTypeSlice";
+import { setAppStep } from "../AppSlice";
+import { updateReportsList } from "../Reports/ReportsSlice";
 
-const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
+const ChooseStages = () => {
+    const dispatch = useDispatch();
+    const selectedReferralType = useSelector((state) => state.referralType)
+    const selectedStage = useSelector(state => state.stage.currentStage)
+    
+    const refTypeStageStep = useSelector(state => state.referralTypeStageStep)
+
     const [stages, setStages] = useState([])
-    const [selectedStage, setSelectedStage] = useState(null);
+    //const [selectedStage, setSelectedStage] = useState(selectedReferralState);
     const [agreed, setAgreed] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCloseButton,setShowCloseButton] = useState(true);
     const [modalText, setModalText] = useState("");
 
-    const handleStageClick = (stage) => {
-        setSelectedStage(stage);
+    const handleStageClick = (stage) => {debugger;
+        dispatch(setStage(stage))
+        let title = "ReferralTypeStage"
+        let value = stage.stage
+        dispatch(updateDetails({title, value}));
+        dispatch(setStage(stage))
+        let reportIndex = 0;
+        dispatch(updateReportsList(stage.reports.map(report => {
+            return { ReportName: report, IsMain: true, ReportIndex: ++reportIndex }
+        })));
+        //setSelectedStage(stage);
     };
 
     useEffect(() => {
@@ -32,8 +53,8 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         setShowCloseButton(false);
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
-        var stages = await getReferralTypeStages();//checkonce
-        /*[{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+        var stages = //await getReferralTypeStages();//checkonce
+        [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
         {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
         {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
         {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
@@ -42,9 +63,9 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
         {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
         {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
-        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];*/
-        const filteredStages = referralType
-            ? stages.filter(stage => stage.title === referralType)
+        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];
+        const filteredStages = selectedReferralType
+            ? stages.filter(stage => stage.title === selectedReferralType)
             : stages;
 
         const groupedStages = filteredStages.reduce((result, item) => {
@@ -65,12 +86,9 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         closeModal();
     }
 
-    const returnReferralStage = () => {
-        getReferralStage(selectedStage);
-    }
-
     const handleBack = () => {
-        goBack();
+        dispatch(setReferralTypeStageStep(refTypeStageStep-1))
+        //goBack();
     }
 
     const handleCreateReferral = () => {
@@ -86,9 +104,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
             openModal();
             return;
         }
-        returnReferralStage();
-        console.log(selectedStage);
-        onNext(selectedStage);
+        dispatch(setAppStep(2))
     }
 
     const handleAgreedClick = (e) => {
@@ -102,7 +118,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
         <div>
             <div className="choosestage-container">
                 <div className="choosestage-header">
-                    <div style={{float: 'left'}}>Please choose a {referralType} cancer stage</div>
+                    <div style={{float: 'left'}}>Please choose a {selectedReferralType} Cancer stage</div>
                     <div style={{float: 'right'}}><button onClick={handleBack} className="backbtn">Back</button></div>
                 </div>
                 <div className="choosestage-gallery">
@@ -111,7 +127,7 @@ const ChooseStages = ({onNext, goBack, referralType, getReferralStage}) => {
                         <div><button
                             key={index}
                             onClick={() => handleStageClick(stage)}
-                            className={`stagebutton ${selectedStage === stage ? "selected" : ""}`}
+                            className={`stagebutton ${selectedStage && selectedStage.stage === stage.stage ? "selected" : ""}`}
                             >
                             {stage.stage}
                         </button><br/></div>

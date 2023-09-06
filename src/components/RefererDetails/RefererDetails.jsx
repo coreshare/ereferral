@@ -2,36 +2,26 @@ import React,{useState,useEffect} from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDetails } from "../DetailsSlice";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
-const RefererDetails = ({onNext,getReferData,referData}) => {
-    const [referDetails, setReferDetails] = useState(referData)
+const RefererDetails = () => {
+    const dispatch = useDispatch();
+    const details = useSelector(state => state.details)
+    const currentStep = useSelector(state => state.referralSubmissionStep)
 
     const handleNext = () => {
-        getReferData(referDetails);
-        onNext();
+        dispatch(setReferralSubmissionStep(currentStep + 1))
+    }
+
+    const handleBack = () => {
+        dispatch(setReferralSubmissionStep(currentStep - 1))
     }
 
     const onChangeTextHandle = (title, value) => {
-        const existingDetail = referDetails.find(detail => detail.title === title);
-
-        if (existingDetail) {
-            setReferDetails(prevDetails =>
-                prevDetails.map(detail =>
-                    detail.title === title ? { ...detail, value } : detail
-                )
-            );
-        } else {
-            setReferDetails(prevDetails =>
-                [...prevDetails, { title, value }]
-            );
-        }
+        dispatch(updateDetails({title, value}))
     }
-
-    useEffect(() => {
-        return () => {
-            getReferData(referDetails);
-        }
-    }, [referDetails]);
 
     return (
         <div className="detailssection">
@@ -39,14 +29,14 @@ const RefererDetails = ({onNext,getReferData,referData}) => {
                 <h3 className="detailsHeader">Refer Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="GP Name" onChangeText={onChangeTextHandle} title="GPName" value={referData.find(detail => detail.title === "GPName")?.value || ""}/><br/>
-                        <FormTextBoxCtrl label="GP Practice Name" onChangeText={onChangeTextHandle} title="GPPractice" value={referData.find(detail => detail.title === "GPPractice")?.value || ""}/><br/>
-                        <FormTextAreaCtrl label="GP Practice Address" onChangeText={onChangeTextHandle} title="GPPracticeAddress" value={referData.find(detail => detail.title === "GPPracticeAddress")?.value || ""}/>
+                        <FormTextBoxCtrl label="GP Name" onChangeText={onChangeTextHandle} title="GPName" value={details && details.GPName}/><br/>
+                        <FormTextBoxCtrl label="GP Practice Name" onChangeText={onChangeTextHandle} title="GPPractice" value={details && details.GPPractice}/><br/>
+                        <FormTextAreaCtrl label="GP Practice Address" onChangeText={onChangeTextHandle} title="GPPracticeAddress" value={details && details.GPPracticeAddress}/>
                     </div>
                     <div style={{float:'left'}}>
-                        <FormTextBoxCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={referData.find(detail => detail.title === "ReferringOrganisation")?.value || ""}/><br/>
-                        <FormTextBoxCtrl label="Referring Consultant" onChangeText={onChangeTextHandle} title="ReferringConsultant" value={referData.find(detail => detail.title === "ReferringConsultant")?.value || ""}/><br/>
-                        <FormDateCtrl label="Date Decision to Refer" onChangeText={onChangeTextHandle} title="DateDecisiontoRefer" value={referData.find(detail => detail.title === "DateDecisiontoRefer")?.value || ""}/>
+                        <FormTextBoxCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={details && details.ReferringOrganisation}/><br/>
+                        <FormTextBoxCtrl label="Referring Consultant" onChangeText={onChangeTextHandle} title="ReferringConsultant" value={details && details.ReferringConsultant}/><br/>
+                        <FormDateCtrl label="Date Decision to Refer" onChangeText={onChangeTextHandle} title="DateDecisiontoRefer" value={details && details.DateDecisiontoRefer}/>
                         
                     </div>
                 </div>
@@ -54,6 +44,7 @@ const RefererDetails = ({onNext,getReferData,referData}) => {
             
             <div className="detailsNext">
                     <button onClick={handleNext}>Next</button>
+                    <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
                 </div>
         </div>
     )

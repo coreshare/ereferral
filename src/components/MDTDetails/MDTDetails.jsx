@@ -2,36 +2,26 @@ import React,{useState,useEffect} from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import FormCheckBoxCtrl from "../FormCheckBoxCtrl/FormCheckBoxCtrl";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDetails } from "../DetailsSlice";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
-const MDTDetails = ({onNext,getMDTData,mdtData}) => {
-    const [mdtDetails, setMDTDetails] = useState(mdtData)
+const MDTDetails = ({onNext,onBack}) => {
+    const dispatch = useDispatch()
+    const details = useSelector(state => state.details)
+    const currentStep = useSelector(state => state.referralSubmissionStep)
 
     const handleNext = () => {
-        getMDTData(mdtDetails);
-        onNext();
+        dispatch(setReferralSubmissionStep(currentStep + 1))
+    }
+
+    const handleBack = () => {
+        dispatch(setReferralSubmissionStep(currentStep - 1))
     }
 
     const onChangeTextHandle = (title, value) => {
-        const existingDetail = mdtDetails.find(detail => detail.title === title);
-
-        if (existingDetail) {
-            setMDTDetails(prevDetails =>
-                prevDetails.map(detail =>
-                    detail.title === title ? { ...detail, value } : detail
-                )
-            );
-        } else {
-            setMDTDetails(prevDetails =>
-                [...prevDetails, { title, value }]
-            );
-        }
+        dispatch(updateDetails({title, value}))
     }
-
-    useEffect(() => {
-        return () => {
-            getMDTData(mdtDetails);
-        }
-    }, [mdtDetails]);
 
     return (
         <div className="detailssection">
@@ -39,17 +29,18 @@ const MDTDetails = ({onNext,getMDTData,mdtData}) => {
                 <h3 className="detailsHeader">MDT Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div>
-                        <FormCheckBoxCtrl label="Is the Patient Aware of Diagnosis?" onChangeText={onChangeTextHandle} title="PatientAwareofDiagnosis" value={mdtData.find(detail => detail.title === "PatientAwareofDiagnosis")?.value || ""}/><br/>
-                        <FormCheckBoxCtrl label="Overseas Patient?" onChangeText={onChangeTextHandle} title="OverseasPatient" value={mdtData.find(detail => detail.title === "OverseasPatient")?.value || ""}/><br/>                        
-                        <FormCheckBoxCtrl label="Has Assessment been Completed?" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={mdtData.find(detail => detail.title === "HasAssessmentbeenCompleted")?.value || ""}/><br/>
-                        <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" value={mdtData.find(detail => detail.title === "MDTComments")?.value || ""}/><br/>
-                        <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} title="OutcomeofAssessment" value={mdtData.find(detail => detail.title === "OutcomeofAssessment")?.value || ""}/>
+                        <FormCheckBoxCtrl label="Is the Patient Aware of Diagnosis?" onChangeText={onChangeTextHandle} title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/><br/>
+                        <FormCheckBoxCtrl label="Overseas Patient?" onChangeText={onChangeTextHandle} title="OverseasPatient" value={details && details.OverseasPatient}/><br/>                        
+                        <FormCheckBoxCtrl label="Has Assessment been Completed?" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/><br/>
+                        <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" value={details && details.MDTComments}/><br/>
+                        <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} title="OutcomeofAssessment" value={details && details.OutcomeofAssessment}/>
                     </div>
                 </div>
             </div>
             
             <div className="detailsNext">
                     <button onClick={handleNext}>Next</button>
+                    <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
                 </div>
         </div>
     )

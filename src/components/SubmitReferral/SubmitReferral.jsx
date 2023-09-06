@@ -1,38 +1,23 @@
 import React,{useState,useEffect, cloneElement} from "react"
-import FormDataSet from '../../Models/FormDataSet'
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { saveData, uploadFileToLib } from "../../Services/api";
 import "./SubmitReferral.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
+import { useDispatch, useSelector } from "react-redux";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
-const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,reports,selectedReferralType,selectedStage}) => {
-    const [formData, setFormData] = useState(new FormDataSet);
+const SubmitReferral = () => {
+    const dispatch = useDispatch()
+    const details = useSelector(state => state.details)
+    const reports = useSelector(state => state.reports.files)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const currentStep = useSelector(state => state.referralSubmissionStep)
     
-    useEffect(() => {
-        const updatedFormData = { ...formData };
-        patientData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        referData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        diagnosisData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        mdtData.forEach((detail) => {
-            updatedFormData[detail.title] = detail.value;
-        });
-        updatedFormData["ReferralType"] = selectedReferralType;
-        updatedFormData["ReferralTypeStage"] = selectedStage.stage;
-        setFormData(updatedFormData);
-    },[patientData,referData])
-
-    const onSubmitHandle = async () =>{
+    const onSubmitHandle = async () =>{debugger;
         openModal();
-        var itemId = await saveData(formData);
+        var itemId = await saveData(details);
         console.log(itemId);
-        var reportsMetadata = {};debugger;
+        var reportsMetadata = {};
         for(var i=0;i < reports.length;i++){
             if(!reportsMetadata.hasOwnProperty(reports[i].name))
             {
@@ -48,7 +33,7 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
     
         await Promise.all(uploadPromises);
         closeModal();
-        onNext();
+        //onNext();
     }
 
     const openModal = () => {
@@ -59,9 +44,16 @@ const SubmitReferral = ({onNext, patientData, referData, diagnosisData, mdtData,
         setIsModalOpen(false);
     };
 
+    const handleBack = () => {
+        dispatch(setReferralSubmissionStep(currentStep-1))
+    }
+
     return(
         <div className="container-submit">
-            <h3 className="detailsHeader">Submit Referral</h3>
+            <div style={{display: 'inline-block',width:'100%'}}>
+                <h3 className="detailsHeader" style={{float:'left'}}>Submit Referral</h3>
+                <button onClick={handleBack} className="backbtn" style={{float:'right'}}>Back</button>
+            </div>
             <p>Delcaration to be Agreed.</p>
             <p>Thank you for making the referral today. Please note this will be reviewed by a Caltterbridge consultant and you
                 will be notified if the referral has been accepted.
