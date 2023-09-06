@@ -45,7 +45,7 @@ const ChooseStages = () => {
             fetchStages();
         }
         filterStagesOnReferralType();
-    },[]);
+    },[stagesMasterData]);
     
     const openModal = () => {
         setIsModalOpen(true);
@@ -74,26 +74,28 @@ const ChooseStages = () => {
         }, {});
         const finalStages = Object.values(groupedStages);
         setStages(finalStages);
-        closeModal();
     }
 
     const fetchStages = async () => {
         setShowCloseButton(false);
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
-        var stages = await getReferralTypeStages();//checkonce
-        /*var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
-        {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
-        {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
-        {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
-        {title: 'Breast', stage: 'Stage IV', report: 'Report 3'},
-        {title: 'Lung', stage: 'Stage I-II', report: 'Report 11'},
-        {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
-        {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
-        {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
-        {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];*/
-        
-        dispatch(setStagesList(stages))
+        setTimeout(async ()=> {
+            var stages = await getReferralTypeStages();//checkonce
+            /*var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+            {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
+            {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
+            {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
+            {title: 'Breast', stage: 'Stage IV', report: 'Report 3'},
+            {title: 'Lung', stage: 'Stage I-II', report: 'Report 11'},
+            {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
+            {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
+            {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
+            {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];*/
+            
+            dispatch(setStagesList(stages))
+            closeModal();
+        },100)
     }
 
     const handleBack = () => {
