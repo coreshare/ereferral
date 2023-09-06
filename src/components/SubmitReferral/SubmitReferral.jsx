@@ -33,6 +33,7 @@ const SubmitReferral = () => {
     
         await Promise.all(uploadPromises);
         closeModal();
+        dispatch(setReferralSubmissionStep(currentStep + 1))
         //onNext();
     }
 
