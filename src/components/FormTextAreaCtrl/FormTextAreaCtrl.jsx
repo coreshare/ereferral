@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import "./FormTextAreaCtrl.css"
 
-const FormTextAreaCtrl = ({label, onChangeText, title, value}) => {
+const FormTextAreaCtrl = ({label, onChangeText, title, value, ctrlWidth}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
 
   const onChangeHandle = (e) => {
@@ -11,7 +11,8 @@ const FormTextAreaCtrl = ({label, onChangeText, title, value}) => {
   return (
     <div className="detailsform">
       <label>{label}</label><br/>
-      <textarea className="textarea" type="text" onChange={onChangeHandle} value={textboxvalue} rows={4} />
+      <textarea className="textarea" type="text" onChange={onChangeHandle} value={textboxvalue} rows={4} 
+        style={{width: ctrlWidth}} />
     </div>
   )
 }

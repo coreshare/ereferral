@@ -1,5 +1,7 @@
 .App, body {
   background-color: #F1F1F1;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue' !important;
 }
 
 .App-logo {
@@ -36,4 +38,6 @@
   }
 }
 .backbtn{background-color: transparent;border: 0px;cursor: pointer;font-weight: 600;font-size: 20px;}
+.buttonCtrl{float: right;background-color: green;color: white;font-size: 20px;font-weight: 600;padding: 10px 20px;
+  border-radius: 5px;border: 0px;cursor: pointer;}
 

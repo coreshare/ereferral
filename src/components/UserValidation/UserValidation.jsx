@@ -26,10 +26,9 @@ const UserValidation = () => {
         <div class="container">
             <div class="vertical-center">
                 <p>
-                    <img src={ClatterbridgeLogo} style={{width: '400px'}}/>
+                    <img src={ClatterbridgeLogo} style={{width: '320px'}}/>
                 </p>
                 <p class="boldtxt" style={{ lineHeight: '50px', fontSize: '30px', marginTop: '0px' }}>
-                    Clatterbridge Cancer Centre<br />
                     Patient Referral Portal
                 </p>
                 {currentStep === 0 && <EmailOTPRequest />}

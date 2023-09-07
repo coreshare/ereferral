@@ -7,7 +7,14 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const currentStep = useSelector(state => state.appStep)
+
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    e.returnValue = 'e-Referral details will not be saved';
+  };
   
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
   return (
     <div className="App">
       {currentStep === 0 && <UserValidation />}

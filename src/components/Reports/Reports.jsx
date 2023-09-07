@@ -20,25 +20,42 @@ const Reports = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPDFModalOpen, setIsPDFModalOpen] = useState(false)
   const [showCloseButton, setShowCloseButton] = useState(true)
+  const [modalText, setModalText] = useState("")
+  const [isConfirmation, setIsConfirmation] = useState(true)
   const [reportFileToDelete,setReportFileToDelete] = useState(null)
   const [reportIndex, setReportIndex] = useState(reportslist.length)
   const currentStep = useSelector(state => state.referralSubmissionStep)
+  const [confirmationType, setConfirmationType] = useState("")
+  const [reportNameToAdd, setReportNameToAdd] = useState("")
+  const [confirmationBtnText, setConfirmationBtnText] = useState("")
   
   const handleAddDuplicateReport = (e) => {
+    setConfirmationBtnText("Add")
+    setConfirmationType("Add-Report")
+    setModalText("Do you want to proceed to add an additional report?");
+    setShowCloseButton(false)
+    setIsConfirmation(true);
+    openModal();
+    setReportNameToAdd(e.target.title)
+  }
+
+  const addAnAdditionalReportRow = () => {
     const newIndex = reportIndex + 1;
-    const newReport = { ReportName: e.target.title, IsMain: false, ReportIndex: newIndex };
+    const newReport = { ReportName: reportNameToAdd, IsMain: false, ReportIndex: newIndex };
     
-    const existingReport = reportslist.find((report) => report.ReportName === e.target.title && !files.some((file) => file.ReportIndex === report.ReportIndex));
+    const existingReport = reportslist.find((report) => report.ReportName === reportNameToAdd && !files.some((file) => file.ReportIndex === report.ReportIndex));
     if (existingReport) {
       alert("Cannot add duplicate report without a file.");
       return;
     }
     
-    const updatedReports = [...reportslist, newReport];
-
+    const updatedReports = [...reportslist];
+    const relatedReportIndex = updatedReports.findIndex((report) => report.ReportName === newReport.ReportName);
+    updatedReports.splice(relatedReportIndex + 1, 0, newReport);
+    
     setReportIndex(newIndex);
-    dispatch(updateReportsList(updatedReports.sort((a, b) => a.ReportName.localeCompare(b.ReportName))))
-    //setReportsList(updatedReports.sort((a, b) => a.ReportName.localeCompare(b.ReportName)));
+    dispatch(updateReportsList(updatedReports))
+    setReportNameToAdd("")
   }
 
   useEffect(() => {
@@ -51,7 +68,6 @@ const Reports = () => {
       })
       reportstemp.sort((a, b) => a.ReportName.localeCompare(b.ReportName));
       dispatch(updateReportsList(reportstemp))
-      //setReportsList(reportstemp)
     }
   },[])
 
@@ -101,7 +117,6 @@ const Reports = () => {
 
     const newStage = { ReportName: report, ReportFile: droppedFile, ReportIndex: reportIndex };
     const updatedFiles = files.filter((file) => file.ReportIndex !== reportIndex);
-    //setFiles([...updatedFiles, newStage]);
     dispatch(updateFiles([...updatedFiles, newStage]))
   };
 
@@ -133,6 +148,11 @@ const Reports = () => {
 
     const handleDeleteFile = (e, hasFile, isMain) => {
         if(hasFile){
+          setConfirmationBtnText("Delete")
+          setShowCloseButton(false)
+          setConfirmationType("Delete-File")
+          setModalText("Are you sure to delete the file?");
+          setIsConfirmation(true);
           openModal();
           setReportFileToDelete(e.target.title);
         }
@@ -141,22 +161,28 @@ const Reports = () => {
             report.ReportIndex !== parseInt(e.target.title)
           );
           dispatch(updateReportsList(updatedReports))
-          //setReportsList(updatedReports);
         }
     }
     
-    const confirmDelete = (confirmedToDelete) => {
-        if(confirmedToDelete){
-            const updatedFiles = files.filter(file => file.ReportIndex !== parseInt(reportFileToDelete));
-            dispatch(updateFiles(updatedFiles))
-            //setFiles(updatedFiles);
-            const updateReports = reportslist.filter(report => 
-              report.ReportIndex !== parseInt(reportFileToDelete) || report.IsMain)
-            dispatch(updateReportsList(updateReports))
-            //setReportsList(updateReports)
+    const deleteFile = () => {
+      const updatedFiles = files.filter(file => file.ReportIndex !== parseInt(reportFileToDelete));
+      dispatch(updateFiles(updatedFiles))
+      const updateReports = reportslist.filter(report => report.ReportIndex !== parseInt(reportFileToDelete) || report.IsMain)
+      dispatch(updateReportsList(updateReports))
+      setReportFileToDelete(null);
+    }
+
+    const handleConfirmation = (isConfirmed) => {
+      if(isConfirmed){
+        if(confirmationType == "Delete-File")
+        {
+          deleteFile()
         }
-        setReportFileToDelete(null);
-        closeModal();
+        else if(confirmationType == "Add-Report"){
+          addAnAdditionalReportRow();
+        }
+      }
+      closeModal();
     }
 
   return (
@@ -174,10 +200,10 @@ const Reports = () => {
           return (
             <div style={{display:'flex'}}>
                 <div style={{width:'80px',display:'flex',alignItems:'center',height:'40px'}}>{hasFile && <>
-                  <img src={viewIcon} title={report.ReportName} onClick={handlePDFView} 
-                  style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px'}}/>
                   {report.IsMain && <img src={addReport} title={report.ReportName} onClick={handleAddDuplicateReport} 
                   style={{width: '30px',cursor: 'pointer',marginRight:'5px'}}/>}
+                  <img src={viewIcon} title={report.ReportName} onClick={handlePDFView} 
+                  style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px'}}/>
                   </>
                 }</div>
                 <div
@@ -191,7 +217,7 @@ const Reports = () => {
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex)}
                 >
-                {report.ReportIndex}.{report.ReportName}{hasFile && " - "}{hasFile && filename}
+                {!report.IsMain && "Additional"} {report.ReportName}{hasFile && " - "}{hasFile && filename}
                 </div>
                 {(hasFile || !report.IsMain) && <div><img src={deleteIcon} title={report.ReportIndex} 
                   onClick={(e) => {handleDeleteFile(e, hasFile, report.IsMain)}} style={{width: '25px',margin:'7px 0px 0px 5px',cursor:'pointer'}}/></div>}
@@ -206,9 +232,9 @@ const Reports = () => {
         <button onClick={handleNext}>Next</button>
         <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
       </div>
-      <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false} isConfirmation={true} 
-      confirmationFn={confirmDelete}>
-        Are you sure to delete the file?
+      <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation} 
+      confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText}>
+        {modalText}
       </ModalDialog>
     </div>
   );

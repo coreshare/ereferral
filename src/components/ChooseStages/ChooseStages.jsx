@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import "./ChooseStages.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
-import { getReferralTypeStages } from "../../Services/api";
+import { getReferralTypeStages, sendEmail } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch,useSelector } from "react-redux";
 import { setStage, setStagesList } from "./StagesSlice";
@@ -14,14 +14,17 @@ const ChooseStages = () => {
     const dispatch = useDispatch();
     const selectedReferralType = useSelector((state) => state.referralType)
     const selectedStage = useSelector(state => state.stage.currentStage)
+    const reportslist = useSelector(state => state.reports.reportsList)
     
     const refTypeStageStep = useSelector(state => state.referralTypeStageStep)
     const stagesMasterData = useSelector(state => state.stage.stagesData)
     const [stages, setStages] = useState([])
+    const userEmail = useSelector(state => state.email)
+    const currentStep = useSelector(state => state.referralTypeStageStep)
 
     //const [stages, setStages] = useState([])
     //const [selectedStage, setSelectedStage] = useState(selectedReferralState);
-    const [agreed, setAgreed] = useState("");
+    //const [agreed, setAgreed] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCloseButton,setShowCloseButton] = useState(true);
     const [modalText, setModalText] = useState("");
@@ -91,7 +94,12 @@ const ChooseStages = () => {
             {title: 'Lung', stage: 'Stage III', report: 'Report 22'},
             {title: 'Lung', stage: 'Stage IV', report: 'Report 33'},
             {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44'},
-            {title: 'Lung', stage: 'Thymoma', report: 'Report 55'}];*/
+            {title: 'Lung', stage: 'Thymoma', report: 'Referral Letter or MDT Outcome'},
+            {title: 'Lung', stage: 'Thymoma', report: 'IPT Form if Relevant'},
+            {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy'},
+            {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS'},
+            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1'},
+            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1'}];*/
             
             dispatch(setStagesList(stages))
             closeModal();
@@ -103,27 +111,34 @@ const ChooseStages = () => {
         //goBack();
     }
 
-    const handleCreateReferral = () => {
+    const handleNext = () => {
         if(selectedStage == null){
             setShowCloseButton(true);
             setModalText("Select Stage");
             openModal();
             return;
         }
-        if(agreed != "Yes"){
-            setShowCloseButton(true);
-            setModalText("Select declaration");
-            openModal();
-            return;
-        }
-        dispatch(setAppStep(2))
+        dispatch(setReferralTypeStageStep(currentStep + 1))
     }
 
-    const handleAgreedClick = (e) => {
-        if(e.target.value){
-            setAgreed("Yes");
+    const handleSendEmailWithReportsList = () => {
+        if(selectedStage != null){
+            showCloseButton(false)
+            setModalText("Sending email... Please wait.")
+            openModal()
+            setTimeout(async() => {
+                await sendEmail(userEmail,"Reports List", "<p>Please find the below list of reports need documents to attach to your referral for " + 
+                    selectedStage.title + " cancer and " + selectedStage.stage + " stage.</p>" + "<p>" + reportslist.map(report => {
+                    return "<div>" +  report.ReportIndex + ". " + report.ReportName + "</div>"
+                    }) + "</p>")
+                closeModal()
+            },100)
         }
-        else{setAgreed("No");}
+        else{
+            setModalText("Select a stage");
+            setShowCloseButton(true)
+            openModal();
+        }
     }
 
     return(
@@ -131,7 +146,11 @@ const ChooseStages = () => {
             <div className="choosestage-container">
                 <div className="choosestage-header">
                     <div style={{float: 'left'}}>Please choose a {selectedReferralType} Cancer stage</div>
-                    <div style={{float: 'right'}}><button onClick={handleBack} className="backbtn">Back</button></div>
+                    <div style={{float: 'right'}}>
+                        <button onClick={handleNext} className="buttonCtrl">Next</button>
+                        <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>
+                        {/*<ButtonCtrl className="buttonCtrl" btnText="Next" btnClickHandler={handleCreateReferral} />*/}
+                    </div>
                 </div>
                 <div className="choosestage-gallery">
                     <div className="leftColumn">
@@ -157,13 +176,15 @@ const ChooseStages = () => {
                     </div>
                 </div>
                 <div className="agreeTerm">
-                    The patient has been discussed at an MDT Meeting with all results, stage defined, treatment proposal and 
+                    {/*The patient has been discussed at an MDT Meeting with all results, stage defined, treatment proposal and 
                     referral to CCC agreed?
-                    <input type="checkbox" onClick={handleAgreedClick} />
+                    <input type="checkbox" onClick={handleAgreedClick} />*/}
+                    Send an email that contains list of documents for submitting referral
+                    <button className="buttonCtrl" onClick={handleSendEmailWithReportsList}>Send email</button>
                 </div>
-                <div style={{float: 'right'}}>
+                {/*<div style={{float: 'right'}}>
                     <ButtonCtrl className="btnCreate" btnText="Create a Referral" btnClickHandler={handleCreateReferral} />
-                </div>
+                </div>*/}
                 <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
                     <p>{modalText}</p>
                 </ModalDialog>

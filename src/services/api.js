@@ -80,6 +80,31 @@ export const generateOTP = async (emailval) => {
   }
 };
 
+export const sendEmail = async (email, subject, emailText) => {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("subject", subject);
+  formData.append("emailText", emailText);
+
+  try {
+    const response = await fetch(`${BASE_URL}/Email`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text();
+
+    console.log("Response:", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const validateOTP = async (otpval) => {
   const formData = new FormData();
   formData.append("otp", otpval);

@@ -5,43 +5,45 @@ import ModalDialog from "../ModalDialog/ModalDialog";
 import { validateDomain, generateOTP } from "../../Services/api";
 import { useDispatch } from "react-redux";
 import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
+import { setEmail } from "./EmailSlice";
 
 const EmailOTPRequest = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [email, setEmail] = useState("");
+    const [emailId, setEmailId] = useState("");
     const [modalText, setModalText] = useState("");
     const [showCloseButton,setShowCloseButton] = useState(true)
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const dispatch = useDispatch()
 
     const handleEmailOTPRequest = async () =>{
-        if(email == "" || !(emailPattern.test(email))){
+        if(emailId == "" || !(emailPattern.test(emailId))){
             setShowCloseButton(true)
             setModalText("Enter valid email address")
             openModal();
             return;
         }
         else{
-            const atIndex = email.indexOf("@");
+            const atIndex = emailId.indexOf("@");
             var domain = "";
             if (atIndex !== -1) {
-                domain = email.slice(atIndex + 1);
+                domain = emailId.slice(atIndex + 1);
             }
             setShowCloseButton(false)
             setModalText("Validating email... Please wait.")
             openModal();
             var isValid = await validateDomain(domain);
+            //if((isValid==undefined || isValid == "Not valid") && false){//checkonce
             if(isValid==undefined || isValid == "Not valid"){
                 setShowCloseButton(true)
                 setModalText("Entered email is not valid.")
                 //openModal();
                 return;
             }
-            else{
+            else{debugger;
                 setShowCloseButton(false)
                 setModalText("Sending OTP... Please wait.")
-                //openModal();
-                await generateOTP(email);
+                dispatch(setEmail(emailId))
+                await generateOTP(emailId);
                 closeModal();
                 dispatch(setUserValidationStep(1))
             }
@@ -59,7 +61,7 @@ const EmailOTPRequest = () =>{
     };
 
     const onChangeText = (email) => {
-        setEmail(email)
+        setEmailId(email)
     }
 
     return(

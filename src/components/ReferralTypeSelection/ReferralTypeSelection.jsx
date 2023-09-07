@@ -5,6 +5,7 @@ import ChooseStages from "../ChooseStages/ChooseStages";
 import Header from "../Header/Header";
 import "./ReferralTypeSelection.css"
 import { useSelector } from "react-redux";
+import Questionnaire from "../Questionnaire/Questionnaire";
 
 const ReferralTypeSelection = () => {
     const currentStep = useSelector(state => state.referralTypeStageStep)
@@ -15,6 +16,7 @@ const ReferralTypeSelection = () => {
             {currentStep === 0 && <HomeVideo />}
             {currentStep === 1 && <ChooseReferralType />}
             {currentStep === 2 && <ChooseStages />}
+            {currentStep === 3 && <Questionnaire />}
         </div>
     )
 }

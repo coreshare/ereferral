@@ -37,9 +37,11 @@ const DiagnosisDetails = ({onNext,onBack}) => {
                     </div>
                 </div>
                 <div style={{display:'inline-block',width:'856px'}}><br/>
-                    <FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={details && details.PathwayInformation}/><br/>
-                    <FormTextAreaCtrl label="Upgrade/Screening/62 Day - including PPI/UPI number/Clock start date" onChangeText={onChangeTextHandle} title="UpgradeScreening" value={details && details.UpgradeScreening}/><br/>
-                    <FormTextAreaCtrl label="Diagnostics" onChangeText={onChangeTextHandle} title="Diagnostics" value={details && details.Diagnostics}/>
+                    <FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={details && details.PathwayInformation} ctrlWidth="860px"/><br/>
+                    <FormTextAreaCtrl label="Upgrade/Screening/62 Day - including PPI/UPI number/Clock start date" onChangeText={onChangeTextHandle} title="UpgradeScreening" 
+                    value={details && details.UpgradeScreening} ctrlWidth="860px"/><br/>
+                    <FormTextAreaCtrl label="Diagnostics" onChangeText={onChangeTextHandle} title="Diagnostics" 
+                    value={details && details.Diagnostics} ctrlWidth="860px"/>
                 </div>
             </div>
             
