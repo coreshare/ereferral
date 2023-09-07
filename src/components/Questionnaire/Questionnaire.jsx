@@ -7,6 +7,7 @@ import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { setAppStep } from "../AppSlice";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
 const Questionnaire = () => {
     const dispatch = useDispatch()
@@ -44,6 +45,7 @@ const Questionnaire = () => {
             openModal();
             return;
         }
+        dispatch(setReferralSubmissionStep(0))
         dispatch(setAppStep(2))
     }
 
