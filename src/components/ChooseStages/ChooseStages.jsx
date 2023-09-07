@@ -128,8 +128,9 @@ const ChooseStages = () => {
             openModal()
             setTimeout(async() => {
                 await sendEmail(userEmail,"Reports List", "<p>Please find the below list of reports need documents to attach to your referral for " + 
-                    selectedStage.title + " cancer and " + selectedStage.stage + " stage.</p>" + "<p>" + reportslist.map(report => {
-                    return "<div>" +  report.ReportIndex + ". " + report.ReportName + "</div>"
+                    selectedStage.title + " cancer and " + selectedStage.stage + " stage.</p>" + "<p>" + 
+                    reportslist.map(report => {
+                        return "<div>" +  report.ReportIndex + ". " + report.ReportName + "</div>"
                     }) + "</p>")
                 closeModal()
             },100)

@@ -72,6 +72,18 @@ const Reports = () => {
   },[])
 
   const handleNext = () => {
+    const mainReports = reportslist.filter((report) => report.IsMain);
+    const mainReportsWithFiles = mainReports.every((mainReport) =>
+      files.some((file) => file.ReportIndex === mainReport.ReportIndex)
+    );
+
+    if (!mainReportsWithFiles) {
+      setModalText("Please upload files for all reports before proceeding")
+      setShowCloseButton(true)
+      setIsConfirmation(false)
+      openModal()
+      return;
+    }
     dispatch(setReferralSubmissionStep(currentStep + 1))
   };
 

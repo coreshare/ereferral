@@ -29,6 +29,12 @@ const Questionnaire = () => {
     };
 
     const handleNext = () => {
+        if(discussedAtMDT == undefined || awareOfDiagnosis == undefined || overseasPatient == undefined){
+            setShowCloseButton(true);
+            setModalText("Complete questionnaire");
+            openModal()
+            return
+        }
         if(discussedAtMDT == 'No' || awareOfDiagnosis == 'No'){
             setShowCloseButton(true);
             if(discussedAtMDT == 'No')
