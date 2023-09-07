@@ -29,11 +29,11 @@ const MDTDetails = ({onNext,onBack}) => {
                 <h3 className="detailsHeader">MDT Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div>
-                        <FormCheckBoxCtrl label="Is the Patient Aware of Diagnosis?" onChangeText={onChangeTextHandle} title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/><br/>
+                        {/*<FormCheckBoxCtrl label="Is the Patient Aware of Diagnosis?" onChangeText={onChangeTextHandle} title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/><br/>
                         <FormCheckBoxCtrl label="Overseas Patient?" onChangeText={onChangeTextHandle} title="OverseasPatient" value={details && details.OverseasPatient}/><br/>                        
-                        <FormCheckBoxCtrl label="Has Assessment been Completed?" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/><br/>
+                        <FormCheckBoxCtrl label="Has Assessment been Completed?" onChangeText={onChangeTextHandle} title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/><br/>*/}
                         <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" value={details && details.MDTComments} ctrlWidth="860px"/><br/>
-                        <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} title="OutcomeofAssessment" value={details && details.OutcomeofAssessment} ctrlWidth="860px"/>
+                        {/*<FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} title="OutcomeofAssessment" value={details && details.OutcomeofAssessment} ctrlWidth="860px"/>*/}
                     </div>
                 </div>
             </div>

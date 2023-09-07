@@ -12,9 +12,9 @@
   
   .modal-content {
     background-color: white;
-    padding: 20px;
+    padding: 30px 30px;
     border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, 0.5);
     min-width: 300px;
     text-align: center;
   }

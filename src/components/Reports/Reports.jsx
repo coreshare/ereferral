@@ -28,6 +28,9 @@ const Reports = () => {
   const [confirmationType, setConfirmationType] = useState("")
   const [reportNameToAdd, setReportNameToAdd] = useState("")
   const [confirmationBtnText, setConfirmationBtnText] = useState("")
+  const [reportHeaderOnPreview, setReportHeaderOnPreview] = useState("")
+  const [clickedReport, setClickedReport] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null)
   
   const handleAddDuplicateReport = (e) => {
     setConfirmationBtnText("Add")
@@ -135,6 +138,7 @@ const Reports = () => {
   const handlePDFView = (e) => {
     openPDFModal();
     var reportName = e.target.title;
+    setReportHeaderOnPreview(reportName)
     files.map(file =>{
         if(file.ReportName == reportName){
             setFileToView(file.ReportFile);
@@ -184,6 +188,26 @@ const Reports = () => {
       setReportFileToDelete(null);
     }
 
+    const replaceFileOnReport = (report, selFile) => {debugger;
+      if(clickedReport)
+      {
+        report = clickedReport
+      }
+      if(selectedFile)
+      {
+        selFile = selectedFile
+      }
+      const newFile = {
+        ReportName: report.ReportName,
+        ReportFile: selFile,
+        ReportIndex: report.ReportIndex,
+      };
+      const updatedFiles = files.filter((file) => file.ReportIndex !== report.ReportIndex);
+      dispatch(updateFiles([...updatedFiles, newFile]));
+      setClickedReport(null)
+      setSelectedFile(null)
+    }
+
     const handleConfirmation = (isConfirmed) => {
       if(isConfirmed){
         if(confirmationType == "Delete-File")
@@ -193,14 +217,45 @@ const Reports = () => {
         else if(confirmationType == "Add-Report"){
           addAnAdditionalReportRow();
         }
+        else if(confirmationType == "Replace-File"){
+          replaceFileOnReport();
+        }
       }
       closeModal();
     }
 
+    const handleFileUpload = (e, report) => {
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = ".pdf";
+      fileInput.click();
+  
+      fileInput.addEventListener("change", (event) => {debugger;
+        const selFile = event.target.files[0];
+        if (selFile) {
+          const existingFile = files.find((file) => file.ReportIndex === report.ReportIndex);
+          setClickedReport(report)
+          setSelectedFile(selFile)
+          if (existingFile) {
+            setConfirmationBtnText("Yes")
+            setConfirmationType("Replace-File")
+            setModalText("This report already has a file. Do you want to replace it?");
+            setShowCloseButton(false)
+            setIsConfirmation(true);
+            openModal();
+          }
+          else{
+            replaceFileOnReport(report,selFile);
+          }
+        }
+      });
+    };
+
   return (
     <div>
       <div style={{ float: "left" }}>
-        <h3 className="detailsHeader">Reports</h3>
+        <h3 className="detailsHeader" style={{marginBottom:'5px'}}>Reports</h3>
+        <span>Please drag and drop the required documents to the sections or click on sections below</span><br/><br/>
         {reportslist.map((report, index) => {
           const hasFile = files.some((file) => file.ReportIndex === report.ReportIndex);
           var filename = null;
@@ -211,11 +266,11 @@ const Reports = () => {
 
           return (
             <div style={{display:'flex'}}>
-                <div style={{width:'80px',display:'flex',alignItems:'center',height:'40px'}}>{hasFile && <>
+                <div style={{width:'80px',display:'block',alignItems:'right',height:'40px',textAlign:'right'}}>{hasFile && <>
                   {report.IsMain && <img src={addReport} title={report.ReportName} onClick={handleAddDuplicateReport} 
-                  style={{width: '30px',cursor: 'pointer',marginRight:'5px'}}/>}
+                  style={{width: '30px',cursor: 'pointer',marginRight:'5px',marginTop:'5px'}}/>}
                   <img src={viewIcon} title={report.ReportName} onClick={handlePDFView} 
-                  style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px'}}/>
+                  style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px',marginTop:'8px'}}/>
                   </>
                 }</div>
                 <div
@@ -228,6 +283,7 @@ const Reports = () => {
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex)}
+                onClick={() => handleFileUpload(null, report)}
                 >
                 {!report.IsMain && "Additional"} {report.ReportName}{hasFile && " - "}{hasFile && filename}
                 </div>
@@ -236,7 +292,7 @@ const Reports = () => {
             </div>
           );
         })}
-        {fileToView && <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true}>
+        {fileToView && <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
             <PDFViewer file={fileToView}></PDFViewer>
         </PDFModalDialog>}
       </div>

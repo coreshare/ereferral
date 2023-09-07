@@ -70,7 +70,7 @@ const Questionnaire = () => {
         <div>
             <div className="choosestage-container">
                 <div className="choosestage-header">
-                    <div style={{float: 'left'}}>Questionnaire</div>
+                    <div style={{float: 'left'}}>Please confirm the following</div>
                     <div style={{float: 'right'}}>
                         <button onClick={handleNext} className="buttonCtrl">Next</button>
                         <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>
@@ -123,7 +123,7 @@ const Questionnaire = () => {
                 </div>
             
                 <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
-                    <p>{modalText}</p>
+                    {modalText}
                 </ModalDialog>
         </div>
         </div>

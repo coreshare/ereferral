@@ -1,7 +1,7 @@
 import React from 'react';
 import './PDFModalDialog.css';
 
-const PDFModalDialog = ({ isOpen, onClose, showCloseButton, children }) => {
+const PDFModalDialog = ({ isOpen, onClose, showCloseButton, header, children }) => {
   if (!isOpen) {
     return null;
   }
@@ -13,6 +13,7 @@ const PDFModalDialog = ({ isOpen, onClose, showCloseButton, children }) => {
   return (
     <div className="modal-overlay-pdf">
       <div className="modal-content-pdf">
+        <span style={{fontWeight:'bold',fontSize:'22px'}}>{header}</span><br/><br/>
         {children}<br/>
         {showCloseButton && <button style={{marginTop: '0px'}} className="btn-primary close-button" onClick={onClose}>
           Close
