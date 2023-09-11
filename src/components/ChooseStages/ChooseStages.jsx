@@ -123,7 +123,7 @@ const ChooseStages = () => {
 
     const handleSendEmailWithReportsList = () => {
         if(selectedStage != null){
-            showCloseButton(false)
+            setShowCloseButton(false)
             setModalText("Sending email... Please wait.")
             openModal()
             setTimeout(async() => {
