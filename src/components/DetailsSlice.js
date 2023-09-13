@@ -11,8 +11,11 @@ const detailsSlice = createSlice({
         // Use object assignment to update or create properties
         state[title] = value;
         },
+        resetDetails: (state) => {
+            return {};
+        },
     },
 });  
 
-export const { updateDetails } = detailsSlice.actions;
+export const { updateDetails, resetDetails } = detailsSlice.actions;
 export default detailsSlice.reducer;

@@ -31,7 +31,7 @@ const PatientDetails = () => {
                 <h3 className="detailsHeader">Patient Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="Surname" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname}/><br/>
+                        <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={details && details.Address} ctrlWidth="322px"/><br/>
                         <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={details && details.DateofBirth} dtWidth="320px"/><br/>

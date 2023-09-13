@@ -4,9 +4,10 @@ import Lung from "../../Images/Lung.png";
 import "./ChooseReferralType.css"
 import { useDispatch, useSelector } from "react-redux";
 import { setReferralType } from "./ChooseReferralTypeSlice";
-import { updateDetails } from "../DetailsSlice";
+import { resetDetails, updateDetails } from "../DetailsSlice";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setStage } from "../ChooseStages/StagesSlice";
+import { resetReports } from "../Reports/ReportsSlice";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
@@ -24,9 +25,11 @@ const ChooseReferralType = () => {
       dispatch(setReferralType(e.target.title));
       let title = "ReferralType"
       let value = e.target.title
+      dispatch(resetDetails())
+      dispatch(resetReports())
       dispatch(updateDetails({title, value}));
       dispatch(setReferralTypeStageStep(currentStep + 1))
-      
+
       if(e.target.title != selectedReferralType){
         dispatch(setStage(null))//add confirmation
       }
