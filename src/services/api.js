@@ -150,6 +150,25 @@ export const validateDomain = async (domainval) => {
   }
 };
 
+export const getNHSNumbers = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/SPData`, {
+      method: "GET"
+    });
+    
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const data = await response.json();
+
+    console.log("Response:", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getReferralTypeStages = async (domainval) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {

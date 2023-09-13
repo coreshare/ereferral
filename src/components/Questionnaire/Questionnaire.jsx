@@ -1,13 +1,17 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDetails } from "../DetailsSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl"
 import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
+import {setNHSNumbers} from "../NHSNumbersSlice"
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { setAppStep } from "../AppSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
+import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
+import FormYesNoBtnsCtrl from "../FormYesNoBtnsCtrl/FormYesNoBtnsCtrl";
+import { getNHSNumbers } from "../../Services/api";
 
 const Questionnaire = () => {
     const dispatch = useDispatch()
@@ -20,6 +24,18 @@ const Questionnaire = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCloseButton,setShowCloseButton] = useState(true);
     const [modalText, setModalText] = useState("");
+    const nhsNumbers = useSelector(state => state.nhsNumbers)
+
+    useEffect(() => {
+        if(nhsNumbers.length == 0){
+            fetchNHSNumbers()
+        }
+    },[])
+
+    const fetchNHSNumbers = async () => {
+        var nhsnos = await getNHSNumbers()
+        setNHSNumbers(nhsnos)
+    }
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -45,8 +61,9 @@ const Questionnaire = () => {
             openModal();
             return;
         }
-        dispatch(setReferralSubmissionStep(0))
-        dispatch(setAppStep(2))
+        //dispatch(setReferralSubmissionStep(0))
+        //dispatch(setAppStep(2))
+        dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
     }
 
     const handleBack = () => {
@@ -54,6 +71,7 @@ const Questionnaire = () => {
     }
 
     const onChangeTextHandle = (title, value) => {
+        
         dispatch(updateDetails({title, value}))
         if(title == "DiscussedatMDT"){
             setDiscussedAtMDT(value)
@@ -66,11 +84,23 @@ const Questionnaire = () => {
         }
     }
 
+    const onBlurTextHandle = (title, value) => {
+        if(title == "NHSNumber"){
+            const numberExists = nhsNumbers.some((nhsNumber) => nhsNumber.Title === value);
+            if(numberExists){
+                alert("yes")
+            }
+            else{
+                alert("no")
+            }
+        }
+    }
+
     return(
         <div>
             <div className="choosestage-container">
                 <div className="choosestage-header">
-                    <div style={{float: 'left'}}>Please confirm the following</div>
+                    <div style={{float: 'left'}}>NHS entitlement assessment & MDT Outcome</div>
                     <div style={{float: 'right'}}>
                         <button onClick={handleNext} className="buttonCtrl">Next</button>
                         <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>
@@ -78,9 +108,15 @@ const Questionnaire = () => {
                     </div>
                 </div>
                 <div style={{display:'inline-block',width:'100%'}}>
+                    <div><FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" 
+                        value={details && details.NHSNumber} ctrlInSameRow={false} lblWidth="480px" ctrlWidth="150px" 
+                        onBlurText={onBlurTextHandle}/></div><br/>
+
                     <div>
-                        <FormSelectCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
-                                    title="DiscussedatMDT" value={details && details.DiscussedatMDT}/>
+                        {/*<FormSelectCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
+                                    title="DiscussedatMDT" value={details && details.DiscussedatMDT}/>*/}
+                        <FormYesNoBtnsCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
+                                    title="DiscussedatMDT" value={details && details.DiscussedatMDT} />
                                     {/* If No, dont allow to go to Next */}
                         {discussedAtMDT === 'No' && (<label>Will not be allowed to continue if No.</label>)}
                     </div>
@@ -95,23 +131,28 @@ const Questionnaire = () => {
                     <br/>
 
                     <div>
-                        <FormSelectCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
-                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/>
-                                    {/* If No, dont allow to go to Next */}
+                        {/*<FormSelectCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
+                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/>*/}
+                        <FormYesNoBtnsCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
+                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis} />
                        
                     </div>
                     <br/>
 
                     <div>
-                        <FormSelectCtrl label="Overseas patient?" onChangeValue={onChangeTextHandle} 
-                                    title="OverseasPatient" value={details && details.OverseasPatient}/>
+                        {/*<FormSelectCtrl label="Overseas patient?" onChangeValue={onChangeTextHandle} 
+                                    title="OverseasPatient" value={details && details.OverseasPatient}/>*/}
+                        <FormYesNoBtnsCtrl label="Overseas patient?" onChangeValue={onChangeTextHandle} 
+                                    title="OverseasPatient" value={details && details.OverseasPatient} />
                        
                     </div>
                     {overseasPatient === 'Yes' && (
                         <><br/>
                             <div>
-                                <FormSelectCtrl label="Has an assessment been carried out?" onChangeValue={onChangeTextHandle} 
-                                    title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/>
+                                {/*<FormSelectCtrl label="NHS Entitlement?" onChangeValue={onChangeTextHandle} 
+                                    title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/>*/}
+                                <FormYesNoBtnsCtrl label="NHS Entitlement?" onChangeValue={onChangeTextHandle} 
+                                            title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted} />
                             </div><br/>
                             <div>
                                 <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} 

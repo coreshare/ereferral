@@ -9,6 +9,7 @@ import { updateDetails } from "../DetailsSlice";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setAppStep } from "../AppSlice";
 import { updateReportsList } from "../Reports/ReportsSlice";
+import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
 const ChooseStages = () => {
     const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const ChooseStages = () => {
     const [stages, setStages] = useState([])
     const userEmail = useSelector(state => state.email)
     const currentStep = useSelector(state => state.referralTypeStageStep)
+    const [isConfirmation, setIsConfirmation] = useState(true)
+    const [confirmationBtnText, setConfirmationBtnText] = useState("")
 
     //const [stages, setStages] = useState([])
     //const [selectedStage, setSelectedStage] = useState(selectedReferralState);
@@ -80,12 +83,13 @@ const ChooseStages = () => {
     }
 
     const fetchStages = async () => {
+        setIsConfirmation(false)
         setShowCloseButton(false);
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
         setTimeout(async ()=> {
-            var stages = await getReferralTypeStages();//checkonce
-            /*var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+            //var stages = await getReferralTypeStages();//checkonce
+            var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
             {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
             {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
             {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
@@ -99,7 +103,7 @@ const ChooseStages = () => {
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy'},
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS'},
             {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1'},
-            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1'}];*/
+            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1'}];
             
             dispatch(setStagesList(stages))
             closeModal();
@@ -118,21 +122,27 @@ const ChooseStages = () => {
             openModal();
             return;
         }
-        dispatch(setReferralTypeStageStep(currentStep + 1))
+        //dispatch(setReferralTypeStageStep(currentStep + 1))
+        dispatch(setReferralSubmissionStep(0))
+        dispatch(setAppStep(2))
     }
 
     const handleSendEmailWithReportsList = () => {
         if(selectedStage != null){
+            //setShowCloseButton(false)
+            //setModalText("Sending email... Please wait.")
+            setConfirmationBtnText("Yes")
+            setModalText("Would you like to receive a list of all reports required to make a referral?");
             setShowCloseButton(false)
-            setModalText("Sending email... Please wait.")
+            setIsConfirmation(true);
             openModal()
             setTimeout(async() => {
-                await sendEmail(userEmail,"Reports List", "<p>Please find the below list of reports need documents to attach to your referral for " + 
+                /*await sendEmail(userEmail,"Reports List", "<p>Please find the below list of reports need documents to attach to your referral for " + 
                     selectedStage.title + " cancer and " + selectedStage.stage + " stage.</p>" + "<p>" + 
                     reportslist.map(report => {
                         return "<div>" +  report.ReportIndex + ". " + report.ReportName + "</div>"
                     }) + "</p>")
-                closeModal()
+                closeModal()*/
             },100)
         }
         else{
@@ -141,6 +151,20 @@ const ChooseStages = () => {
             openModal();
         }
     }
+
+    const handleConfirmation = async (isConfirmed) => {
+        if(isConfirmed){
+            setShowCloseButton(false)
+            setIsConfirmation(false)
+            setModalText("Sending email... Please wait.")
+            await sendEmail(userEmail,"Reports List", "<p>Please find the below list of reports need documents to attach to your referral for " + 
+            selectedStage.title + " cancer and " + selectedStage.stage + " stage.</p>" + "<p>" + 
+            reportslist.map(report => {
+                return "<div>" +  report.ReportIndex + ". " + report.ReportName + "</div>"
+            }) + "</p>")
+        }
+        closeModal();
+      }
 
     return(
         <div>
@@ -186,7 +210,8 @@ const ChooseStages = () => {
                 {/*<div style={{float: 'right'}}>
                     <ButtonCtrl className="btnCreate" btnText="Create a Referral" btnClickHandler={handleCreateReferral} />
                 </div>*/}
-                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
+                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} 
+                    isConfirmation={isConfirmation} confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText}>
                     <p>{modalText}</p>
                 </ModalDialog>
             </div>

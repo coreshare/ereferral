@@ -10,6 +10,7 @@ import referralTypeStageReducer from "./ReferralTypeSlice"
 import referralSubmissionReducer from "./ReferralSubmissionSlice"
 import userValidationReducer from "./UserValidation/UserValidationSlice"
 import emailReducer from "./EmailOTPRequest/EmailSlice"
+import nhsNumbersReducer from "./NHSNumbersSlice";
 
 const rootReducer = combineReducers({
   referralType: referralTypeReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   referralTypeStageStep: referralTypeStageReducer,
   referralSubmissionStep: referralSubmissionReducer,
   userValidationStep: userValidationReducer,
-  email: emailReducer
+  email: emailReducer,
+  nhsNumbers: nhsNumbersReducer
 });
 
 export default rootReducer;

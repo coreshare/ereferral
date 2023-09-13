@@ -15,8 +15,8 @@ const ReferralTypeSelection = () => {
             <Header />
             {currentStep === 0 && <HomeVideo />}
             {currentStep === 1 && <ChooseReferralType />}
-            {currentStep === 2 && <ChooseStages />}
-            {currentStep === 3 && <Questionnaire />}
+            {currentStep === 3 && <ChooseStages />}
+            {currentStep === 2 && <Questionnaire />}
         </div>
     )
 }
