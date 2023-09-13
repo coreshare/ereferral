@@ -39,7 +39,7 @@ const EmailOTPRequest = () =>{
                 //openModal();
                 return;
             }
-            else{debugger;
+            else{
                 setShowCloseButton(false)
                 setModalText("Sending OTP... Please wait.")
                 dispatch(setEmail(emailId))

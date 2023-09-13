@@ -6,7 +6,7 @@ const detailsSlice = createSlice({
     name: "details",
     initialState: {}, // Initial state as an empty object
     reducers: {
-        updateDetails: (state, action) => {
+        updateDetails: (state, action) => {debugger
         const { title, value } = action.payload;
         // Use object assignment to update or create properties
         state[title] = value;

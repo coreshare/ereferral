@@ -31,6 +31,7 @@ const Reports = () => {
   const [reportHeaderOnPreview, setReportHeaderOnPreview] = useState("")
   const [clickedReport, setClickedReport] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
+  const formdata = useSelector(state => state.details)
   
   const handleAddDuplicateReport = (e) => {
     setConfirmationBtnText("Add")
@@ -79,8 +80,8 @@ const Reports = () => {
     const mainReportsWithFiles = mainReports.every((mainReport) =>
       files.some((file) => file.ReportIndex === mainReport.ReportIndex)
     );
-
-    if (!mainReportsWithFiles) {
+debugger
+    if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
       setModalText("Please upload files for all reports before proceeding")
       setShowCloseButton(true)
       setIsConfirmation(false)
@@ -188,7 +189,7 @@ const Reports = () => {
       setReportFileToDelete(null);
     }
 
-    const replaceFileOnReport = (report, selFile) => {debugger;
+    const replaceFileOnReport = (report, selFile) => {
       if(clickedReport)
       {
         report = clickedReport
@@ -230,7 +231,7 @@ const Reports = () => {
       fileInput.accept = ".pdf";
       fileInput.click();
   
-      fileInput.addEventListener("change", (event) => {debugger;
+      fileInput.addEventListener("change", (event) => {
         const selFile = event.target.files[0];
         if (selFile) {
           const existingFile = files.find((file) => file.ReportIndex === report.ReportIndex);

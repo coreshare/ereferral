@@ -13,7 +13,7 @@ const SubmitReferral = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const currentStep = useSelector(state => state.referralSubmissionStep)
     
-    const onSubmitHandle = async () =>{debugger;
+    const onSubmitHandle = async () =>{
         openModal();
         var itemId = await saveData(details);
         console.log(itemId);

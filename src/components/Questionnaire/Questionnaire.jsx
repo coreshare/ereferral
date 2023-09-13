@@ -33,8 +33,8 @@ const Questionnaire = () => {
     },[])
 
     const fetchNHSNumbers = async () => {
-        var nhsnos = await getNHSNumbers()
-        setNHSNumbers(nhsnos)
+        var nhsnos = await getNHSNumbers()//checkonce
+        dispatch(setNHSNumbers(nhsnos))
     }
 
     const openModal = () => {
@@ -86,13 +86,20 @@ const Questionnaire = () => {
 
     const onBlurTextHandle = (title, value) => {
         if(title == "NHSNumber"){
-            const numberExists = nhsNumbers.some((nhsNumber) => nhsNumber.Title === value);
-            if(numberExists){
-                alert("yes")
+            const numberExists = nhsNumbers.some((nhsNumber) => nhsNumber.title === value);
+            if(numberExists)
+            {
+                value = "Yes"
+                setShowCloseButton(true)
+                setModalText("As NHS Number already available, no need to upload all reports again.")
+                openModal()
             }
-            else{
-                alert("no")
+            else
+            {
+                value = "No"
             }
+            title = "IsExistingNHSNumber";
+            dispatch(updateDetails({title, value}))
         }
     }
 

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const nhsNumbersSlice = createSlice({
     name: "nhsNumbers",
-    initialState: [],//checkonce
+    initialState: [],
     reducers: {
         setNHSNumbers: (state, action) => {
             return action.payload;

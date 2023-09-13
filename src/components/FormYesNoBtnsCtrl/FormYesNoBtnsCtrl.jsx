@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import "./FormYesNoBtnsCtrl.css"
 
 const FormYesNoBtnsCtrl = ({label, onChangeValue, title, value}) => {
-  debugger;
+  
   const [selectValue, setSelectValue] = useState(value)
 
   const onChangeHandle = (e) => {
