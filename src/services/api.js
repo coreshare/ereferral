@@ -169,6 +169,26 @@ export const getNHSNumbers = async () => {
   }
 };
 
+
+export const getMasterData = async (type_name) => {
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/${type_name}`, {
+      method: "GET"
+    });
+    
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const data = await response.json();
+
+    console.log("Response:", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getReferralTypeStages = async (domainval) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {

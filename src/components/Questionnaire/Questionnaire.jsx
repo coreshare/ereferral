@@ -33,7 +33,7 @@ const Questionnaire = () => {
     },[])
 
     const fetchNHSNumbers = async () => {
-        var nhsnos = await getNHSNumbers()//checkonce
+        var nhsnos = await getMasterData("NHSNumbers")//getNHSNumbers()//checkonce
         dispatch(setNHSNumbers(nhsnos))
     }
 
