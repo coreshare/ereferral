@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Breast from "../../Images/Breast.png";
 import Lung from "../../Images/Lung.png";
 import "./ChooseReferralType.css"
@@ -8,6 +8,8 @@ import { resetDetails, updateDetails } from "../DetailsSlice";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setStage } from "../ChooseStages/StagesSlice";
 import { resetReports } from "../Reports/ReportsSlice";
+import { getMasterData } from "../../Services/api";
+import { setEthnicity, setMaritalStatuses, setNHSNumbers, setReligions } from "../MasterDataSlice";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
@@ -19,7 +21,45 @@ const ChooseReferralType = () => {
   const dispatch = useDispatch();
   const currentStep = useSelector(state => state.referralTypeStageStep)
   const selectedReferralType = useSelector(state => state.referralType)
+  const listData = useSelector(state => state.masterData)
   
+  //Load master data asynchronously. 
+  useEffect(() => {
+    if(listData.Religions.length == 0){
+      fetchData("NHSNumbers")
+      fetchData("Religions")
+      fetchData("MaritalStatuses")
+      fetchData("Ethnicity")
+    }
+  },[])
+
+  const fetchData = (type_name) => {
+    getMasterData(type_name)
+      .then((data) => {
+        switch (type_name) {
+          case "NHSNumbers":
+            dispatch(setNHSNumbers(data));
+            break;
+          case "Religions":
+            dispatch(setReligions(data));
+            break;
+          case "Ethnicity":
+            dispatch(setEthnicity(data));
+            break;
+          case "MaritalStatuses":
+            dispatch(setMaritalStatuses(data));
+            break;
+          default:
+            console.error(`Unsupported type_name: ${type_name}`);
+        }
+
+        console.log("Response:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const handleImageClick = (e) => {
     if(e.target.title != ""){
       dispatch(setReferralType(e.target.title));

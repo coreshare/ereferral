@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import "./FormSelectCtrl.css"
 
-const FormSelectCtrl = ({label, onChangeValue, title, value}) => {
+const FormSelectCtrl = ({label, onChangeValue, title, value, options}) => {
   const [selectValue, setSelectValue] = useState(value)
 
   const onChangeHandle = (e) => {
@@ -13,8 +13,11 @@ const FormSelectCtrl = ({label, onChangeValue, title, value}) => {
       <label style={{minWidth:'480px'}}>{label}</label>
       <select onChange={onChangeHandle} value={selectValue}>
           <option></option>
-          <option>Yes</option>
-          <option>No</option>{/* If No, dont allow to go to Next */}
+          {options.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
       </select>
     </div>
   )

@@ -71,7 +71,7 @@ const EmailOTPRequest = () =>{
                 <p><ButtonCtrl btnText="Send" btnClickHandler={handleEmailOTPRequest} /></p>
             </center>
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
-                <p>{modalText}</p>
+            {modalText}
             </ModalDialog>
         </div>
     )

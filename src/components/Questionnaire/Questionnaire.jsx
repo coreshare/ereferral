@@ -5,7 +5,7 @@ import { updateDetails } from "../DetailsSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl"
 import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
-import {setNHSNumbers} from "../NHSNumbersSlice"
+import { setNHSNumbers } from "../MasterDataSlice"
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { setAppStep } from "../AppSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
@@ -24,8 +24,8 @@ const Questionnaire = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCloseButton,setShowCloseButton] = useState(true);
     const [modalText, setModalText] = useState("");
-    const nhsNumbers = useSelector(state => state.nhsNumbers)
-
+    const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
+    /*
     useEffect(() => {
         if(nhsNumbers.length == 0){
             fetchNHSNumbers()
@@ -33,9 +33,9 @@ const Questionnaire = () => {
     },[])
 
     const fetchNHSNumbers = async () => {
-        var nhsnos = await getMasterData("NHSNumbers")//getNHSNumbers()//checkonce
+        var nhsnos = [{title: "121212"}]//await getMasterData("NHSNumbers")//getNHSNumbers()//checkonce
         dispatch(setNHSNumbers(nhsnos))
-    }
+    }*/
 
     const openModal = () => {
         setIsModalOpen(true);

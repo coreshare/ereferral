@@ -6,12 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { setAppStep } from "../AppSlice";
+import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 
 const PatientDetails = () => {
     const dispatch = useDispatch()
     const details = useSelector((state) => state.details)
     const currentStep = useSelector(state => state.referralSubmissionStep)
-    const appStep = useSelector(state => state.appStep)
+    const listData = useSelector(state => state.masterData)
+    const [maritalStatusList,setMaritalStatusList] = useState([])
+    
+    useEffect(() => {
+        setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
+            label: status.title,
+            value: status.title
+          })))
+    },[])
 
     const handleNext = () => {
         dispatch(setReferralSubmissionStep(currentStep + 1))
@@ -35,7 +44,7 @@ const PatientDetails = () => {
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={details && details.Address} ctrlWidth="322px"/><br/>
                         <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={details && details.DateofBirth} dtWidth="320px"/><br/>
-                        <FormTextBoxCtrl label="Marital Status" onChangeText={onChangeTextHandle} title="MaritalStatus" value={details && details.MaritalStatus}/><br/>
+                        <FormSelectCtrl label="Marital Status" onChangeValue={onChangeTextHandle} title="MaritalStatus" value={details && details.MaritalStatus} options={maritalStatusList}/><br/>
                         <FormTextBoxCtrl label="Ethnic Origin" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin}/><br/>
                         <FormTextBoxCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion}/><br/>
                         <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber}/>
