@@ -11,7 +11,7 @@ import { setAppStep } from "../AppSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormYesNoBtnsCtrl from "../FormYesNoBtnsCtrl/FormYesNoBtnsCtrl";
-import { getNHSNumbers } from "../../Services/api";
+import { getMasterData } from "../../Services/api";
 
 const Questionnaire = () => {
     const dispatch = useDispatch()
