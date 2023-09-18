@@ -15,11 +15,13 @@ const PatientDetails = () => {
     const listData = useSelector(state => state.masterData)
     const [maritalStatusList,setMaritalStatusList] = useState([])
     
-    useEffect(() => {
-        setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
-            label: status.title,
-            value: status.title
-          })))
+    useEffect(() => {debugger;
+        if(listData.MaritalStatuses){
+            setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
     },[])
 
     const handleNext = () => {

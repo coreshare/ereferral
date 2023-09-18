@@ -132,6 +132,10 @@ const Questionnaire = () => {
                             <FormDateCtrl label="Date at MDT" onChangeText={onChangeTextHandle} title="DateatMDT" 
                             value={details && details.DateatMDT} isSameRow={true} lblMinWidth={'480px'} dtWidth={'150px'}/>
                             
+                        </div><br/>
+                        <div>
+                            <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" 
+                            value={details && details.MDTComments} ctrlWidth="633px"/>
                         </div>
                         </>
                     )}

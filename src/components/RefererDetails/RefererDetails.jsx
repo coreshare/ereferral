@@ -29,7 +29,7 @@ const RefererDetails = () => {
                 <h3 className="detailsHeader">Refer Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="GP Name" onChangeText={onChangeTextHandle} title="GPName" value={details && details.GPName}/><br/>
+                        <FormTextBoxCtrl label="Specified GP" onChangeText={onChangeTextHandle} title="GPName" value={details && details.GPName}/><br/>
                         <FormTextBoxCtrl label="GP Practice Name" onChangeText={onChangeTextHandle} title="GPPractice" value={details && details.GPPractice}/><br/>
                         <FormTextAreaCtrl label="GP Practice Address" onChangeText={onChangeTextHandle} title="GPPracticeAddress" value={details && details.GPPracticeAddress} ctrlWidth="322px"/>
                     </div>
