@@ -15,8 +15,8 @@ const LeftNavForDetails = () => {
             <button onClick={() => handleGoToStep (0)}>Patient Details</button><br/>
             <button onClick={() => handleGoToStep (1)}>Refer Details</button><br/>
             <button onClick={() => handleGoToStep (2)}>Diagnosis Details</button><br/>
-            <button onClick={() => handleGoToStep (3)}>MDT Details</button><br/>
-            <button onClick={() => handleGoToStep (4)}>Reports</button>
+            {/*<button onClick={() => handleGoToStep (3)}>MDT Details</button><br/>*/}
+            <button onClick={() => handleGoToStep (3)}>Reports</button>
         </div>
     )
 }

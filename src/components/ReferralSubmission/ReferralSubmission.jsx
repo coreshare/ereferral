@@ -27,8 +27,8 @@ const ReferralSubmission = () => {
               {currentStep === 0 && <PatientDetails />}
               {currentStep === 1 && <RefererDetails />}
               {currentStep === 2 && <DiagnosisDetails />}
-              {currentStep === 3 && <MDTDetails />}
-              {currentStep === 4 && <Reports />}
+              {/*{currentStep === 3 && <MDTDetails />}*/}
+              {currentStep === 3 && <Reports />}
               {currentStep === 5 && <SubmitReferral />}
               {currentStep === 6 && <SuccessView />}
             </div>

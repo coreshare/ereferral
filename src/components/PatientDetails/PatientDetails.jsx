@@ -14,10 +14,31 @@ const PatientDetails = () => {
     const currentStep = useSelector(state => state.referralSubmissionStep)
     const listData = useSelector(state => state.masterData)
     const [maritalStatusList,setMaritalStatusList] = useState([])
+    const [religionsList,setReligionsList] = useState([])
+    const [ethnicoriginsList,setEthnicoriginsList] = useState([])
+    const [nhsNumbersList,setNHSNumbersList] = useState([])
     
     useEffect(() => {debugger;
         if(listData.MaritalStatuses){
             setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
+        if(listData.Religions){
+            setReligionsList(listData.Religions.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
+        if(listData.Ethnicity){
+            setEthnicoriginsList(listData.Ethnicity.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
+        if(listData.NHSNumbers){
+            setNHSNumbersList(listData.NHSNumbers.map((status) => ({
                 label: status.title,
                 value: status.title
             })))
@@ -47,12 +68,15 @@ const PatientDetails = () => {
                         <FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={details && details.Address} ctrlWidth="322px"/><br/>
                         <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={details && details.DateofBirth} dtWidth="320px"/><br/>
                         <FormSelectCtrl label="Marital Status" onChangeValue={onChangeTextHandle} title="MaritalStatus" value={details && details.MaritalStatus} options={maritalStatusList}/><br/>
-                        <FormTextBoxCtrl label="Ethnic Origin" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin}/><br/>
-                        <FormTextBoxCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion}/><br/>
-                        <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber}/>
+                        <FormSelectCtrl label="Ethnic Origin" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin} options={ethnicoriginsList}/><br/>
+                        <FormSelectCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion} options={religionsList}/><br/>
+                        <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} /><br/><br/>
             
                     </div>
                     <div style={{float:'left'}}>
+                    <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName}/><br/>
+                        <FormTextBoxCtrl label="Home Phone Number" onChangeText={onChangeTextHandle} title="HomePhoneNumber" value={details && details.HomePhoneNumber}/><br/>
+                        <FormTextBoxCtrl label="Mobile Number" onChangeText={onChangeTextHandle} title="MobileNumber" value={details && details.MobileNumber}/><br/>
                         <FormTextBoxCtrl label="Next of Kin Name" onChangeText={onChangeTextHandle} title="NextofKinname" value={details && details.NextofKinname}/><br/>
                         <FormTextBoxCtrl label="Next of Kin Phone Number" onChangeText={onChangeTextHandle} title="NextofKincontactdetails" value={details && details.NextofKincontactdetails}/><br/>
                         <FormTextAreaCtrl label="Next of Kin Address" onChangeText={onChangeTextHandle} title="NextofKinAddress" value={details && details.NextofKinAddress} ctrlWidth="322px"/><br/>

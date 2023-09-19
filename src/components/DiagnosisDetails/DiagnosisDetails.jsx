@@ -4,6 +4,7 @@ import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
+import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 
 const DiagnosisDetails = ({onNext,onBack}) => {
     const dispatch = useDispatch()
@@ -25,23 +26,23 @@ const DiagnosisDetails = ({onNext,onBack}) => {
     return (
         <div className="detailssection">
             <div style={{float:'left',width:'870px'}}>
-                <h3 className="detailsHeader">Diagnosis Details</h3>
+                <h3 className="detailsHeader">Treatment & Target Category</h3>
                 <div style={{display:'inline-block',width:'870px'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="Tumour Location" onChangeText={onChangeTextHandle} title="TumourLocation" value={details && details.TumourLocation}/><br/>
-                        <FormTextBoxCtrl label="Primary Diagnosis" onChangeText={onChangeTextHandle} title="PrimaryDiagnosis" value={details && details.PrimaryDiagnosis}/>
+                        {/*<FormTextBoxCtrl label="Tumour Location" onChangeText={onChangeTextHandle} title="TumourLocation" value={details && details.TumourLocation}/><br/>*/}
                     </div>
                     <div style={{float:'left'}}>
-                        <FormTextBoxCtrl label="CCC Consultant - Medical Oncologist" onChangeText={onChangeTextHandle} title="MedicalOncologistCCCConsultant" value={details && details.MedicalOncologistCCCConsultant}/><br/>
-                        <FormTextBoxCtrl label="CCC Consultant - Clinical Oncologist" onChangeText={onChangeTextHandle} title="ClinicalOncologistCCCConsultant" value={details && details.ClinicalOncologistCCCConsultant}/>
+                        <FormSelectCtrl label="CCC Consultant - Medical Oncologist" onChangeText={onChangeTextHandle} title="MedicalOncologistCCCConsultant" value={details && details.MedicalOncologistCCCConsultant}/><br/>
+                        <FormSelectCtrl label="CCC Consultant - Clinical Oncologist" onChangeText={onChangeTextHandle} title="ClinicalOncologistCCCConsultant" value={details && details.ClinicalOncologistCCCConsultant}/>
                     </div>
                 </div>
                 <div style={{display:'inline-block',width:'856px'}}><br/>
-                    <FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={details && details.PathwayInformation} ctrlWidth="860px"/><br/>
+                    <FormTextAreaCtrl label="Primary Diagnosis" onChangeText={onChangeTextHandle} title="PrimaryDiagnosis" value={details && details.PrimaryDiagnosis} ctrlWidth="860px"/><br/>
+                    {/*<FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={details && details.PathwayInformation} ctrlWidth="860px"/><br/>*/}
                     <FormTextAreaCtrl label="Upgrade/Screening/62 Day - including PPI/UPI number/Clock start date" onChangeText={onChangeTextHandle} title="UpgradeScreening" 
                     value={details && details.UpgradeScreening} ctrlWidth="860px"/><br/>
-                    <FormTextAreaCtrl label="Diagnostics" onChangeText={onChangeTextHandle} title="Diagnostics" 
-                    value={details && details.Diagnostics} ctrlWidth="860px"/>
+                    {/*<FormTextAreaCtrl label="Diagnostics" onChangeText={onChangeTextHandle} title="Diagnostics" 
+                    value={details && details.Diagnostics} ctrlWidth="860px"/>*/}
                 </div>
             </div>
             
