@@ -105,7 +105,7 @@ const PatientDetails = () => {
                         <FormTextAreaCtrl label="Next of Kin Address" onChangeText={onChangeTextHandle} title="NextofKinAddress" value={details && details.NextofKinAddress} ctrlWidth="322px"/>
                         <br/>
                         <FormSelectCtrl label="Special Indicator" onChangeText={onChangeTextHandle} title="SpecialIndicator" value={details && details.SpecialIndicator} options={specialIndicatorDataList}/><br/>
-                        <FormSelectCtrl label="Communication Requirement" onChangeText={onChangeTextHandle} title="CommunicationRequirement" value={details && details.communicationRequirementDataList} options={religionsList}/><br/>
+                        <FormSelectCtrl label="Communication Requirement" onChangeText={onChangeTextHandle} title="CommunicationRequirement" value={details && details.CommunicationRequirement} options={communicationRequirementDataList}/><br/>
                     </div>
                 </div>
             </div>
