@@ -9,7 +9,7 @@ import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setStage } from "../ChooseStages/StagesSlice";
 import { resetReports } from "../Reports/ReportsSlice";
 import { getMasterData } from "../../Services/api";
-import { setEthnicity, setMaritalStatuses, setNHSNumbers, setReligions } from "../MasterDataSlice";
+import { setClinicalOncologistList, setCommunicationRequirementList, setCovidList, setEthnicity, setMaritalStatuses, setMedicalOncologistList, setNHSNumbers, setReligions, setSpecialIndicatorList, setUpgradeScreeningList } from "../MasterDataSlice";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
@@ -30,6 +30,12 @@ const ChooseReferralType = () => {
       fetchData("Religions")
       fetchData("MaritalStatuses")
       fetchData("Ethnicity")
+      fetchData("MedicalOncologists")
+      fetchData("ClinicalOncologists")
+      fetchData("UpgradeScreening")
+      fetchData("Covid")
+      fetchData("SpecialIndicator")
+      fetchData("CommunicationRequirement")
     }
   },[])
 
@@ -48,6 +54,24 @@ const ChooseReferralType = () => {
             break;
           case "MaritalStatuses":
             dispatch(setMaritalStatuses(data));
+            break;
+          case "MedicalOncologists":
+            dispatch(setMedicalOncologistList(data));
+            break;
+          case "ClinicalOncologists":
+            dispatch(setClinicalOncologistList(data));
+            break;
+          case "UpgradeScreening":
+            dispatch(setUpgradeScreeningList(data));
+            break;
+          case "Covid":
+            dispatch(setCovidList(data));
+            break;
+          case "SpecialIndicator":
+            dispatch(setSpecialIndicatorList(data));
+            break;
+          case "CommunicationRequirement":
+            dispatch(setCommunicationRequirementList(data));
             break;
           default:
             console.error(`Unsupported type_name: ${type_name}`);

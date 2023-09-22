@@ -10,7 +10,7 @@ function App() {
 
   const handleBeforeUnload = (e) => {
     e.preventDefault();
-    e.returnValue = 'e-Referral details will not be saved';
+    e.returnValue = 'You will loose any data if you close the tab / window';
   };
   
   window.addEventListener('beforeunload', handleBeforeUnload);

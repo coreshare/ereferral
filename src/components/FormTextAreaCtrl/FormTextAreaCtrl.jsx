@@ -11,7 +11,7 @@ const FormTextAreaCtrl = ({label, onChangeText, title, value, ctrlWidth}) => {
   return (
     <div className="detailsform">
       <label>{label}</label><br/>
-      <textarea className="textarea" type="text" onChange={onChangeHandle} value={textboxvalue} rows={4} 
+      <textarea className="textarea" type="text" onChange={onChangeHandle} value={textboxvalue} rows={3} 
         style={{width: ctrlWidth}} />
     </div>
   )
