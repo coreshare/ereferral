@@ -51,13 +51,13 @@ const PatientDetails = () => {
                 label: status.title,
                 value: status.title
             })))
-        }
+        }/*
         if(listData.CommunicationRequirement){
             setCommunicationRequirementDataList(listData.CommunicationRequirement.map((status) => ({
                 label: status.title,
                 value: status.title
             })))
-        }
+        }*/
         if(listData.SexOptions){
             setSexDataList(listData.SexOptions.map((status) => ({
                 label: status.title,
