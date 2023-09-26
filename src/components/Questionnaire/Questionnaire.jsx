@@ -71,7 +71,7 @@ const Questionnaire = () => {
     }
 
     const onChangeTextHandle = (title, value) => {
-        
+        debugger;
         dispatch(updateDetails({title, value}))
         if(title == "DiscussedatMDT"){
             setDiscussedAtMDT(value)
@@ -86,7 +86,7 @@ const Questionnaire = () => {
 
     const onBlurTextHandle = (title, value) => {
         if(title == "NHSNumber"){
-            const numberExists = nhsNumbers.some((nhsNumber) => nhsNumber.title === value);
+            const numberExists = nhsNumbers && nhsNumbers.some((nhsNumber) => nhsNumber.title === value);
             if(numberExists)
             {
                 value = "Yes"
@@ -103,6 +103,12 @@ const Questionnaire = () => {
         }
     }
 
+    const treatmentDecisionOptions = [
+        { id: 'Radiotherapy', label: 'Radiotherapy' },
+        { id: 'Systemictreatment', label: 'Systemic treatment' },
+        { id: 'Combinationofsystemictreatmentandradiotherapy', label: 'Combination of systemic treatment and radiotherapy' },
+    ];
+    
     return(
         <div>
             <div className="choosestage-container">
@@ -133,6 +139,21 @@ const Questionnaire = () => {
                             value={details && details.DateatMDT} isSameRow={true} lblMinWidth={'480px'} dtWidth={'150px'}/>
                             
                         </div><br/>
+                        {treatmentDecisionOptions.map((option) => (<>
+                            <div key={option.id}>
+                                <label htmlFor={option.id} style={{minWidth:"475px",display:"inline-block",fontWeight:"600"}}>{option.label}</label>
+                                <input
+                                    type="radio"
+                                    id={option.id}
+                                    title="TreatmentDecision"
+                                    value={details && details.TreatmentDecision}
+                                    checked={details && details.TreatmentDecision === option.label}
+                                    onChange={(e) => onChangeTextHandle("TreatmentDecision", option.label)} 
+                                    style={{height:"20px",width:"20px"}}
+                                />
+                                
+                            </div><br/></>
+                        ))}
                         <div>
                             <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" 
                             value={details && details.MDTComments} ctrlWidth="633px"/>

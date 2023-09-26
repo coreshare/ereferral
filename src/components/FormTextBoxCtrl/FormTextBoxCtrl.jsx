@@ -7,7 +7,7 @@ const FormTextBoxCtrl = ({label, onChangeText, title, value, ctrlInSameRow, lblW
   const onChangeHandle = (e) => {
     var newValue = e.target.value;
     if (disallowSpaces) {
-      newValue = newValue.replace(/\s/g, "");
+      newValue = newValue.replace(/\D/g, "");
     }
     setTextBoxValue(newValue)
     onChangeText(title, newValue)
