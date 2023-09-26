@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from "react"
 import "./FormTextBoxCtrl.css"
 
-const FormTextBoxCtrl = ({label, onChangeText, title, value, ctrlInSameRow, lblWidth, ctrlWidth, onBlurText}) => {
+const FormTextBoxCtrl = ({label, onChangeText, title, value, ctrlInSameRow, lblWidth, ctrlWidth, onBlurText, maxLengthValue, disallowSpaces}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
   
   const onChangeHandle = (e) => {
-    setTextBoxValue(e.target.value)
-    onChangeText(title, e.target.value)
+    var newValue = e.target.value;
+    if (disallowSpaces) {
+      newValue = newValue.replace(/\s/g, "");
+    }
+    setTextBoxValue(newValue)
+    onChangeText(title, newValue)
   }
   const handleOnBlur = (e) => {
     if(onBlurText){
@@ -17,7 +21,8 @@ const FormTextBoxCtrl = ({label, onChangeText, title, value, ctrlInSameRow, lblW
   return (
     <div className="detailsform">
       <label style={lblWidth && { width: lblWidth }}>{label}</label>{ctrlInSameRow !== false && <br />}
-      <input style={ctrlWidth && { width: ctrlWidth }} className="textbox" type="text" onChange={onChangeHandle} onBlur={handleOnBlur} 
+      <input style={ctrlWidth && { width: ctrlWidth }} className="textbox" type="text" onChange={onChangeHandle} 
+      onBlur={handleOnBlur} maxLength={maxLengthValue && maxLengthValue}
       value={textboxvalue} />
     </div>
   )

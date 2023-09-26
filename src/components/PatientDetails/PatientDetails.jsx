@@ -84,7 +84,7 @@ const PatientDetails = () => {
                 <h3 className="detailsHeader">Patient Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} /><br/>
+                        <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} maxLengthValue={10} disallowSpaces={true} /><br/>
                         <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName}/><br/>
@@ -104,8 +104,8 @@ const PatientDetails = () => {
                         <FormTextBoxCtrl label="Address Line 3" onChangeText={onChangeTextHandle} title="AddressLine3" value={details && details.AddressLine3}/><br/>
                         <FormTextBoxCtrl label="Address Line 4" onChangeText={onChangeTextHandle} title="AddressLine4" value={details && details.AddressLine4}/><br/>
                         <FormTextBoxCtrl label="Post Code" onChangeText={onChangeTextHandle} title="PostCode" value={details && details.PostCode}/><br/>
-                        <FormTextBoxCtrl label="Patient Home Phone Number" onChangeText={onChangeTextHandle} title="HomePhoneNumber" value={details && details.HomePhoneNumber}/><br/>
-                        <FormTextBoxCtrl label="Patient Mobile Number" onChangeText={onChangeTextHandle} title="MobileNumber" value={details && details.MobileNumber}/><br/>
+                        <FormTextBoxCtrl label="Patient Home Phone Number" onChangeText={onChangeTextHandle} title="HomePhoneNumber" value={details && details.HomePhoneNumber} maxLengthValue={10} disallowSpaces={true}/><br/>
+                        <FormTextBoxCtrl label="Patient Mobile Number" onChangeText={onChangeTextHandle} title="MobileNumber" value={details && details.MobileNumber} maxLengthValue={10} disallowSpaces={true}/><br/>
                         <FormTextBoxCtrl label="Email Address" onChangeText={onChangeTextHandle} title="EmailAddress" value={details && details.EmailAddress}/><br/>
                     </div>
                 </div>
