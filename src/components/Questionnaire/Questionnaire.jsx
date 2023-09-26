@@ -123,7 +123,7 @@ const Questionnaire = () => {
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div><FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" 
                         value={details && details.NHSNumber} ctrlInSameRow={false} lblWidth="480px" ctrlWidth="150px" 
-                        onBlurText={onBlurTextHandle}/></div><br/>
+                        onBlurText={onBlurTextHandle} maxLengthValue={10} disallowSpaces={true}/></div><br/>
 
                     <div>
                         {/*<FormSelectCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
