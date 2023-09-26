@@ -88,8 +88,8 @@ const ChooseStages = () => {
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
         setTimeout(async ()=> {
-            //var stages = await getReferralTypeStages();//checkonce
-            var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
+            var stages = await getReferralTypeStages();//checkonce
+            /*var stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1'},
             {title: 'Breast', stage: 'Stage I-II', report: 'Report 11'},
             {title: 'Breast', stage: 'Stage III', report: 'Report 2'},
             {title: 'Breast', stage: 'Stage III', report: 'Report 22'},
@@ -103,7 +103,7 @@ const ChooseStages = () => {
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy'},
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS'},
             {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1'},
-            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1'}];
+            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1'}];*/
             
             dispatch(setStagesList(stages))
             closeModal();
