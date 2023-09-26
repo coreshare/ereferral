@@ -19,7 +19,7 @@ const PatientDetails = () => {
     const [covidDataList,setCovidDataList] = useState([])
     const [sexDataList,setSexDataList] = useState([])
     const [specialRequirementsDataList,setSpecialRequirementsDataList] = useState([])
-    const [communicationRequirementDataList,setCommunicationRequirementDataList] = useState([])
+    const [titlesList,setTitlesDataList] = useState([])
     
     useEffect(() => {debugger;
         if(listData.MaritalStatuses){
@@ -64,6 +64,12 @@ const PatientDetails = () => {
                 value: status.title
             })))
         }
+        if(listData.Titles){
+            setTitlesDataList(listData.Titles.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
     },[])
 
     const handleNext = () => {
@@ -88,7 +94,8 @@ const PatientDetails = () => {
                         <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName}/><br/>
-                        <FormTextBoxCtrl label="Title" onChangeText={onChangeTextHandle} title="Title" value={details && details.Title}/><br/>
+                        <FormSelectCtrl label="Title" onChangeText={onChangeTextHandle} title="Title" value={details && details.Title} options={titlesList}/><br/>
+                        {/*<FormTextBoxCtrl label="Title" onChangeText={onChangeTextHandle} title="Title" value={details && details.Title}/><br/>*/}
                         {/*<FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={details && details.Address} ctrlWidth="322px"/><br/>*/}
                         <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={details && details.DateofBirth} dtWidth="320px"/><br/>
                         <FormSelectCtrl label="Sex" onChangeText={onChangeTextHandle} title="Sex" value={details && details.Sex} options={sexDataList}/><br/>
