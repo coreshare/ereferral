@@ -19,7 +19,7 @@ const NextofKinDetails = () => {
     }
 
     const handleBack = () => {
-        dispatch(setAppStep(1))
+        dispatch(setReferralSubmissionStep(currentStep - 1))
     }
 
     const onChangeTextHandle = (title, value) => {
@@ -36,7 +36,7 @@ const NextofKinDetails = () => {
     return (
         <div className="detailssection">
             <div style={{float:'left'}}>
-                <h3 className="detailsHeader">Patient Details</h3>
+                <h3 className="detailsHeader">Next of Kin Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
                         <FormTextBoxCtrl label="Next of Kin First Name" onChangeText={onChangeTextHandle} title="NextofKinFirstName" value={details && details.NextofKinFirstName}/><br/>
