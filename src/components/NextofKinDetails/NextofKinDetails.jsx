@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormTextAreaCtrl from "../FormTextAreaCtrl/FormTextAreaCtrl";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,13 +25,14 @@ const NextofKinDetails = () => {
     const onChangeTextHandle = (title, value) => {
         dispatch(updateDetails({ title, value }));
     }
-
-    if(listData.RelationshiptoPatient){
-        setRelationshiptoPatientDataList(listData.RelationshiptoPatient.map((status) => ({
-            label: status.title,
-            value: status.title
-        })))
-    }
+    useEffect(() => {
+        if(listData.RelationshiptoPatient){
+            setRelationshiptoPatientDataList(listData.RelationshiptoPatient.map((status) => ({
+                label: status.title,
+                value: status.title
+            })))
+        }
+    },[])
 
     return (
         <div className="detailssection">
