@@ -14,24 +14,24 @@ const DiagnosisDetails = ({onNext,onBack}) => {
     const currentStep = useSelector(state => state.referralSubmissionStep)
     const [medicalOncologistList,setMedicalOncologistList] = useState([])
     const [clinicalOncologistList,setClinicalOncologistList] = useState([])
-    const [upgradeScreeningList,setUpgradeScreeningList] = useState([])
+    const [targetCategoryList,setTargetCategoryList] = useState([])
     const [isUpgradeScreeingYes,setIsUpgradeScreeingYes] = useState(details.IsthisaTargetPatient)
 
     useEffect(() => {
         if(listData.MedicalOncologists){
-            setMedicalOncologistList(listData.MedicalOncologists.map((status) => ({
+            setMedicalOncologistList(listData.MedicalOncologists.filter(status => status.referralType == details.ReferralType).map(status => ({
                 label: status.title,
                 value: status.title
             })))
         }
         if(listData.ClinicalOncologists){
-            setClinicalOncologistList(listData.ClinicalOncologists.map((status) => ({
+            setClinicalOncologistList(listData.ClinicalOncologists.filter(status => status.referralType == details.ReferralType).map((status) => ({
                 label: status.title,
                 value: status.title
             })))
         }
-        if(listData.UpgradeScreening){
-            setUpgradeScreeningList(listData.UpgradeScreening.map((status) => ({
+        if(listData.TargetCategories){
+            setTargetCategoryList(listData.TargetCategories.map((status) => ({
                 label: status.title,
                 value: status.title
             })))
@@ -71,8 +71,8 @@ const DiagnosisDetails = ({onNext,onBack}) => {
                     <FormYesNoBtnsCtrl label="Is this a Target Patient?" onChangeValue={onChangeTextHandle} 
                                     title="IsthisaTargetPatient" value={details && details.IsthisaTargetPatient} IsNewLine={true} /><br/>
                     {isUpgradeScreeingYes === "Yes" && 
-                    <FormSelectCtrl label="Upgrade/Screening / 62 Day" onChangeText={onChangeTextHandle} 
-                        title="UpgradeScreening" value={details && details.UpgradeScreening} options={upgradeScreeningList}/>}
+                    <FormSelectCtrl label="Target Category" onChangeText={onChangeTextHandle} 
+                        title="TargetCategory" value={details && details.TargetCategory} options={targetCategoryList}/>}
                     {/*<FormTextAreaCtrl label="Pathway Information" onChangeText={onChangeTextHandle} title="PathwayInformation" value={details && details.PathwayInformation} ctrlWidth="860px"/><br/>*/}
                     {/*<FormTextAreaCtrl label="Upgrade/Screening/62 Day - including PPI/UPI number/Clock start date" onChangeText={onChangeTextHandle} title="UpgradeScreening" 
                     value={details && details.UpgradeScreening} ctrlWidth="860px"/><br/>*/}

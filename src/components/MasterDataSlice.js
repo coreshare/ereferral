@@ -9,10 +9,12 @@ const masterDataSlice = createSlice({
         MaritalStatuses: [],
         MedicalOncologists: [],
         ClinicalOncologists: [],
-        UpgradeScreening: [],
+        TargetCategories: [],
         Covid: [],
-        SpecialIndicator: [],
-        CommunicationRequirement: []
+        SpecialRequirements: [],
+        CommunicationRequirement: [],
+        SexOptions: [],
+        RelationshiptoPatient: []
     },
     reducers: {
         setNHSNumbers: (state, action) => {
@@ -33,22 +35,29 @@ const masterDataSlice = createSlice({
         setClinicalOncologistList: (state, action) => {
             state.ClinicalOncologists = action.payload;
         },
-        setUpgradeScreeningList: (state, action) => {
-            state.UpgradeScreening = action.payload;
+        setTargetCategoriesList: (state, action) => {
+            state.TargetCategories = action.payload;
         },
         setCovidList: (state, action) => {
             state.Covid = action.payload;
         },
-        setSpecialIndicatorList: (state, action) => {
-            state.SpecialIndicator = action.payload;
+        setSpecialRequirementsList: (state, action) => {
+            state.SpecialRequirements = action.payload;
         },
         setCommunicationRequirementList: (state, action) => {
             state.CommunicationRequirement = action.payload;
+        },
+        setSexOptionsList: (state, action) => {
+            state.SexOptions = action.payload;
+        },
+        setRelationshiptoPatientList: (state, action) => {
+            state.RelationshiptoPatient = action.payload;
         },
     },
 });  
 
 export const { setNHSNumbers, setReligions, setEthnicity, setMaritalStatuses, 
-    setMedicalOncologistList, setClinicalOncologistList, setUpgradeScreeningList,
-    setCovidList, setSpecialIndicatorList, setCommunicationRequirementList } = masterDataSlice.actions;
+    setMedicalOncologistList, setClinicalOncologistList, setTargetCategoriesList,
+    setCovidList, setSpecialRequirementsList, setCommunicationRequirementList,setSexOptionsList,
+    setRelationshiptoPatientList } = masterDataSlice.actions;
 export default masterDataSlice.reducer;

@@ -10,6 +10,7 @@ import LeftNavForDetails from "../LeftNavForDetails/LeftNavForDetails";
 import Header from "../Header/Header";
 import "./ReferralSubmission.css"
 import { useSelector } from "react-redux";
+import NextofKinDetails from "../NextofKinDetails/NextofKinDetails";
 
 const ReferralSubmission = () => {
   const currentStep = useSelector(state => state.referralSubmissionStep)
@@ -25,10 +26,11 @@ const ReferralSubmission = () => {
             </div>}
             <div style={{float:'left',width:'80%'}}>
               {currentStep === 0 && <PatientDetails />}
-              {currentStep === 1 && <RefererDetails />}
-              {currentStep === 2 && <DiagnosisDetails />}
+              {currentStep === 1 && <NextofKinDetails />}
+              {currentStep === 2 && <RefererDetails />}
+              {currentStep === 3 && <DiagnosisDetails />}
               {/*{currentStep === 3 && <MDTDetails />}*/}
-              {currentStep === 3 && <Reports />}
+              {currentStep === 4 && <Reports />}
               {currentStep === 5 && <SubmitReferral />}
               {currentStep === 6 && <SuccessView />}
             </div>

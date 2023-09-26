@@ -7,7 +7,7 @@ const Header = () => {
     return(
         <div class="header">
             <div><img src={NHSLogoWhite} /></div>
-            <div>Clatterbridge Cancer eReferral System</div>
+            <div>The Clatterbridge Cancer Centre</div>
         </div>
     )
 }

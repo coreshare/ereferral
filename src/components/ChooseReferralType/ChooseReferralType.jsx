@@ -9,7 +9,9 @@ import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setStage } from "../ChooseStages/StagesSlice";
 import { resetReports } from "../Reports/ReportsSlice";
 import { getMasterData } from "../../Services/api";
-import { setClinicalOncologistList, setCommunicationRequirementList, setCovidList, setEthnicity, setMaritalStatuses, setMedicalOncologistList, setNHSNumbers, setReligions, setSpecialIndicatorList, setUpgradeScreeningList } from "../MasterDataSlice";
+import { setClinicalOncologistList, setCommunicationRequirementList, setCovidList, setEthnicity, setMaritalStatuses, 
+  setMedicalOncologistList, setNHSNumbers, setRelationshiptoPatientList, setReligions, setSexOptionsList, setSpecialRequirementsList, 
+  setTargetCategoriesList } from "../MasterDataSlice";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
@@ -32,10 +34,12 @@ const ChooseReferralType = () => {
       fetchData("Ethnicity")
       fetchData("MedicalOncologists")
       fetchData("ClinicalOncologists")
-      fetchData("UpgradeScreening")
-      fetchData("Covid")
-      fetchData("SpecialIndicator")
-      fetchData("CommunicationRequirement")
+      fetchData("TargetCategories")
+      //fetchData("Covid")
+      fetchData("SpecialRequirements")
+      //fetchData("CommunicationRequirement")
+      fetchData("SexOptions")
+      fetchData("RelationshiptoPatient")
     }
   },[])
 
@@ -61,17 +65,23 @@ const ChooseReferralType = () => {
           case "ClinicalOncologists":
             dispatch(setClinicalOncologistList(data));
             break;
-          case "UpgradeScreening":
-            dispatch(setUpgradeScreeningList(data));
+          case "TargetCategories":
+            dispatch(setTargetCategoriesList(data));
             break;
           case "Covid":
             dispatch(setCovidList(data));
             break;
-          case "SpecialIndicator":
-            dispatch(setSpecialIndicatorList(data));
+          case "SpecialRequirements":
+            dispatch(setSpecialRequirementsList(data));
             break;
           case "CommunicationRequirement":
             dispatch(setCommunicationRequirementList(data));
+            break;
+          case "SexOptions":
+            dispatch(setSexOptionsList(data));
+            break;
+          case "RelationshiptoPatient":
+            dispatch(setRelationshiptoPatientList(data));
             break;
           default:
             console.error(`Unsupported type_name: ${type_name}`);

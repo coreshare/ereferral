@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import UserValidation from './components/UserValidation/UserValidation';
 import ReferralTypeSelection from './components/ReferralTypeSelection/ReferralTypeSelection';
