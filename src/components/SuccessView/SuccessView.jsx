@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { setReferralTypeStageStep } from "../ReferralTypeSlice"
 import { setAppStep } from "../AppSlice"
 import { resetDetails } from "../DetailsSlice"
+import { setStage } from "../ChooseStages/StagesSlice"
 
 const SuccessView = () => {
     const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const SuccessView = () => {
         dispatch(setAppStep(1))
         dispatch(setReferralTypeStageStep(1))
         dispatch(resetDetails())
+        dispatch(setStage(null))
     }
 
     return(
