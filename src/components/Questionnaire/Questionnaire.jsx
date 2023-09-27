@@ -71,7 +71,7 @@ const Questionnaire = () => {
     }
 
     const onChangeTextHandle = (title, value) => {
-        debugger;
+        
         dispatch(updateDetails({title, value}))
         if(title == "DiscussedatMDT"){
             setDiscussedAtMDT(value)

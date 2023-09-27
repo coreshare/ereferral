@@ -21,7 +21,7 @@ const PatientDetails = () => {
     const [specialRequirementsDataList,setSpecialRequirementsDataList] = useState([])
     const [titlesList,setTitlesDataList] = useState([])
     
-    useEffect(() => {debugger;
+    useEffect(() => {
         if(listData.MaritalStatuses){
             setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
                 label: status.title,
@@ -80,7 +80,7 @@ const PatientDetails = () => {
         dispatch(setAppStep(1))
     }
 
-    const onChangeTextHandle = (title, value) => {debugger;
+    const onChangeTextHandle = (title, value) => {
         dispatch(updateDetails({ title, value }));
     }
 

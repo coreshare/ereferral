@@ -2,13 +2,15 @@ import React from "react"
 import { useDispatch } from "react-redux"
 import { setReferralTypeStageStep } from "../ReferralTypeSlice"
 import { setAppStep } from "../AppSlice"
+import { resetDetails } from "../DetailsSlice"
 
 const SuccessView = () => {
     const dispatch = useDispatch()
 
-    const handleAddReferral = () => {
+    const handleAddReferral = () => {debugger
         dispatch(setAppStep(1))
         dispatch(setReferralTypeStageStep(1))
+        dispatch(resetDetails())
     }
 
     return(

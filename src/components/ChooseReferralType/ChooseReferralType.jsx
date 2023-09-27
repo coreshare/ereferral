@@ -28,7 +28,7 @@ const ChooseReferralType = () => {
   
   //Load master data asynchronously. 
   useEffect(() => {
-    if(listData.Religions.length == 0){
+    if(listData.Religions && listData.Religions.length == 0){
       fetchData("NHSNumbers")
       fetchData("Religions")
       fetchData("MaritalStatuses")

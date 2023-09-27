@@ -80,7 +80,7 @@ const Reports = () => {
     const mainReportsWithFiles = mainReports.every((mainReport) =>
       files.some((file) => file.ReportIndex === mainReport.ReportIndex)
     );
-debugger
+
     if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
       setModalText("Please upload files for all reports before proceeding")
       setShowCloseButton(true)

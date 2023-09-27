@@ -4,7 +4,7 @@ import "./FormSelectCtrl.css"
 const FormSelectCtrl = ({label, onChangeText, title, value, options}) => {
   const [selectValue, setSelectValue] = useState(value)
 
-  const onChangeHandle = (e) => {debugger
+  const onChangeHandle = (e) => {
     setSelectValue(e.target.value)
     onChangeText(title, e.target.value)
   }
