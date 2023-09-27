@@ -1,12 +1,12 @@
 import React, {useState} from "react"
 import "./FormSelectCtrl.css"
 
-const FormSelectCtrl = ({label, onChangeValue, title, value, options}) => {
+const FormSelectCtrl = ({label, onChangeText, title, value, options}) => {
   const [selectValue, setSelectValue] = useState(value)
 
-  const onChangeHandle = (e) => {
+  const onChangeHandle = (e) => {debugger
     setSelectValue(e.target.value)
-    onChangeValue(title, e.target.value)
+    onChangeText(title, e.target.value)
   }
   return (
     <div className="formselectctrl">
