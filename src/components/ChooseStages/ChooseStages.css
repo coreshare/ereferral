@@ -27,9 +27,10 @@
     padding: 10px 20px;
     color: #005cbb;
     margin-bottom: 10px;
-    width: 180px;
+    width: 300px;
     font-weight: bold;
     font-size: 20px;
+    line-height: 30px;
 }
 .choosestage-gallery{
     border: 1px solid grey;
@@ -40,4 +41,4 @@
 }
 .btnCreate {float: right;}
 .leftColumn{width: 25%;}
-.rightColumn{width: 75%;}
+.rightColumn{width: 75%;margin-left: 100px;}
