@@ -35,7 +35,7 @@ const DiagnosisDetails = ({onNext,onBack}) => {
         }
         if(listData.ClinicalOncologists){
             setClinicalOncologistList(listData.ClinicalOncologists.filter(status => status.referralType == details.ReferralType).map((status) => ({
-                label: status.title.slice(0, -1).join(' '),
+                label: status.title,
                 value: status.title
             })))
         }
