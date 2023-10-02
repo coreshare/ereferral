@@ -108,7 +108,7 @@ const Reports = () => {
     setDraggingOver(null);
   };
 
-  const handleDrop = (e, report, reportIndex) => {
+  const handleDrop = (e, report, reportIndex, reportOrder) => {
     e.preventDefault();
     setDraggingOver(null);
 
@@ -130,8 +130,9 @@ const Reports = () => {
         return;
       }
     }
-
-    const newStage = { ReportName: report, ReportFile: droppedFile, ReportIndex: reportIndex };
+    
+    const newStage = { ReportName: report, ReportFile: droppedFile, ReportIndex: reportIndex,
+      ReportOrder: reportOrder };
     const updatedFiles = files.filter((file) => file.ReportIndex !== reportIndex);
     dispatch(updateFiles([...updatedFiles, newStage]))
   };
@@ -202,6 +203,7 @@ const Reports = () => {
         ReportName: report.ReportName,
         ReportFile: selFile,
         ReportIndex: report.ReportIndex,
+        ReportOrder: report.ReportOrder
       };
       const updatedFiles = files.filter((file) => file.ReportIndex !== report.ReportIndex);
       dispatch(updateFiles([...updatedFiles, newFile]));
@@ -283,7 +285,7 @@ const Reports = () => {
                 onDragEnter={(e) => handleDragEnter(e, report)}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex)}
+                onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex, report.ReportOrder)}
                 onClick={() => handleFileUpload(null, report)}
                 >
                 {!report.IsMain && "Additional"} {report.ReportName}{hasFile && " - "}{hasFile && filename}

@@ -8,7 +8,7 @@ import { setStage } from "../ChooseStages/StagesSlice"
 const SuccessView = () => {
     const dispatch = useDispatch()
 
-    const handleAddReferral = () => {debugger
+    const handleAddReferral = () => {
         dispatch(setAppStep(1))
         dispatch(setReferralTypeStageStep(1))
         dispatch(resetDetails())

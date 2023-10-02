@@ -30,6 +30,7 @@ const SubmitReferral = () => {
             }
             reportsMetadata[reports[i].ReportFile.name].ReferralID=itemId;
             reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
+            reportsMetadata[reports[i].ReportFile.name].ReportOrder=reports[i].ReportOrder;
         }
         
         const uploadPromises = reports.map((report) => {

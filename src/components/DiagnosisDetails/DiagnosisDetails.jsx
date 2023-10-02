@@ -29,15 +29,24 @@ const DiagnosisDetails = ({onNext,onBack}) => {
                     return {
                       label: label,
                       value: status.title
-                    };
+                    }
                   })
-              );
+              )
         }
         if(listData.ClinicalOncologists){
-            setClinicalOncologistList(listData.ClinicalOncologists.filter(status => status.referralType == details.ReferralType).map((status) => ({
-                label: status.title,
-                value: status.title
-            })))
+            setClinicalOncologistList(
+                listData.ClinicalOncologists
+                  .filter(status => status.referralType === details.ReferralType)
+                  .map(status => {
+                    const lastSpaceIndex = status.title.lastIndexOf(' ');
+                    const label = lastSpaceIndex !== -1 ? status.title.substring(0, lastSpaceIndex) : status.title;
+            
+                    return {
+                      label: label,
+                      value: status.title
+                    }
+                  })
+              )
         }
         if(listData.TargetCategories){
             setTargetCategoryList(listData.TargetCategories.map((status) => ({

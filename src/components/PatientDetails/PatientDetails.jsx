@@ -7,6 +7,7 @@ import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
+import { TextBox } from "@react-pdf-viewer/core";
 
 const PatientDetails = () => {
     const dispatch = useDispatch()
@@ -51,13 +52,7 @@ const PatientDetails = () => {
                 label: status.title,
                 value: status.title
             })))
-        }/*
-        if(listData.CommunicationRequirement){
-            setCommunicationRequirementDataList(listData.CommunicationRequirement.map((status) => ({
-                label: status.title,
-                value: status.title
-            })))
-        }*/
+        }
         if(listData.SexOptions){
             setSexDataList(listData.SexOptions.map((status) => ({
                 label: status.title,
@@ -70,7 +65,8 @@ const PatientDetails = () => {
                 value: status.title
             })))
         }
-    },[])
+    },[details])
+
 
     const handleNext = () => {
         dispatch(setReferralSubmissionStep(currentStep + 1))
@@ -84,6 +80,16 @@ const PatientDetails = () => {
         dispatch(updateDetails({ title, value }));
     }
 
+    const resetControl = (title, value) => {
+        dispatch(updateDetails({ title, value }));
+    }
+
+    const handleReset = () => {debugger
+        console.log("NHSNumber: " + details.NHSNumber)
+        resetControl("NHSNumber","")
+        resetControl("Surname","")
+    }
+
     return (
         <div className="detailssection">
             <div style={{float:'left'}}>
@@ -95,15 +101,12 @@ const PatientDetails = () => {
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName}/><br/>
                         <FormSelectCtrl label="Title" onChangeText={onChangeTextHandle} title="Title" value={details && details.Title} options={titlesList}/><br/>
-                        {/*<FormTextBoxCtrl label="Title" onChangeText={onChangeTextHandle} title="Title" value={details && details.Title}/><br/>*/}
-                        {/*<FormTextAreaCtrl label="Address" onChangeText={onChangeTextHandle} title="Address" value={details && details.Address} ctrlWidth="322px"/><br/>*/}
                         <FormDateCtrl label="Date of Birth" onChangeText={onChangeTextHandle} title="DateofBirth" value={details && details.DateofBirth} dtWidth="320px"/><br/>
                         <FormSelectCtrl label="Sex" onChangeText={onChangeTextHandle} title="Sex" value={details && details.Sex} options={sexDataList}/><br/>
                         <FormSelectCtrl label="Marital Status" onChangeText={onChangeTextHandle} title="MaritalStatus" value={details && details.MaritalStatus} options={maritalStatusList}/><br/>
                         <FormSelectCtrl label="Patient Ethnicity" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin} options={ethnicoriginsList}/><br/>
                         <FormSelectCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion} options={religionsList}/><br/>
                         <FormSelectCtrl label="Special Requirements" onChangeText={onChangeTextHandle} title="SpecialRequirements" value={details && details.SpecialRequirements} options={specialRequirementsDataList}/><br/>
-                        {/*<FormSelectCtrl label="Covid" onChangeText={onChangeTextHandle} title="Covid" value={details && details.Covid} options={covidDataList}/><br/>*/}
                     </div>
                     <div style={{float:'left'}}>
                         <FormTextBoxCtrl label="Address Line 1" onChangeText={onChangeTextHandle} title="AddressLine1" value={details && details.AddressLine1}/><br/>
@@ -120,6 +123,7 @@ const PatientDetails = () => {
             <div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                {/*<button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>*/}
             </div>
             
         </div>
