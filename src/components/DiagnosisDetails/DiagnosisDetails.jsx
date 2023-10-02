@@ -19,10 +19,19 @@ const DiagnosisDetails = ({onNext,onBack}) => {
 
     useEffect(() => {
         if(listData.MedicalOncologists){
-            setMedicalOncologistList(listData.MedicalOncologists.filter(status => status.referralType == details.ReferralType).map(status => ({
-                label: status.title.slice(0, -1).join(' '),
-                value: status.title
-            })))
+            setMedicalOncologistList(
+                listData.MedicalOncologists
+                  .filter(status => status.referralType === details.ReferralType)
+                  .map(status => {
+                    const lastSpaceIndex = status.title.lastIndexOf(' ');
+                    const label = lastSpaceIndex !== -1 ? status.title.substring(0, lastSpaceIndex) : status.title;
+            
+                    return {
+                      label: label,
+                      value: status.title
+                    };
+                  })
+              );
         }
         if(listData.ClinicalOncologists){
             setClinicalOncologistList(listData.ClinicalOncologists.filter(status => status.referralType == details.ReferralType).map((status) => ({
