@@ -5,6 +5,7 @@ import "./SubmitReferral.css"
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import { useDispatch, useSelector } from "react-redux";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
+import { updateDetails } from "../DetailsSlice";
 
 const SubmitReferral = () => {
     const dispatch = useDispatch()
@@ -12,8 +13,12 @@ const SubmitReferral = () => {
     const reports = useSelector(state => state.reports.files)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const currentStep = useSelector(state => state.referralSubmissionStep)
+    const email = useSelector(state => state.email)
     
     const onSubmitHandle = async () =>{
+        var title = "ReferrerEmail"
+        var value = email
+        dispatch(updateDetails(title, value))
         openModal();
         var itemId = await saveData(details);
         console.log(itemId);

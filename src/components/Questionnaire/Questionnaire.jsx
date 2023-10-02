@@ -138,7 +138,8 @@ const Questionnaire = () => {
                             <FormDateCtrl label="Date at MDT" onChangeText={onChangeTextHandle} title="DateatMDT" 
                             value={details && details.DateatMDT} isSameRow={true} lblMinWidth={'480px'} dtWidth={'150px'}/>
                             
-                        </div><br/>
+                        </div><br/><br/>
+                        <div style={{marginBottom:"10px",fontWeight:"bold",color:"#005cbb",fontSize:"20px"}}>Treatment Proposal:</div>
                         {treatmentDecisionOptions.map((option) => (<>
                             <div key={option.id}>
                                 <label htmlFor={option.id} style={{minWidth:"475px",display:"inline-block",fontWeight:"600"}}>{option.label}</label>
@@ -154,7 +155,7 @@ const Questionnaire = () => {
                                 
                             </div><br/></>
                         ))}
-                        <div>
+                        <div><br/>
                             <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" 
                             value={details && details.MDTComments} ctrlWidth="633px"/>
                         </div>

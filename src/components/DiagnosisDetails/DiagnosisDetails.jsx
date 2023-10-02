@@ -20,13 +20,13 @@ const DiagnosisDetails = ({onNext,onBack}) => {
     useEffect(() => {
         if(listData.MedicalOncologists){
             setMedicalOncologistList(listData.MedicalOncologists.filter(status => status.referralType == details.ReferralType).map(status => ({
-                label: status.title,
+                label: status.title.slice(0, -1).join(' '),
                 value: status.title
             })))
         }
         if(listData.ClinicalOncologists){
             setClinicalOncologistList(listData.ClinicalOncologists.filter(status => status.referralType == details.ReferralType).map((status) => ({
-                label: status.title,
+                label: status.title.slice(0, -1).join(' '),
                 value: status.title
             })))
         }
