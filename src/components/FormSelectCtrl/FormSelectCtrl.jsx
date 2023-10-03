@@ -1,8 +1,14 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import "./FormSelectCtrl.css"
+import { useSelector } from "react-redux"
 
 const FormSelectCtrl = ({label, onChangeText, title, value, options}) => {
   const [selectValue, setSelectValue] = useState(value)
+  const details = useSelector(state => state.details)
+
+  useEffect(() => {
+    setSelectValue(details && details[title])
+  },[value])
 
   const onChangeHandle = (e) => {
     setSelectValue(e.target.value)

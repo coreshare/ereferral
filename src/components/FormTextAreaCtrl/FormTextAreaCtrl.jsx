@@ -1,8 +1,14 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import "./FormTextAreaCtrl.css"
+import { useSelector } from "react-redux"
 
 const FormTextAreaCtrl = ({label, onChangeText, title, value, ctrlWidth}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
+  const details = useSelector(state => state.details)
+
+  useEffect(() => {
+    setTextBoxValue(details && details[title])
+  },[value])
 
   const onChangeHandle = (e) => {
     setTextBoxValue(e.target.value)

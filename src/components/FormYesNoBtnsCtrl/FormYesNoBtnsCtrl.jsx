@@ -1,5 +1,6 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import "./FormYesNoBtnsCtrl.css"
+import { useSelector } from "react-redux";
 
 const FormYesNoBtnsCtrl = ({label, onChangeValue, title, value, IsNewLine}) => {
   
@@ -8,6 +9,11 @@ const FormYesNoBtnsCtrl = ({label, onChangeValue, title, value, IsNewLine}) => {
     isNewLine = true;
   }
   const [selectValue, setSelectValue] = useState(value)
+  const details = useSelector(state => state.details)
+
+  useEffect(() => {
+    setSelectValue(details && details[title])
+  },[value])
 
   const onChangeHandle = (e) => {
     setSelectValue(e.target.title)

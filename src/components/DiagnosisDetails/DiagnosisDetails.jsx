@@ -71,6 +71,18 @@ const DiagnosisDetails = ({onNext,onBack}) => {
         dispatch(updateDetails({title, value}))
     }
 
+    const resetControl = (title, value) => {
+        dispatch(updateDetails({ title, value }));
+    }
+
+    const handleReset = () => {
+        resetControl("MedicalOncologistCCCConsultant","")
+        resetControl("ClinicalOncologistCCCConsultant","")
+        resetControl("PrimaryDiagnosis","")
+        resetControl("IsthisaTargetPatient","")
+        resetControl("TargetCategory","")
+    }
+
     return (
         <div className="detailssection">
             <div style={{float:'left',width:'870px'}}>
@@ -102,6 +114,7 @@ const DiagnosisDetails = ({onNext,onBack}) => {
             <div className="detailsNext">
                     <button onClick={handleNext}>Next</button>
                     <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                    <button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>
                 </div>
         </div>
     )

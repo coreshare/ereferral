@@ -34,6 +34,25 @@ const NextofKinDetails = () => {
         }
     },[])
 
+    const resetControl = (title, value) => {
+        dispatch(updateDetails({ title, value }));
+    }
+
+    const handleReset = () => {
+        resetControl("NextofKinFirstName","")
+        resetControl("NextofKinLastName","")
+        resetControl("NextofKinMiddlename","")
+        resetControl("NextofKinAddressLine1","")
+        resetControl("NextofKinAddressLine2","")
+        resetControl("NextofKinAddressLine3","")
+        resetControl("NextofKinAddressLine4","")
+        resetControl("NextofKinPostCode","")
+
+        resetControl("NextofKinHomePhoneNumber","")
+        resetControl("NextofKinMobileNumber","")
+        resetControl("RelationshiptoPatient","")
+    }
+
     return (
         <div className="detailssection">
             <div style={{float:'left'}}>
@@ -59,6 +78,7 @@ const NextofKinDetails = () => {
             <div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                <button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>
             </div>
             
         </div>

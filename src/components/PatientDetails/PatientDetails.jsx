@@ -84,10 +84,27 @@ const PatientDetails = () => {
         dispatch(updateDetails({ title, value }));
     }
 
-    const handleReset = () => {debugger
-        console.log("NHSNumber: " + details.NHSNumber)
+    const handleReset = () => {
         resetControl("NHSNumber","")
         resetControl("Surname","")
+        resetControl("FirstName","")
+        resetControl("MiddleName","")
+        resetControl("Title","")
+        resetControl("DateofBirth","")
+        resetControl("Sex","")
+        resetControl("MaritalStatus","")
+        resetControl("Ethnicorigin","")
+        resetControl("Religion","")
+        resetControl("SpecialRequirements","")
+
+        resetControl("AddressLine1","")
+        resetControl("AddressLine2","")
+        resetControl("AddressLine3","")
+        resetControl("AddressLine4","")
+        resetControl("PostCode","")
+        resetControl("HomePhoneNumber","")
+        resetControl("MobileNumber","")
+        resetControl("EmailAddress","")
     }
 
     return (
@@ -123,7 +140,7 @@ const PatientDetails = () => {
             <div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-                {/*<button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>*/}
+                <button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>
             </div>
             
         </div>

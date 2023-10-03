@@ -22,6 +22,19 @@ const RefererDetails = () => {
     const onChangeTextHandle = (title, value) => {
         dispatch(updateDetails({title, value}))
     }
+    const resetControl = (title, value) => {
+        dispatch(updateDetails({ title, value }));
+    }
+
+    const handleReset = () => {
+        resetControl("GPName","")
+        resetControl("GPPractice","")
+        resetControl("GPPracticeAddress","")
+
+        resetControl("ReferringOrganisation","")
+        resetControl("ReferringConsultant","")
+        resetControl("DateDecisiontoRefer","")
+    }
 
     return (
         <div className="detailssection">
@@ -45,6 +58,7 @@ const RefererDetails = () => {
             <div className="detailsNext">
                     <button onClick={handleNext}>Next</button>
                     <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                    <button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>
                 </div>
         </div>
     )
