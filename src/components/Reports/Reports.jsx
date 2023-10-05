@@ -380,7 +380,7 @@ const Reports = () => {
         <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
       </div>
       <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation} 
-      confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText}>
+      confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
         {modalText}
       </ModalDialog>
     </div>

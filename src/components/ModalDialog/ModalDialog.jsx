@@ -1,11 +1,10 @@
 import React from 'react';
 import './ModalDialog.css';
 
-const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirmationFn, confirmationBtnText, children }) => {
+const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirmationFn, confirmationBtnText, isHtmlContent, children }) => {
   if (!isOpen) {
     return null;
   }
-  
   const handleConfirmation = (confirm) => {
     confirmationFn(confirm);
   }
@@ -17,7 +16,8 @@ const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirm
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <dv dangerouslySetInnerHTML={{ __html: children }}></dv>
+        {isHtmlContent && <dv dangerouslySetInnerHTML={{ __html: children }}></dv>}
+        {!isHtmlContent && <dv>{children}</dv>}
         {/*<div>{children}</div>*/}{!isConfirmation && showCloseButton && <><br/><br/></>}
         {showCloseButton && <button className="btn-primary close-button" onClick={onClose}>
           Ok
