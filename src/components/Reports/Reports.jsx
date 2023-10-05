@@ -76,6 +76,77 @@ const Reports = () => {
   },[])
 
   const handleNext = () => {
+    var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
+    const patientMandatoryFields = ['NHSNumber', 'Surname','FirstName','MiddleName','Title','DateofBirth','Sex','MaritalStatus',
+                              'Ethnicorigin','Religion','SpecialRequirements','AddressLine1','AddressLine2','AddressLine3',
+                            'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
+                            ]
+    var emptyFields = []
+
+    for (const fieldName of patientMandatoryFields) {
+      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+        emptyFields.push(fieldName)
+      }
+    }
+    
+    if (emptyFields.length > 0) {
+      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Patient Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+    }
+
+    const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinMiddlename', 'NextofKinAddressLine1',
+                            'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
+                            'NextofKinHomePhoneNumber', 'NextofKinMobileNumber', 'RelationshiptoPatient' ]
+
+    emptyFields = []
+
+    for (const fieldName of nextofKinMandatoryFields) {
+      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+        emptyFields.push(fieldName)
+      }
+    }
+
+    if (emptyFields.length > 0) {
+      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Next of Kin Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+    }
+    
+    const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant', 'DateDecisiontoRefer']
+
+    emptyFields = []
+
+    for (const fieldName of referMandatoryFields) {
+      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+        emptyFields.push(fieldName)
+      }
+    }
+
+    if (emptyFields.length > 0) {
+      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+    }
+
+    const treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'PrimaryDiagnosis', 'IsthisaTargetPatient', 'TargetCategory' ]
+
+    emptyFields = []
+
+    for (const fieldName of treatmentMandatoryFields) {
+      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+        emptyFields.push(fieldName)
+      }
+    }
+
+    if (emptyFields.length > 0) {
+      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Treatment & Target Category</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+    }
+
+    errorMsg = errorMsg + "</div>"
+
+    if(errorMsg != ""){
+      setModalText(errorMsg)
+      setShowCloseButton(true)
+      setIsConfirmation(false)
+      openModal()
+      return
+    }
+
     const mainReports = reportslist.filter((report) => report.IsMain);
     const mainReportsWithFiles = mainReports.every((mainReport) =>
       files.some((file) => file.ReportIndex === mainReport.ReportIndex)

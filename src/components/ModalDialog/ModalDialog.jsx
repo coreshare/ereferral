@@ -17,7 +17,8 @@ const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirm
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <div>{children}</div>{!isConfirmation && showCloseButton && <><br/><br/></>}
+        <dv dangerouslySetInnerHTML={{ __html: children }}></dv>
+        {/*<div>{children}</div>*/}{!isConfirmation && showCloseButton && <><br/><br/></>}
         {showCloseButton && <button className="btn-primary close-button" onClick={onClose}>
           Ok
         </button>}
