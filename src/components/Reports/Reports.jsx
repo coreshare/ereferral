@@ -82,10 +82,12 @@ const Reports = () => {
                             'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
                             ]
     var emptyFields = []
+    var hasMFToFill = false
 
     for (const fieldName of patientMandatoryFields) {
       if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
         emptyFields.push(fieldName)
+        hasMFToFill = true
       }
     }
     
@@ -102,6 +104,7 @@ const Reports = () => {
     for (const fieldName of nextofKinMandatoryFields) {
       if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
         emptyFields.push(fieldName)
+        hasMFToFill = true
       }
     }
 
@@ -116,6 +119,7 @@ const Reports = () => {
     for (const fieldName of referMandatoryFields) {
       if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
         emptyFields.push(fieldName)
+        hasMFToFill = true
       }
     }
 
@@ -130,6 +134,7 @@ const Reports = () => {
     for (const fieldName of treatmentMandatoryFields) {
       if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
         emptyFields.push(fieldName)
+        hasMFToFill = true
       }
     }
 
@@ -139,7 +144,7 @@ const Reports = () => {
 
     errorMsg = errorMsg + "</div>"
 
-    if(errorMsg != ""){
+    if(hasMFToFill){
       setModalText(errorMsg)
       setShowCloseButton(true)
       setIsConfirmation(false)
