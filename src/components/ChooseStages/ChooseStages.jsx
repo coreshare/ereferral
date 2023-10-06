@@ -40,7 +40,7 @@ const ChooseStages = () => {
             const matchingStage = stagesMasterData.find(stageItem => {
                 return stageItem.title == stage.title && stageItem.stage == stage.stage && stageItem.report == report;
             })
-            return { ReportName: report, IsMain: true, ReportIndex: ++reportIndex, ReportOrder: matchingStage && matchingStage.ReportOrder }
+            return { ReportName: report, IsMain: true, ReportIndex: ++reportIndex, ReportOrder: matchingStage && matchingStage.reportOrder }
         });
         dispatch(updateReportsList(filteredReports));
         dispatch(updateFiles([]))
