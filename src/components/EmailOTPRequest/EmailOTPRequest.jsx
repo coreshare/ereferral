@@ -6,6 +6,7 @@ import { validateDomain, generateOTP } from "../../Services/api";
 import { useDispatch } from "react-redux";
 import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
 import { setEmail } from "./EmailSlice";
+import { updateDetails } from "../DetailsSlice";
 
 const EmailOTPRequest = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
