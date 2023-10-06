@@ -18,7 +18,7 @@ const SubmitReferral = () => {
     const onSubmitHandle = async () =>{
         var title = "ReferrerEmail"
         var value = email
-        dispatch(updateDetails(title, value))
+        dispatch(updateDetails({title, value}));
         openModal();
         var itemId = await saveData(details);
         console.log(itemId);

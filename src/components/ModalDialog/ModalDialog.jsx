@@ -19,6 +19,7 @@ const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirm
         {isHtmlContent && <dv dangerouslySetInnerHTML={{ __html: children }}></dv>}
         {!isHtmlContent && <dv>{children}</dv>}
         {/*<div>{children}</div>*/}{!isConfirmation && showCloseButton && <><br/><br/></>}
+        {isConfirmation && <br/>}
         {showCloseButton && <button className="btn-primary close-button" onClick={onClose}>
           Ok
         </button>}
