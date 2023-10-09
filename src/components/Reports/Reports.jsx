@@ -199,6 +199,11 @@ const Reports = () => {
         return;
     }
 
+    if (droppedFile.size > 5 * 1024 * 1024) {
+      alert("Please upload file with size up to 5MB.");
+      return;
+    }
+
     const existingFile = files.find((file) => file.ReportIndex === reportIndex);
     if (existingFile) {
       const replaceFile = window.confirm("This report already has a file. Do you want to replace it?");
@@ -240,23 +245,23 @@ const Reports = () => {
         setIsPDFModalOpen(false);
     };
 
-    const handleDeleteFile = (e, hasFile, isMain) => {
-        if(hasFile){
-          setConfirmationBtnText("Delete")
-          setShowCloseButton(false)
-          setConfirmationType("Delete-File")
-          setModalText("Are you sure to delete the file?");
-          setIsConfirmation(true);
-          openModal();
-          setReportFileToDelete(e.target.title);
-        }
-        else if(!isMain){
-          const updatedReports = reportslist.filter((report) =>
-            report.ReportIndex !== parseInt(e.target.title)
-          );
-          dispatch(updateReportsList(updatedReports))
-        }
-    }
+  const handleDeleteFile = (e, hasFile, isMain) => {
+      if(hasFile){
+        setConfirmationBtnText("Delete")
+        setShowCloseButton(false)
+        setConfirmationType("Delete-File")
+        setModalText("Are you sure to delete the file?");
+        setIsConfirmation(true);
+        openModal();
+        setReportFileToDelete(e.target.title);
+      }
+      else if(!isMain){
+        const updatedReports = reportslist.filter((report) =>
+          report.ReportIndex !== parseInt(e.target.title)
+        );
+        dispatch(updateReportsList(updatedReports))
+      }
+  }
     
     const deleteFile = () => {
       const updatedFiles = files.filter(file => file.ReportIndex !== parseInt(reportFileToDelete));

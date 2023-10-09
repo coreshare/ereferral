@@ -8,6 +8,7 @@ import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 import { TextBox } from "@react-pdf-viewer/core";
+import ModalDialog from "../ModalDialog/ModalDialog";
 
 const PatientDetails = () => {
     const dispatch = useDispatch()
@@ -21,6 +22,11 @@ const PatientDetails = () => {
     const [sexDataList,setSexDataList] = useState([])
     const [specialRequirementsDataList,setSpecialRequirementsDataList] = useState([])
     const [titlesList,setTitlesDataList] = useState([])
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [showCloseButton,setShowCloseButton] = useState(true)
+    const [modalText, setModalText] = useState("")
+    const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
     
     useEffect(() => {
         if(listData.MaritalStatuses){
@@ -107,13 +113,40 @@ const PatientDetails = () => {
         resetControl("EmailAddress","")
     }
 
+    const onBlurTextHandle = (title, value) => {
+        if(title == "NHSNumber"){
+            const numberExists = nhsNumbers && nhsNumbers.some((nhsNumber) => nhsNumber.title === value);
+            if(numberExists)
+            {
+                value = "Yes"
+                setShowCloseButton(true)
+                setModalText("As NHS Number already available, no need to upload all reports again.")
+                openModal()
+            }
+            else
+            {
+                value = "No"
+            }
+            title = "IsExistingNHSNumber";
+            dispatch(updateDetails({title, value}))
+        }
+    }
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="detailssection">
             <div style={{float:'left'}}>
                 <h3 className="detailsHeader">Patient Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} maxLengthValue={10} disallowSpaces={true} /><br/>
+                        <FormTextBoxCtrl label="NHS Number" onBlurText={onBlurTextHandle} onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} maxLengthValue={10} disallowSpaces={true} /><br/>
                         <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName}/><br/>
@@ -140,9 +173,12 @@ const PatientDetails = () => {
             <div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-                <button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>
+                {/*<button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>*/}
             </div>
             
+            <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
+                {modalText}
+            </ModalDialog>
         </div>
     )
 }
