@@ -1,5 +1,5 @@
 .leftnav{
-    margin-top: 50px;
+    margin-top: 50px;max-width: 400px;
 }
 .leftnav button{
     background-color: transparent;
