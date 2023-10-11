@@ -113,7 +113,7 @@ const Questionnaire = () => {
         <div>
             <div className="choosestage-container">
                 <div className="choosestage-header">
-                    <div style={{float: 'left'}}>NHS entitlement assessment & MDT Outcome</div>
+                    <div style={{float: 'left'}}>NHS Entitlement Assessment & MDT Outcome</div>
                     <div style={{float: 'right'}}>
                         <button onClick={handleNext} className="buttonCtrl">Next</button>
                         <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>

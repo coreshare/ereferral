@@ -56,10 +56,10 @@ const SubmitReferral = () => {
         <div className="container-submit">
             <div style={{display: 'inline-block',width:'100%'}}>
                 <h3 className="detailsHeader" style={{float:'left'}}>Submit Referral</h3>
-                <button onClick={handleBack} className="backbtn" style={{float:'right'}}>Back</button>
+                <button onClick={handleBack} className="buttonCtrl" style={{float:'right'}}>Back</button>
             </div>
             <p>Delcaration to be Agreed.</p>
-            <p>Thank you for making the referral today. Please note this will be reviewed by a Caltterbridge consultant and you
+            <p>Thank you for making the referral today. Please note this will be reviewed by a Clatterbridge consultant and you
                 will be notified if the referral has been accepted.
             </p>
             <div style={{textAlign:"center", marginTop:'40px'}}><ButtonCtrl btnClickHandler={onSubmitHandle} btnText="Submit" /></div>

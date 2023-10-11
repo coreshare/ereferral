@@ -36,7 +36,7 @@ const EmailOTPRequest = () =>{
             //if((isValid==undefined || isValid == "Not valid") && false){//checkonce
             if(isValid==undefined || isValid == "Not valid"){
                 setShowCloseButton(true)
-                setModalText("Entered email is not valid.")
+                setModalText("Email not found in our records.")
                 //openModal();
                 return;
             }
