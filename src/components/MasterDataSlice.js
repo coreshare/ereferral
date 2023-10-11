@@ -15,7 +15,8 @@ const masterDataSlice = createSlice({
         CommunicationRequirement: [],
         SexOptions: [],
         RelationshiptoPatient: [],
-        Titles: []
+        Titles: [],
+        ReferringOrgs: []
     },
     reducers: {
         setNHSNumbers: (state, action) => {
@@ -57,11 +58,14 @@ const masterDataSlice = createSlice({
         setTitlesList: (state, action) => {
             state.Titles = action.payload;
         },
+        setReferringOrgs: (state, action) => {
+            state.ReferringOrgs = action.payload;
+        },
     },
 });  
 
 export const { setNHSNumbers, setReligions, setEthnicity, setMaritalStatuses, 
     setMedicalOncologistList, setClinicalOncologistList, setTargetCategoriesList,
     setCovidList, setSpecialRequirementsList, setCommunicationRequirementList,setSexOptionsList,
-    setRelationshiptoPatientList, setTitlesList } = masterDataSlice.actions;
+    setRelationshiptoPatientList, setTitlesList, setReferringOrgs } = masterDataSlice.actions;
 export default masterDataSlice.reducer;

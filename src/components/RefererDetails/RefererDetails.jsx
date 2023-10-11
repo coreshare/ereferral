@@ -5,11 +5,23 @@ import FormDateCtrl from "../FormDateCtrl/FormDateCtrl";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
+import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 
 const RefererDetails = () => {
     const dispatch = useDispatch();
     const details = useSelector(state => state.details)
     const currentStep = useSelector(state => state.referralSubmissionStep)
+    const listData = useSelector(state => state.masterData)
+    const [referringOrgsList,setReferringOrgsList] = useState([])
+
+    useEffect(() => {
+        if(listData.ReferringOrgs){
+            setReferringOrgsList(listData.ReferringOrgs.map((status) => ({
+                label: status.hospital,
+                value: status.hospital
+            })))
+        }
+    })
 
     const handleNext = () => {
         dispatch(setReferralSubmissionStep(currentStep + 1))
@@ -47,7 +59,8 @@ const RefererDetails = () => {
                         <FormTextAreaCtrl label="GP Practice Address" onChangeText={onChangeTextHandle} title="GPPracticeAddress" value={details && details.GPPracticeAddress} ctrlWidth="322px"/>
                     </div>
                     <div style={{float:'left'}}>
-                        <FormTextBoxCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={details && details.ReferringOrganisation}/><br/>
+                        <FormSelectCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={details && details.ReferringOrganisation} options={referringOrgsList}/><br/>
+                        {/*<FormTextBoxCtrl label="Referring Organisation" onChangeText={onChangeTextHandle} title="ReferringOrganisation" value={details && details.ReferringOrganisation}/><br/>*/}
                         <FormTextBoxCtrl label="Referring Consultant" onChangeText={onChangeTextHandle} title="ReferringConsultant" value={details && details.ReferringConsultant}/><br/>
                         <FormDateCtrl label="Date Decision to Refer" onChangeText={onChangeTextHandle} title="DateDecisiontoRefer" value={details && details.DateDecisiontoRefer} dtWidth="320px"/>
                         

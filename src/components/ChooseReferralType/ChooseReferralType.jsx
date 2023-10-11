@@ -10,7 +10,7 @@ import { setStage } from "../ChooseStages/StagesSlice";
 import { resetReports } from "../Reports/ReportsSlice";
 import { getMasterData } from "../../Services/api";
 import { setClinicalOncologistList, setCommunicationRequirementList, setCovidList, setEthnicity, setMaritalStatuses, 
-  setMedicalOncologistList, setNHSNumbers, setRelationshiptoPatientList, setReligions, setSexOptionsList, setSpecialRequirementsList, 
+  setMedicalOncologistList, setNHSNumbers, setReferringOrgs, setRelationshiptoPatientList, setReligions, setSexOptionsList, setSpecialRequirementsList, 
   setTargetCategoriesList, 
   setTitlesList} from "../MasterDataSlice";
 
@@ -42,6 +42,7 @@ const ChooseReferralType = () => {
       fetchData("SexOptions")
       fetchData("RelationshiptoPatient")
       fetchData("Titles")
+      fetchData("ReferringOrgs")
     }
   },[])
 
@@ -87,6 +88,9 @@ const ChooseReferralType = () => {
             break;
           case "Titles":
             dispatch(setTitlesList(data));
+            break;
+          case "ReferringOrgs":
+            dispatch(setReferringOrgs(data));
             break;
           default:
             console.error(`Unsupported type_name: ${type_name}`);
