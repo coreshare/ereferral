@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
+import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 
 const RefererDetails = () => {
     const dispatch = useDispatch();
@@ -15,13 +16,14 @@ const RefererDetails = () => {
     const [referringOrgsList,setReferringOrgsList] = useState([])
 
     useEffect(() => {
+        dispatch(setLeftNavClearLinkText("Referer"))
         if(listData.ReferringOrgs){
             setReferringOrgsList(listData.ReferringOrgs.map((status) => ({
                 label: status.hospital,
                 value: status.hospital
             })))
         }
-    })
+    },[])
 
     const handleNext = () => {
         dispatch(setReferralSubmissionStep(currentStep + 1))

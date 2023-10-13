@@ -6,6 +6,7 @@ import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
+import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 
 const NextofKinDetails = () => {
     const dispatch = useDispatch()
@@ -26,6 +27,8 @@ const NextofKinDetails = () => {
         dispatch(updateDetails({ title, value }));
     }
     useEffect(() => {
+        dispatch(setLeftNavClearLinkText("Next of Kin"))
+
         if(listData.RelationshiptoPatient){
             setRelationshiptoPatientDataList(listData.RelationshiptoPatient.map((status) => ({
                 label: status.title,

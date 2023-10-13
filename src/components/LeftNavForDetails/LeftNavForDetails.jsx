@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice"
 import { updateDetails } from "../DetailsSlice"
 import ModalDialog from "../ModalDialog/ModalDialog"
+import { setLeftNavClearLinkText } from "../SharedStringsSlice"
 
 const LeftNavForDetails = () => {
     const dispatch = useDispatch()
@@ -15,18 +16,24 @@ const LeftNavForDetails = () => {
     const [modalText, setModalText] = useState("")
     const [isConfirmation, setIsConfirmation] = useState(true)
     const [confirmationBtnText, setConfirmationBtnText] = useState("")
+    const sharedStrings = useSelector(state => state.sharedStrings)
 
     const handleGoToStep = (step) => {
         if(step == 0)
-            setClearText("Patient")
+            dispatch(setLeftNavClearLinkText("Patient"))
+            //setClearText("Patient")
         else if(step == 1)
-            setClearText("Next of Kin")
+            dispatch(setLeftNavClearLinkText("Next of Kin"))
+            //setClearText("Next of Kin")
         else if(step == 2)
-            setClearText("Refer")
+            dispatch(setLeftNavClearLinkText("Refer"))
+            //setClearText("Refer")
         else if(step == 3)
-            setClearText("Treatment & Target Category")
+            dispatch(setLeftNavClearLinkText("Treatment & Target Category"))
+            //setClearText("Treatment & Target Category")
         else if(step == 4)
-            setClearText("Reports")
+            dispatch(setLeftNavClearLinkText("Reports"))
+            //setClearText("Reports")
         dispatch(setReferralSubmissionStep(step))
     }
 
@@ -133,7 +140,7 @@ const LeftNavForDetails = () => {
             <button style={{display:"block"}} onClick={() => handleGoToStep (4)}>Reports</button>
 
             {leftNavStep != 4 && <><hr style={{width:"200px",float:"left",height:"1px",background:"black",marginBottom: "15px"}}/>
-            <button style={{textAlign:"left",lineHeight:"28px"}} onClick={() => handleClearDetails()}>Clear {cleartext} Details</button></>}
+            <button style={{textAlign:"left",lineHeight:"28px"}} onClick={() => handleClearDetails()}>Clear {sharedStrings.leftNavClearLinkText} Details</button></>}
 
         </div>
 

@@ -9,6 +9,7 @@ import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 import { TextBox } from "@react-pdf-viewer/core";
 import ModalDialog from "../ModalDialog/ModalDialog";
+import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 
 const PatientDetails = () => {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const PatientDetails = () => {
     const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
     
     useEffect(() => {
+        dispatch(setLeftNavClearLinkText("Patient"))
         if(listData.MaritalStatuses){
             setMaritalStatusList(listData.MaritalStatuses.map((status) => ({
                 label: status.title,

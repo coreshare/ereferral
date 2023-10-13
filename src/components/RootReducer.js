@@ -11,6 +11,7 @@ import referralSubmissionReducer from "./ReferralSubmissionSlice"
 import userValidationReducer from "./UserValidation/UserValidationSlice"
 import emailReducer from "./EmailOTPRequest/EmailSlice"
 import masterDataReducer from "./MasterDataSlice"
+import sharedStringsReducer from "./SharedStringsSlice"
 
 const rootReducer = combineReducers({
   referralType: referralTypeReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   referralSubmissionStep: referralSubmissionReducer,
   userValidationStep: userValidationReducer,
   email: emailReducer,
-  masterData: masterDataReducer
+  masterData: masterDataReducer,
+  sharedStrings: sharedStringsReducer
 });
 
 export default rootReducer;

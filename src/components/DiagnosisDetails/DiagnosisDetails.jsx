@@ -6,6 +6,7 @@ import { updateDetails } from "../DetailsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 import FormYesNoBtnsCtrl from "../FormYesNoBtnsCtrl/FormYesNoBtnsCtrl";
+import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 
 const DiagnosisDetails = ({onNext,onBack}) => {
     const dispatch = useDispatch()
@@ -18,6 +19,7 @@ const DiagnosisDetails = ({onNext,onBack}) => {
     const [isUpgradeScreeingYes,setIsUpgradeScreeingYes] = useState(details.IsthisaTargetPatient)
 
     useEffect(() => {
+        dispatch(setLeftNavClearLinkText("Treatment & Target Category"))
         if(listData.MedicalOncologists){
             setMedicalOncologistList(
                 listData.MedicalOncologists
