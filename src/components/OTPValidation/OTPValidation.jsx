@@ -13,7 +13,7 @@ const OTPValidation = () => {
   const [showCloseButton,setShowCloseButton] = useState(true)
   const [modalText, setModalText] = useState("")
   const [isTimerActive, setIsTimerActive] = useState(true)
-  const [remainingTime, setRemainingTime] = useState(5)
+  const [remainingTime, setRemainingTime] = useState(120)
   const emailId = useSelector(state => state.email)
   const [resendAttempts, setResendAttempts] = useState(0)
   const maxResendAttempts = 3
@@ -107,7 +107,7 @@ const OTPValidation = () => {
     setModalText("Sending OTP... Please wait.")
     await generateOTP(emailId);
     closeModal();
-    setRemainingTime(2)
+    setRemainingTime(120)
     setIsTimerActive(true)
     return false
   }
