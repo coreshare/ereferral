@@ -17,6 +17,7 @@ const OTPValidation = () => {
   const emailId = useSelector(state => state.email)
   const [resendAttempts, setResendAttempts] = useState(0)
   const maxResendAttempts = 3
+  const [maxAttempts, setMaxAttempts] = useState(0);
 
   useEffect(() => {
     let timer;
@@ -31,7 +32,7 @@ const OTPValidation = () => {
       } else {
         openModal();
         setShowCloseButton(true);
-        setModalText("Maximum OTP attempts reached. Please try after some time.");
+        setModalText("Maximum OTP attempts reached. Please refresh and try again.");
       }
     }
 
@@ -74,7 +75,12 @@ const OTPValidation = () => {
   };
 
   const handleOTPValidation = async () => {
-    
+    if(maxAttempts == 5){
+      openModal();
+      setShowCloseButton(true);
+      setModalText("You have reached maximum attempts. Please refresh and try again.");
+      return
+    }
     const concatenatedNumberString = enteredOTP.map(String).join("");
     if(concatenatedNumberString.length == 6){
       openModal();
@@ -88,8 +94,21 @@ const OTPValidation = () => {
       }
       else{
           //closeModal();
-          setShowCloseButton(true);
-          setModalText(response);
+          setShowCloseButton(true);debugger
+          setMaxAttempts(maxAttempts + 1)
+          if(response && response.indexOf("Invalid") > -1){
+            if(maxAttempts < 5){
+              setMaxAttempts(maxAttempts + 1)
+              setModalText("You have reached maximum attempts. Please refresh and try again.");
+            }
+            else{
+              setModalText(response);
+            }
+          }
+          else{
+            setModalText(response);
+          }
+          
           //alert(response)
       }
     }
@@ -128,11 +147,15 @@ const OTPValidation = () => {
           ))}
         </p>
         <p>
-          {isTimerActive ? (
+        {maxAttempts !== 5 && (
+          isTimerActive ? (
             <span>OTP will expire in {Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
           ) : (
-            <a style={{color: "#005cbb"}} href="javascript:void(0)" onClick={handleResendOTP}>Re-send OTP</a>
-          )}
+            <a style={{ color: "#005cbb" }} href="javascript:void(0)" onClick={handleResendOTP}>
+              Re-send OTP
+            </a>
+          )
+        )}
         </p>
         <p><ButtonCtrl btnText="Send" btnClickHandler={handleOTPValidation} /></p>
         <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
