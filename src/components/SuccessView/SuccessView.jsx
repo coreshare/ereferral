@@ -18,7 +18,7 @@ const SuccessView = () => {
     return(
         <div style={{textAlign:"center"}}>
             Your referral has been submitted successfully.<br/><br/>
-            <button className="buttonCtrl" style={{float:'none'}} onClick={handleAddReferral}>Add another referral</button>
+            <button className="buttonCtrl" style={{float:'none'}} onClick={handleAddReferral}>Submit another referral</button>
         </div>
     )
 }

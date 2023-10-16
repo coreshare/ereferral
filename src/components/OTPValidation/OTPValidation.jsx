@@ -60,8 +60,10 @@ const OTPValidation = () => {
           //onNext();
       }
       else{
-          closeModal();
-          alert(response)
+          //closeModal();
+          setShowCloseButton(true);
+          setModalText(response);
+          //alert(response)
       }
     }
     else{

@@ -314,8 +314,12 @@ const Reports = () => {
       fileInput.accept = ".pdf";
       fileInput.click();
   
-      fileInput.addEventListener("change", (event) => {
+      fileInput.addEventListener("change", (event) => {debugger
         const selFile = event.target.files[0];
+        if (!selFile.type.includes("pdf")) {
+            alert("Only PDF files are allowed.");
+            return;
+        }
         if (selFile) {
           const existingFile = files.find((file) => file.ReportIndex === report.ReportIndex);
           setClickedReport(report)
