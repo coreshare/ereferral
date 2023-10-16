@@ -1,17 +1,44 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import "./OTPValidation.css";
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
-import { validateOTP } from "../../Services/api";
+import { generateOTP, validateOTP } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAppStep } from "../AppSlice";
 
 const OTPValidation = () => {
   const dispatch = useDispatch()
-  const [enteredOTP, setEnteredOTP] = useState(Array(6).fill(""));
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showCloseButton,setShowCloseButton] = useState(true);
-  const [modalText, setModalText] = useState("");
+  const [enteredOTP, setEnteredOTP] = useState(Array(6).fill(""))
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showCloseButton,setShowCloseButton] = useState(true)
+  const [modalText, setModalText] = useState("")
+  const [isTimerActive, setIsTimerActive] = useState(true)
+  const [remainingTime, setRemainingTime] = useState(5)
+  const emailId = useSelector(state => state.email)
+  const [resendAttempts, setResendAttempts] = useState(0)
+  const maxResendAttempts = 3
+
+  useEffect(() => {
+    let timer;
+
+    if (isTimerActive && remainingTime > 0) {
+      timer = setTimeout(() => {
+        setRemainingTime(remainingTime - 1);
+      }, 1000);
+    } else if (remainingTime === 0) {
+      if (resendAttempts < maxResendAttempts) {
+        setIsTimerActive(false);
+      } else {
+        openModal();
+        setShowCloseButton(true);
+        setModalText("Maximum OTP attempts reached. Please try after some time.");
+      }
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isTimerActive, remainingTime]);
 
   const handleKeyDown = (event, index) => {
     if (/^[0-9]$/.test(event.key) && index < 5) {
@@ -73,6 +100,18 @@ const OTPValidation = () => {
     }
   };
 
+  const handleResendOTP = async () => {debugger
+    setResendAttempts(resendAttempts + 1)
+    openModal()
+    setShowCloseButton(false)
+    setModalText("Sending OTP... Please wait.")
+    await generateOTP(emailId);
+    closeModal();
+    setRemainingTime(2)
+    setIsTimerActive(true)
+    return false
+  }
+
   return (
     <div className="OTPValidation">
       <center>
@@ -88,9 +127,16 @@ const OTPValidation = () => {
             />
           ))}
         </p>
+        <p>
+          {isTimerActive ? (
+            <span>OTP will expire in {Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
+          ) : (
+            <a style={{color: "#005cbb"}} href="javascript:void(0)" onClick={handleResendOTP}>Re-send OTP</a>
+          )}
+        </p>
         <p><ButtonCtrl btnText="Send" btnClickHandler={handleOTPValidation} /></p>
         <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
-          <p>{modalText}</p>
+          {modalText}
         </ModalDialog>
       </center>
     </div>

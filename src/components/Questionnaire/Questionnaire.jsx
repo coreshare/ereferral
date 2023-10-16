@@ -75,6 +75,11 @@ const Questionnaire = () => {
         dispatch(updateDetails({title, value}))
         if(title == "DiscussedatMDT"){
             setDiscussedAtMDT(value)
+            if(value == 'No'){
+                setModalText("Cannot continue if not discussed at MDT")
+                openModal();
+                return;
+            }
         }
         else if(title == "OverseasPatient"){
             setOverseasPatient(value)
