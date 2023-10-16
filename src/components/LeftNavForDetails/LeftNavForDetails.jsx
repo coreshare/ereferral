@@ -42,7 +42,7 @@ const LeftNavForDetails = () => {
             setShowCloseButton(false)
             setIsConfirmation(true)
             setConfirmationBtnText("Yes")
-            setModalText("Do you want to clear " + cleartext + " details?")
+            setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + " details?")
             openModal()
         }
     }
