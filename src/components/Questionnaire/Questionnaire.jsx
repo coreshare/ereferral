@@ -86,6 +86,11 @@ const Questionnaire = () => {
         }
         else if(title == "PatientAwareofDiagnosis"){
             setAwareOfDiagnosis(value)
+            if(value == 'No'){
+                setModalText("Cannot continue if patient not aware of diagnosis")
+                openModal();
+                return;
+            }
         }
     }
 

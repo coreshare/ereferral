@@ -62,19 +62,20 @@ const NextofKinDetails = () => {
                 <h3 className="detailsHeader">Next of Kin Details</h3>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="Next of Kin First Name" onChangeText={onChangeTextHandle} title="NextofKinFirstName" value={details && details.NextofKinFirstName}/><br/>
-                        <FormTextBoxCtrl label="Next of Kin Last Name" onChangeText={onChangeTextHandle} title="NextofKinLastName" value={details && details.NextofKinLastName}/><br/>
-                        <FormTextBoxCtrl label="Next of Kin Middle Name" onChangeText={onChangeTextHandle} title="NextofKinMiddlename" value={details && details.NextofKinMiddlename}/><br/>
+                        <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="NextofKinFirstName" value={details && details.NextofKinFirstName}/><br/>
+                        <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="NextofKinLastName" value={details && details.NextofKinLastName}/><br/>
+                        <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="NextofKinMiddlename" value={details && details.NextofKinMiddlename}/><br/>
                         <FormTextBoxCtrl label="Address Line 1" onChangeText={onChangeTextHandle} title="NextofKinAddressLine1" value={details && details.NextofKinAddressLine1}/><br/>
                         <FormTextBoxCtrl label="Address Line 2" onChangeText={onChangeTextHandle} title="NextofKinAddressLine2" value={details && details.NextofKinAddressLine2}/><br/>
                         <FormTextBoxCtrl label="Address Line 3" onChangeText={onChangeTextHandle} title="NextofKinAddressLine3" value={details && details.NextofKinAddressLine3}/><br/>
                         <FormTextBoxCtrl label="Address Line 4" onChangeText={onChangeTextHandle} title="NextofKinAddressLine4" value={details && details.NextofKinAddressLine4}/><br/>
-                        <FormTextBoxCtrl label="Next of Kin Post Code" onChangeText={onChangeTextHandle} title="NextofKinPostCode" value={details && details.NextofKinPostCode}/><br/>
+                        <FormTextBoxCtrl label="Post Code" onChangeText={onChangeTextHandle} title="NextofKinPostCode" value={details && details.NextofKinPostCode}/><br/>
+                        <FormTextBoxCtrl label="Home Phone Number" onChangeText={onChangeTextHandle} title="NextofKinHomePhoneNumber" value={details && details.NextofKinHomePhoneNumber} maxLengthValue={11} disallowSpaces={true}/><br/>
+                        <FormTextBoxCtrl label="Mobile Number" onChangeText={onChangeTextHandle} title="NextofKinMobileNumber" value={details && details.NextofKinMobileNumber} maxLengthValue={11} disallowSpaces={true}/><br/>
+                        <FormSelectCtrl label="Relationship to Patient" onChangeText={onChangeTextHandle} title="RelationshiptoPatient" value={details && details.RelationshiptoPatient} options={relationshiptoPatientDataList}/><br/>
                     </div>
                     <div style={{float:'left'}}>
-                        <FormTextBoxCtrl label="Next of Kin Home Phone Number" onChangeText={onChangeTextHandle} title="NextofKinHomePhoneNumber" value={details && details.NextofKinHomePhoneNumber} maxLengthValue={11} disallowSpaces={true}/><br/>
-                        <FormTextBoxCtrl label="Next of Kin Mobile Number" onChangeText={onChangeTextHandle} title="NextofKinMobileNumber" value={details && details.NextofKinMobileNumber} maxLengthValue={11} disallowSpaces={true}/><br/>
-                        <FormSelectCtrl label="Relationship to Patient" onChangeText={onChangeTextHandle} title="RelationshiptoPatient" value={details && details.RelationshiptoPatient} options={relationshiptoPatientDataList}/><br/>
+                        
                     </div>
                 </div>
             </div>
