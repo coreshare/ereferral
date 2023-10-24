@@ -16,7 +16,7 @@ const RefererDetails = () => {
     const [referringOrgsList,setReferringOrgsList] = useState([])
 
     useEffect(() => {
-        dispatch(setLeftNavClearLinkText("Referer"))
+        dispatch(setLeftNavClearLinkText("Refer"))
         if(listData.ReferringOrgs){
             setReferringOrgsList(listData.ReferringOrgs.map((status) => ({
                 label: status.hospital,
