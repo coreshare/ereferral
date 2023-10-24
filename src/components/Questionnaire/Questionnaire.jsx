@@ -46,7 +46,9 @@ const Questionnaire = () => {
     };
 
     const handleNext = () => {
-        if(discussedAtMDT == undefined || awareOfDiagnosis == undefined || overseasPatient == undefined){
+        if(discussedAtMDT == undefined || discussedAtMDT == "" || 
+            awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
+            overseasPatient == undefined || overseasPatient == ""){
             setShowCloseButton(true);
             setModalText("Complete questionnaire");
             openModal()
@@ -61,6 +63,20 @@ const Questionnaire = () => {
             openModal();
             return;
         }
+        if(overseasPatient == 'No'){
+            if(!details.NHSNumber || details.NHSNumber == ""){
+                setShowCloseButton(true)
+                setModalText("Enter NHS Number")
+                openModal()
+                return
+            }
+        }
+        if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length < 10 || details.NHSNumber.length > 10)){
+            setShowCloseButton(true)
+            setModalText("Enter valid NHS Number")
+            openModal()
+            return
+        }
         //dispatch(setReferralSubmissionStep(0))
         //dispatch(setAppStep(2))
         dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
@@ -71,11 +87,11 @@ const Questionnaire = () => {
     }
 
     const onChangeTextHandle = (title, value) => {
-        
         dispatch(updateDetails({title, value}))
         if(title == "DiscussedatMDT"){
             setDiscussedAtMDT(value)
             if(value == 'No'){
+                resetControls("DiscussedatMDT")
                 setModalText("Cannot continue if not discussed at MDT")
                 openModal();
                 return;
@@ -83,15 +99,42 @@ const Questionnaire = () => {
         }
         else if(title == "OverseasPatient"){
             setOverseasPatient(value)
+            if(value == 'No'){
+                resetControls("OverseasPatient")
+            }
         }
         else if(title == "PatientAwareofDiagnosis"){
             setAwareOfDiagnosis(value)
             if(value == 'No'){
+                resetControls("PatientAwareofDiagnosis")
                 setModalText("Cannot continue if patient not aware of diagnosis")
                 openModal();
                 return;
             }
         }
+    }
+
+    const resetControls = (ctrlsset) => {
+        var ctrlsToReset = []
+        if(ctrlsset == "PatientAwareofDiagnosis"){
+            ctrlsToReset.push("DiscussedatMDT")
+        }
+        if(ctrlsset == "PatientAwareofDiagnosis" || ctrlsset == "DiscussedatMDT"){
+            ctrlsToReset.push("DateatMDT")
+            ctrlsToReset.push("TreatmentDecision")
+            ctrlsToReset.push("MDTComments")
+            ctrlsToReset.push("OverseasPatient")
+        }
+        if(ctrlsset == "PatientAwareofDiagnosis" || ctrlsset == "DiscussedatMDT" || ctrlsset == "OverseasPatient"){
+            ctrlsToReset.push("HasAssessmentbeenCompleted")
+            ctrlsToReset.push("OutcomeofAssessment")
+            ctrlsToReset.push("NHSNumber")
+        }
+        ctrlsToReset.forEach(ctrl => {
+            var title = ctrl
+            var value = ""
+            dispatch(updateDetails({title,value}))
+        });
     }
 
     const onBlurTextHandle = (title, value) => {
@@ -131,22 +174,23 @@ const Questionnaire = () => {
                     </div>
                 </div>
                 <div style={{display:'inline-block',width:'100%'}}>
-                    <div><FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" 
-                        value={details && details.NHSNumber} ctrlInSameRow={false} lblWidth="480px" ctrlWidth="150px" 
-                        onBlurText={onBlurTextHandle} maxLengthValue={10} disallowSpaces={true}/></div><br/>
+                    
+                    <div>
+                        <FormYesNoBtnsCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
+                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis} />
+                       
+                    </div>
+                    {awareOfDiagnosis == 'Yes' && (<><br/>
 
                     <div>
-                        {/*<FormSelectCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
-                                    title="DiscussedatMDT" value={details && details.DiscussedatMDT}/>*/}
                         <FormYesNoBtnsCtrl label="Has the patient been discussed at MDT and stage defined?" onChangeValue={onChangeTextHandle} 
                                     title="DiscussedatMDT" value={details && details.DiscussedatMDT} />
-                                    {/* If No, dont allow to go to Next */}
-                        {discussedAtMDT === 'No' && (<label>Will not be allowed to continue if No.</label>)}
                     </div>
                     {discussedAtMDT === 'Yes' && (<><br/>
                         <div>
                             <FormDateCtrl label="Date at MDT" onChangeText={onChangeTextHandle} title="DateatMDT" 
-                            value={details && details.DateatMDT} isSameRow={true} lblMinWidth={'480px'} dtWidth={'150px'}/>
+                            value={details && details.DateatMDT} isSameRow={true} lblMinWidth={'480px'} dtWidth={'150px'} 
+                            isFutureDate={false} />
                             
                         </div><br/><br/>
                         <div style={{marginBottom:"10px",fontWeight:"bold",color:"#005cbb",fontSize:"20px"}}>Treatment Proposal:</div>
@@ -169,31 +213,17 @@ const Questionnaire = () => {
                             <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" 
                             value={details && details.MDTComments} ctrlWidth="633px"/>
                         </div>
-                        </>
-                    )}
+                        
                     <br/>
 
                     <div>
-                        {/*<FormSelectCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
-                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis}/>*/}
-                        <FormYesNoBtnsCtrl label="Does the patient know their diagnosis?" onChangeValue={onChangeTextHandle} 
-                                    title="PatientAwareofDiagnosis" value={details && details.PatientAwareofDiagnosis} />
-                       
-                    </div>
-                    <br/>
-
-                    <div>
-                        {/*<FormSelectCtrl label="Overseas patient?" onChangeValue={onChangeTextHandle} 
-                                    title="OverseasPatient" value={details && details.OverseasPatient}/>*/}
-                        <FormYesNoBtnsCtrl label="Overseas patient?" onChangeValue={onChangeTextHandle} 
+                        <FormYesNoBtnsCtrl label="Is this patient an Overseas Visitor, Welsh or Scottish patient?" onChangeValue={onChangeTextHandle} 
                                     title="OverseasPatient" value={details && details.OverseasPatient} />
                        
                     </div>
                     {overseasPatient === 'Yes' && (
                         <><br/>
                             <div>
-                                {/*<FormSelectCtrl label="NHS Entitlement?" onChangeValue={onChangeTextHandle} 
-                                    title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted}/>*/}
                                 <FormYesNoBtnsCtrl label="NHS Entitlement?" onChangeValue={onChangeTextHandle} 
                                             title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted} />
                             </div><br/>
@@ -203,7 +233,16 @@ const Questionnaire = () => {
                             </div>
                         </>
                     )}
+                    <br/>
+                    <div><FormTextBoxCtrl label="NHS Number" onChangeText={onChangeTextHandle} title="NHSNumber" 
+                        value={details && details.NHSNumber} ctrlInSameRow={false} lblWidth="480px" ctrlWidth="150px" 
+                        onBlurText={onBlurTextHandle} maxLengthValue={10} minLengthValue={10} disallowSpaces={true}/>
+                    </div>
+                    </>)}
                     
+                    </>)}
+                        
+                    <br/><br/>
                 </div>
             
                 <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>

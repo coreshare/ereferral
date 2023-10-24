@@ -27,7 +27,7 @@ const DiagnosisDetails = ({onNext,onBack}) => {
                   .map(status => {
                     const lastSpaceIndex = status.title.lastIndexOf(' ');
                     const label = lastSpaceIndex !== -1 ? status.title.substring(0, lastSpaceIndex) : status.title;
-            
+                    
                     return {
                       label: label,
                       value: status.title

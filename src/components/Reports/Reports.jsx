@@ -12,6 +12,7 @@ import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 
 const Reports = () => {
   const dispatch = useDispatch()
+  const details = useSelector(state => state.details)
   const selectedStage = useSelector(state => state.stage.currentStage)
   const files = useSelector((state) => state.reports.files);
   const reportslist = useSelector((state) => state.reports.reportsList);
@@ -77,7 +78,7 @@ const Reports = () => {
 
   const handleNext = () => {
     var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
-    const patientMandatoryFields = ['NHSNumber', 'Surname','FirstName','MiddleName','Title','DateofBirth','Sex','MaritalStatus',
+    const patientMandatoryFields = ['NHSNumber', 'Surname','FirstName','Title','DateofBirth','Sex','MaritalStatus',
                               'Ethnicorigin','Religion','SpecialRequirements','AddressLine1','AddressLine2','AddressLine3',
                             'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
                             ]
@@ -95,7 +96,7 @@ const Reports = () => {
       errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Patient Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
     }
 
-    const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinMiddlename', 'NextofKinAddressLine1',
+    const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
                             'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
                             'NextofKinHomePhoneNumber', 'NextofKinMobileNumber', 'RelationshiptoPatient' ]
 
@@ -162,8 +163,23 @@ const Reports = () => {
       setShowCloseButton(true)
       setIsConfirmation(false)
       openModal()
-      return;
+      return
     }
+
+    if(details && details.IsthisaTargetPatient == "Yes"){
+      const tempReports = reportslist.filter((report) => report.ReportName == "IPT Form")
+      if(tempReports.length > 0){
+        const iptFormFile = files.some((file) => file.ReportName === "IPT Form")
+        if(!iptFormFile){
+          setModalText("Please upload IPT Form report.")
+          setShowCloseButton(true)
+          setIsConfirmation(false)
+          openModal()
+          return
+        }
+      }
+    }
+
     dispatch(setReferralSubmissionStep(currentStep + 1))
   };
 

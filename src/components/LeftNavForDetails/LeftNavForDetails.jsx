@@ -8,9 +8,9 @@ import { setLeftNavClearLinkText } from "../SharedStringsSlice"
 
 const LeftNavForDetails = () => {
     const dispatch = useDispatch()
-    const [cleartext,setClearText] = useState("Patient")
+    const [currentStep,setCurrentStep] = useState("Patient")
     const leftNavStep = useSelector(stage => stage.referralSubmissionStep)
-
+    const details = useSelector(state => state.details)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showCloseButton,setShowCloseButton] = useState(true)
     const [modalText, setModalText] = useState("")
@@ -19,22 +19,57 @@ const LeftNavForDetails = () => {
     const sharedStrings = useSelector(state => state.sharedStrings)
 
     const handleGoToStep = (step) => {
+        if(currentStep == 0){
+            if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length < 10 || details.NHSNumber.length > 10)){
+                setShowCloseButton(true)
+                setIsConfirmation(false)
+                setModalText("Enter valid NHS Number")
+                openModal()
+                return
+            }
+            else if(details.HomePhoneNumber && details.HomePhoneNumber != "" && (details.HomePhoneNumber.length < 10 || details.HomePhoneNumber.length > 10)){
+                setShowCloseButton(true)
+                setIsConfirmation(false)
+                setModalText("Enter valid Home Phone Number")
+                openModal()
+                return
+            }
+            else if(details.MobileNumber && details.MobileNumber != "" && (details.MobileNumber.length < 10 || details.MobileNumber.length > 10)){
+                setShowCloseButton(true)
+                setIsConfirmation(false)
+                setModalText("Enter valid Mobile Number")
+                openModal()
+                return
+            }
+        }
+        if(currentStep == 1){
+            if(details.NextofKinHomePhoneNumber && details.NextofKinHomePhoneNumber != "" && (details.NextofKinHomePhoneNumber.length < 10 || details.NextofKinHomePhoneNumber.length > 10)){
+                setShowCloseButton(true)
+                setIsConfirmation(false)
+                setModalText("Enter valid Home Phone Number")
+                openModal()
+                return
+            }
+            else if(details.NextofKinMobileNumber && details.NextofKinMobileNumber != "" && (details.NextofKinMobileNumber.length < 10 || details.NextofKinMobileNumber.length > 10)){
+                setShowCloseButton(true)
+                setIsConfirmation(false)
+                setModalText("Enter valid Mobile Number")
+                openModal()
+                return
+            }
+        }
         if(step == 0)
             dispatch(setLeftNavClearLinkText("Patient"))
-            //setClearText("Patient")
         else if(step == 1)
             dispatch(setLeftNavClearLinkText("Next of Kin"))
-            //setClearText("Next of Kin")
         else if(step == 2)
             dispatch(setLeftNavClearLinkText("Refer"))
-            //setClearText("Refer")
         else if(step == 3)
             dispatch(setLeftNavClearLinkText("Treatment & Target Category"))
-            //setClearText("Treatment & Target Category")
         else if(step == 4)
             dispatch(setLeftNavClearLinkText("Reports"))
-            //setClearText("Reports")
         dispatch(setReferralSubmissionStep(step))
+        setCurrentStep(step)
     }
 
     const handleClearDetails = () => {

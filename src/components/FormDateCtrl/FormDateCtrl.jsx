@@ -2,9 +2,15 @@ import React, {useState, useEffect} from "react"
 import "./FormDateCtrl.css"
 import { useSelector } from "react-redux"
 
-const FormDateCtrl = ({label, onChangeText, title, value, isSameRow, lblMinWidth, dtWidth}) => {
+const FormDateCtrl = ({label, onChangeText, title, value, isSameRow, lblMinWidth, dtWidth, isFutureDate}) => {
   const [textboxvalue, setTextBoxValue] = useState(value)
   const details = useSelector(state => state.details)
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const currentDate = `${year}-${month}-${day}`;
 
   useEffect(() => {
     setTextBoxValue(details && details[title])
@@ -18,7 +24,9 @@ const FormDateCtrl = ({label, onChangeText, title, value, isSameRow, lblMinWidth
     <div className="detailsform">
       <label style={{minWidth:lblMinWidth}}>{label}</label>{!isSameRow && <br/>}
       <input className="dtCtrl" dateFormat="dd-MM-yyyy" type="date" onChange={onChangeHandle} value={textboxvalue}
-      style={{width:dtWidth}} />
+      style={{width:dtWidth}} 
+      min={isFutureDate==true ? currentDate : undefined }
+      max={isFutureDate==false ? currentDate : undefined } />
     </div>
   )
 }
