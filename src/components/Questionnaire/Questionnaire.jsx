@@ -46,9 +46,9 @@ const Questionnaire = () => {
     };
 
     const handleNext = () => {
-        if(discussedAtMDT == undefined || discussedAtMDT == "" || 
+        if(awareOfDiagnosis == undefined || awareOfDiagnosis == ""/*discussedAtMDT == undefined || discussedAtMDT == "" || 
             awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
-            overseasPatient == undefined || overseasPatient == ""){
+            overseasPatient == undefined || overseasPatient == ""*/){
             setShowCloseButton(true);
             setModalText("Complete questionnaire");
             openModal()
