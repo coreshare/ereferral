@@ -1,8 +1,8 @@
-import React,{useState} from "react"
+import React,{useState,useEffect} from "react"
 import TextBoxCtrl from "../TextBoxCtrl/TextBoxCtrl";
 import ButtonCtrl from "../ButtonCtrl/ButtonCtrl";
 import ModalDialog from "../ModalDialog/ModalDialog";
-import { validateDomain, generateOTP } from "../../Services/api";
+import { validateDomain, generateOTP, clearSession } from "../../Services/api";
 import { useDispatch } from "react-redux";
 import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
 import { setEmail } from "./EmailSlice";
@@ -15,6 +15,14 @@ const EmailOTPRequest = () =>{
     const [showCloseButton,setShowCloseButton] = useState(true)
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        clearSessionString()
+    },[])
+
+    const clearSessionString = async () => {
+        await clearSession()
+    }
 
     const handleEmailOTPRequest = async () =>{
         if(emailId == "" || !(emailPattern.test(emailId))){

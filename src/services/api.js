@@ -151,6 +151,26 @@ export const validateDomain = async (domainval) => {
   }
 };
 
+export const clearSession = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/ClearSession`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text();
+
+    console.log("Response:", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getNHSNumbers = async () => {
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
