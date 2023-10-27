@@ -152,11 +152,14 @@ const Reports = () => {
       openModal()
       return
     }
-
+    debugger
     const mainReports = reportslist.filter((report) => report.IsMain);
-    const mainReportsWithFiles = mainReports.every((mainReport) =>
-      files.some((file) => file.ReportIndex === mainReport.ReportIndex)
-    );
+    const mainReportsWithFiles = mainReports.every((mainReport) => {
+        if(details && details.IsthisaTargetPatient == "No" && mainReport.ReportName == "IPT Form"){
+          return true
+        }
+        return files.some((file) => file.ReportIndex === mainReport.ReportIndex)
+      });
 
     if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
       setModalText("Please upload files for all reports before proceeding")
@@ -179,7 +182,9 @@ const Reports = () => {
         }
       }
     } else if (details && details.IsthisaTargetPatient === "No") {
-      files = files.filter((file) => file.ReportName !== "IPT Form");
+      const updatedFiles = files.filter((file) => file.ReportName !== "IPT Form");
+      //const updatedFiles = files.filter((file) => file.ReportIndex !== report.ReportIndex);
+      dispatch(updateFiles(updatedFiles));
     }
 
     dispatch(setReferralSubmissionStep(currentStep + 1))
@@ -230,8 +235,22 @@ const Reports = () => {
       }
     }
     
-    const newStage = { ReportName: report, ReportFile: droppedFile, ReportIndex: reportIndex,
-      ReportOrder: reportOrder };
+    const timestamp = new Date().getTime()
+    //const fileNameWithTimestamp = `${droppedFile.name}_${timestamp}`
+    const fileParts = droppedFile.name.split('.');
+    const fileExtension = fileParts.pop();
+    const fileNameWithoutExtension = fileParts.join('.');
+    const fileNameWithTimestamp = `${fileNameWithoutExtension}_${timestamp}.${fileExtension}`;
+    const updatedFile = new File([droppedFile], fileNameWithTimestamp, {
+      type: droppedFile.type,
+    });
+    
+    const newStage = { 
+      ReportName: report, 
+      ReportFile: updatedFile,//droppedFile, 
+      ReportIndex: reportIndex,
+      ReportOrder: reportOrder 
+    };
     const updatedFiles = files.filter((file) => file.ReportIndex !== reportIndex);
     dispatch(updateFiles([...updatedFiles, newStage]))
   };
@@ -249,19 +268,19 @@ const Reports = () => {
 
   const openModal = () => {
     setIsModalOpen(true);
-};
+  };
 
   const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    setIsModalOpen(false);
+  };
 
   const openPDFModal = () => {
     setIsPDFModalOpen(true);
-};
+  };
 
   const closePDFModal = () => {
-        setIsPDFModalOpen(false);
-    };
+    setIsPDFModalOpen(false);
+  };
 
   const handleDeleteFile = (e, hasFile, isMain) => {
       if(hasFile){
@@ -298,9 +317,20 @@ const Reports = () => {
       {
         selFile = selectedFile
       }
+
+      const timestamp = new Date().getTime()
+      const fileParts = selFile.name.split('.');
+      const fileExtension = fileParts.pop();
+      const fileNameWithoutExtension = fileParts.join('.');
+      const fileNameWithTimestamp = `${fileNameWithoutExtension}_${timestamp}.${fileExtension}`;
+      //const fileNameWithTimestamp = `${selFile.name}_${timestamp}`
+      const updatedFile = new File([selFile], fileNameWithTimestamp, {
+        type: selFile.type,
+      });
+
       const newFile = {
         ReportName: report.ReportName,
-        ReportFile: selFile,
+        ReportFile: updatedFile,//selFile,
         ReportIndex: report.ReportIndex,
         ReportOrder: report.ReportOrder
       };

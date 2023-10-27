@@ -101,7 +101,7 @@ const ChooseStages = () => {
             {title: 'Lung', stage: 'Stage IV', report: 'Report 33', StageOrder: 3, ReportOrder: 1},
             {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44', StageOrder: 4, ReportOrder: 1},
             {title: 'Lung', stage: 'Thymoma', report: 'Referral Letter or MDT Outcome', StageOrder: 5, ReportOrder: 3},
-            {title: 'Lung', stage: 'Thymoma', report: 'IPT Form if Relevant', StageOrder: 5, ReportOrder: 1},
+            {title: 'Lung', stage: 'Thymoma', report: 'IPT Form', StageOrder: 5, ReportOrder: 1},
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy', StageOrder: 5, ReportOrder: 2},
             {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS', StageOrder: 5, ReportOrder: 4},
             {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1', StageOrder: 5, ReportOrder: 5},
