@@ -101,7 +101,7 @@ const EmailOTPRequest = () =>{
             <center>
                 <p><TextBoxCtrl placeholdertext="Enter email address" onChangeText={onChangeText} /></p>
                 <p>
-                <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_PUBLIC_SITE_KEY} onChange={onChange} />
+                <ReCAPTCHA sitekey="6LeB4t4oAAAAAONBx_KT4CXAKPi9Kh_cGE_jiFqM" onChange={onChange} />
                 </p>
                 <p><ButtonCtrl btnText="Send" btnClickHandler={handleEmailOTPRequest} /></p>
             </center>
