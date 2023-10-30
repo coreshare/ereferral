@@ -128,6 +128,28 @@ export const validateOTP = async (otpval) => {
   }
 };
 
+export const validateReCaptcha = async (captcharesponse) => {
+  const formData = new FormData();
+  formData.append("recaptchaResponse", captcharesponse);
+  try {
+    const response = await fetch(`${BASE_URL}/Recaptcha/ValidateRecaptcha`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed with status: " + response.status);
+    }
+
+    const responseBody = await response.text();
+
+    console.log("Response:", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const validateDomain = async (domainval) => {
   const formData = new FormData();
   formData.append("domain", domainval);
