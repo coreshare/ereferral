@@ -368,6 +368,10 @@ const Reports = () => {
             alert("Only PDF files are allowed.");
             return;
         }
+        if (selFile.size > 5 * 1024 * 1024) {
+          alert("Please upload file with size up to 5MB.");
+          return;
+        }
         if (selFile) {
           const existingFile = files.find((file) => file.ReportIndex === report.ReportIndex);
           setClickedReport(report)
