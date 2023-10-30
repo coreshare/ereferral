@@ -17,7 +17,8 @@ const LeftNavForDetails = () => {
     const [isConfirmation, setIsConfirmation] = useState(true)
     const [confirmationBtnText, setConfirmationBtnText] = useState("")
     const sharedStrings = useSelector(state => state.sharedStrings)
-
+    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    
     const handleGoToStep = (step) => {
         if(currentStep == 0){
             if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
