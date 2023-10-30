@@ -39,6 +39,12 @@ const LeftNavForDetails = () => {
                 openModal()
                 return
             }
+            else if(details.EmailAddress && details.EmailAddress != "" && !(emailPattern.test(details.EmailAddress))){
+                setShowCloseButton(true)
+                setModalText("Enter valid email address")
+                openModal()
+                return
+            }
         }
         if(currentStep == 1){
             if(details.NextofKinHomePhoneNumber && details.NextofKinHomePhoneNumber != "" && (details.NextofKinHomePhoneNumber.length != 11)){
