@@ -33,7 +33,20 @@ const EmailOTPRequest = () =>{
             openModal();
             return;
         }
-        else if(captchaResponse == null){
+        else{
+            const atIndex = emailId.indexOf("@");
+            var emailText = "";
+            if (atIndex !== -1) {
+                emailText = emailId.slice(0, atIndex)
+            }
+            if(emailText != "" && emailText.length > 64){
+                setShowCloseButton(true)
+                setModalText("Enter valid email address")
+                openModal();
+                return;
+            }
+        }
+        if(captchaResponse == null){
             setShowCloseButton(true)
             setModalText("Please select the 'I am not a Robot' checkbox.")
             openModal();
