@@ -75,8 +75,7 @@ const SubmitReferral = () => {
                 <button onClick={handleBack} className="buttonCtrl" style={{float:'right'}}>Back</button>
             </div>
             <p>Declaration to be Agreed.</p>
-            <p>Thank you for making the referral today. Please note this will be reviewed by a Clatterbridge consultant and you
-                will be notified if the referral has been accepted.
+            <p>Press <b><i>Submit</i></b> to send your referral. Press <b><i>Back</i></b> if you need to change any of the details.
             </p>
             <div style={{textAlign:"center", marginTop:'40px'}}><ButtonCtrl btnClickHandler={onSubmitHandle} btnText="Submit" /></div>
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false} 
