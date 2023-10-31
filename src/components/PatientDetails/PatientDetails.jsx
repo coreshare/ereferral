@@ -224,7 +224,6 @@ const PatientDetails = () => {
             <div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-                {/*<button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>*/}
             </div>
             
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
