@@ -18,14 +18,20 @@ const SubmitReferral = () => {
     const [confirmationBtnText, setConfirmationBtnText] = useState("")
     const [modalText, setModalText] = useState("")
     const [showCloseButton,setShowCloseButton] = useState(true)
-    
+
     const onSubmitHandle = async () =>{
+        if(!navigator.onLine){
+            setModalText("Submission is not possible because there is no internet connection.")
+            setIsConfirmation(false)
+            setShowCloseButton(true)
+            openModal()
+            return
+        }
         setModalText("Are you sure you want to submit this referral?")
         setIsConfirmation(true)
         setShowCloseButton(false)
         setConfirmationBtnText("Yes")
         openModal()
-        //onNext();
     }
 
     const openModal = () => {

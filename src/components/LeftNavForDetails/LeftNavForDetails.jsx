@@ -18,12 +18,12 @@ const LeftNavForDetails = () => {
     const [confirmationBtnText, setConfirmationBtnText] = useState("")
     const sharedStrings = useSelector(state => state.sharedStrings)
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    
+
     const handleGoToStep = (step) => {
+        setIsConfirmation(false)
         if(currentStep == 0){
             if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
                 setShowCloseButton(true)
-                setIsConfirmation(false)
                 setModalText("Enter valid NHS Number")
                 openModal()
                 return

@@ -15,6 +15,13 @@ const SuccessView = () => {
         dispatch(setStage(null))
     }
 
+    const handleResetSession = () => {
+        dispatch(setAppStep(0))
+        dispatch(setReferralTypeStageStep(0))
+        dispatch(resetDetails())
+        dispatch(setStage(null))
+    }
+
     return(
         <div style={{lineHeight:"28px",width:"70%",margin:"0 auto"}}>
             <p>Thank you for your referral into Clatterbridge Cancer Centre.</p>
@@ -22,7 +29,8 @@ const SuccessView = () => {
                 An email will be sent to you once the referral is accepted.</p>
             <p>Many thanks<br/>Clatterbridge Cancer Centre</p>
             <br/>
-            <button className="buttonCtrl" style={{float:'none'}} onClick={handleAddReferral}>Submit another referral</button>
+            <button className="buttonCtrl" style={{float:'none',marginRight:'20px'}} onClick={handleAddReferral}>Submit another referral</button>
+            <button className="buttonCtrl" style={{float:'none'}} onClick={handleResetSession}>Start new session</button>
         </div>
     )
 }
