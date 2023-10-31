@@ -4,6 +4,7 @@ import { setReferralTypeStageStep } from "../ReferralTypeSlice"
 import { setAppStep } from "../AppSlice"
 import { resetDetails } from "../DetailsSlice"
 import { setStage } from "../ChooseStages/StagesSlice"
+import { setUserValidationStep } from "../UserValidation/UserValidationSlice"
 
 const SuccessView = () => {
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ const SuccessView = () => {
 
     const handleResetSession = () => {
         dispatch(setAppStep(0))
+        dispatch(setUserValidationStep(0))
         dispatch(setReferralTypeStageStep(0))
         dispatch(resetDetails())
         dispatch(setStage(null))
