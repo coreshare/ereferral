@@ -95,8 +95,14 @@ const NextofKinDetails = () => {
 
     return (
         <div className="detailssection">
-            <div style={{float:'left'}}>
-                <h3 className="detailsHeader">Next of Kin Details</h3>
+            <div style={{float:'left',width:"100%"}}>
+                <div style={{display:"inline-block",width:"100%"}}>
+                    <h3 className="detailsHeader" style={{float:"left"}}>Next of Kin Details</h3>
+                    <div className="detailsNext" style={{float:"right"}}>
+                        <button onClick={handleNext}>Next</button>
+                        <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                    </div>
+                </div>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="NextofKinFirstName" value={details && details.NextofKinFirstName} onlyText={true}/><br/>
@@ -116,11 +122,10 @@ const NextofKinDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="detailsNext">
+            {/*<div className="detailsNext">
                 <button onClick={handleNext}>Next</button>
                 <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-                {/*<button onClick={handleReset} style={{marginRight:'10px'}}>Reset</button>*/}
-            </div>
+            </div>*/}
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
                 {modalText}
             </ModalDialog>

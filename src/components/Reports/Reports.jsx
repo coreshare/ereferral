@@ -425,8 +425,14 @@ const Reports = () => {
 
   return (
     <div>
-      <div style={{ float: "left" }}>
-        <h3 className="detailsHeader" style={{marginBottom:'5px'}}>Reports</h3>
+      <div style={{ float: "left",width:"100%" }}>
+        <div style={{display:"inline-block",width:"100%"}}>
+            <h3 className="detailsHeader" style={{float:"left",marginBottom:'5px'}}>Reports</h3>
+            <div className="detailsNext" style={{float:"right"}}>
+                <button onClick={handleNext}>Next</button>
+                <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+            </div>
+        </div>
         <span>Please drag and drop the required documents to the sections or click on sections below</span><br/><br/>
         {reportslist.map((report, index) => {
           if(details && details.IsthisaTargetPatient == "No" && report.ReportName== "IPT Form"){
@@ -471,10 +477,10 @@ const Reports = () => {
             <PDFViewer file={fileToView}></PDFViewer>
         </PDFModalDialog>}
       </div>
-      <div className="detailsNext">
+      {/*<div className="detailsNext">
         <button onClick={handleNext}>Next</button>
         <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-      </div>
+      </div>*/}
       <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation} 
       confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
         {modalText}

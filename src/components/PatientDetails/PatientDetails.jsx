@@ -194,7 +194,14 @@ const PatientDetails = () => {
     return (
         <div className="detailssection">
             <div style={{float:'left'}}>
-                <h3 className="detailsHeader">Patient Details</h3>
+                <div style={{display:"inline-block",width:"100%"}}>
+                    <h3 className="detailsHeader" style={{float:"left"}}>Patient Details</h3>
+                    <div className="detailsNext" style={{float:"right"}}>
+                        <button onClick={handleNext}>Next</button>
+                        <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
+                    </div>
+                </div>
+                
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
                         <FormTextBoxCtrl label="NHS Number" onBlurText={onBlurTextHandle} onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} maxLengthValue={10} disallowSpaces={true} /><br/>
@@ -221,10 +228,7 @@ const PatientDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="detailsNext">
-                <button onClick={handleNext}>Next</button>
-                <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-            </div>
+            
             
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
                 {modalText}
