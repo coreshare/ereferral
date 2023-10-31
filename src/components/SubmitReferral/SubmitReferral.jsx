@@ -84,7 +84,7 @@ const SubmitReferral = () => {
             <p>Press <b><i>Submit</i></b> to send your referral. Press <b><i>Back</i></b> if you need to change any of the details.
             </p>
             <div style={{textAlign:"center", marginTop:'40px'}}><ButtonCtrl btnClickHandler={onSubmitHandle} btnText="Submit" /></div>
-            <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={false} 
+            <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} 
             isConfirmation={isConfirmation} confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText}>
                 {modalText}
             </ModalDialog>
