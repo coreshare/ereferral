@@ -33,6 +33,7 @@ const Reports = () => {
   const [clickedReport, setClickedReport] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
   const formdata = useSelector(state => state.details)
+  const [overseasPatient, setOverseasPatient] = useState(details.OverseasPatient);
   
   const handleAddDuplicateReport = (e) => {
     setConfirmationBtnText("Add")
@@ -78,10 +79,12 @@ const Reports = () => {
 
   const handleNext = () => {
     var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
-    const patientMandatoryFields = ['NHSNumber', 'Surname','FirstName','Title','DateofBirth','Sex','MaritalStatus',
-                              'Ethnicorigin','Religion','SpecialRequirements','AddressLine1','AddressLine2','AddressLine3',
-                            'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
-                            ]
+    const patientMandatoryFields = ['Surname','FirstName','DateofBirth'
+                              
+                            
+                            ]//'NHSNumber', 'Title','Sex','MaritalStatus',
+                            //'Ethnicorigin','Religion','SpecialRequirements','AddressLine1','AddressLine2','AddressLine3',
+                            //'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
     var emptyFields = []
     var hasMFToFill = false
 
@@ -90,6 +93,12 @@ const Reports = () => {
         emptyFields.push(fieldName)
         hasMFToFill = true
       }
+    }
+
+    if(overseasPatient == 'No'){
+        if(!details.NHSNumber || details.NHSNumber == ""){
+          emptyFields.push("NHSNumber")
+        } 
     }
     
     if (emptyFields.length > 0) {
@@ -145,7 +154,7 @@ const Reports = () => {
 
     errorMsg = errorMsg + "</div>"
 
-    if(hasMFToFill && false){//checkonce
+    if(hasMFToFill){//checkonce// && false
       setModalText(errorMsg)
       setShowCloseButton(true)
       setIsConfirmation(false)
