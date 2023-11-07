@@ -140,7 +140,12 @@ const Reports = () => {
       errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
     }
 
-    const treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'PrimaryDiagnosis', 'IsthisaTargetPatient', 'TargetCategory' ]
+    let treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'IsthisaTargetPatient', 'TargetCategory' ]
+    //'PrimaryDiagnosis', 
+
+    if(details && details.IsthisaTargetPatient == "No"){
+      treatmentMandatoryFields = treatmentMandatoryFields.filter(field => field !== 'TargetCategory')
+    }
 
     emptyFields = []
 
