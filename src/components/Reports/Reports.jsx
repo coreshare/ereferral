@@ -111,10 +111,12 @@ const Reports = () => {
 
     emptyFields = []
 
-    for (const fieldName of nextofKinMandatoryFields) {
-      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-        emptyFields.push(fieldName)
-        hasMFToFill = true
+    if(!formdata["NoNextOfKin"]){
+      for (const fieldName of nextofKinMandatoryFields) {
+        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+          emptyFields.push(fieldName)
+          hasMFToFill = true
+        }
       }
     }
 
