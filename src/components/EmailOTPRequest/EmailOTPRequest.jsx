@@ -8,19 +8,31 @@ import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
 import { setEmail } from "./EmailSlice";
 import { updateDetails } from "../DetailsSlice";
 import ReCAPTCHA from "react-google-recaptcha";
+import { setReferrerEmail } from "../SharedStringsSlice";
+import {warning_ValidEmailText} from "../Config.js"
 
 const EmailOTPRequest = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [emailId, setEmailId] = useState("");
+    const [emailId, setEmailId] = useState("")
     const [modalText, setModalText] = useState("");
     const [showCloseButton,setShowCloseButton] = useState(true)
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const dispatch = useDispatch()
     const [captchaResponse, setCaptchaResponse] = useState(null)
+    const [isSupportedMode, setIsSupportedMode] = useState(true)
 
     useEffect(() => {
-        clearSessionString()
-    },[])
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const isPrivateMode = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.isPrivate;
+
+        if (isSafari || isPrivateMode) {
+            //alert("You cannot use the app in Safari and private mode");
+            setIsSupportedMode(false)
+        } else {
+            clearSessionString();
+        }
+        //clearSessionString()
+    },[isSupportedMode])
 
     const clearSessionString = async () => {
         await clearSession()
@@ -29,7 +41,7 @@ const EmailOTPRequest = () =>{
     const handleEmailOTPRequest = async () =>{
         if(emailId == "" || !(emailPattern.test(emailId))){
             setShowCloseButton(true)
-            setModalText("Enter valid email address")
+            setModalText(warning_ValidEmailText)
             openModal();
             return;
         }
@@ -41,7 +53,7 @@ const EmailOTPRequest = () =>{
             }
             if(emailText != "" && emailText.length > 64){
                 setShowCloseButton(true)
-                setModalText("Enter valid email address")
+                setModalText(warning_ValidEmailText)
                 openModal();
                 return;
             }
@@ -61,7 +73,8 @@ const EmailOTPRequest = () =>{
             setShowCloseButton(false)
             setModalText("Validating email... Please wait.")
             openModal();
-            var isValid = await validateDomain(domain);
+            //var isValid = await validateDomain(domain);
+            var isValid = await validateDomain(emailId);
             if(isValid == "OTP Generated Already")
             {
                 setShowCloseButton(true)
@@ -76,11 +89,10 @@ const EmailOTPRequest = () =>{
                 return;
             }
             else{
-                var title = "ReferrerEmail"
                 var value = emailId
-                dispatch(updateDetails({title, value}));
+                dispatch(setReferrerEmail(value));
                 setShowCloseButton(false)
-                setModalText("Sending OTP... Please wait.")
+                setModalText("Sending verification code... Please wait.")
                 dispatch(setEmail(emailId))
                 await generateOTP(emailId);
                 closeModal();
@@ -111,6 +123,7 @@ const EmailOTPRequest = () =>{
 
     return(
         <div>
+            {isSupportedMode && <>
             <center>
                 <p><TextBoxCtrl placeholdertext="Enter email address" onChangeText={onChangeText} /></p>
                 <p>
@@ -120,7 +133,8 @@ const EmailOTPRequest = () =>{
             </center>
             <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
             {modalText}
-            </ModalDialog>
+            </ModalDialog></>}
+            {!isSupportedMode && <><b style={{fontSize:'16px'}}>Please note that the app is not compatible with Safari or private browsing mode. For the best experience, we recommend using a different browser or regular browsing mode.</b></>}
         </div>
     )
 }

@@ -11,7 +11,8 @@ import { setAppStep } from "../AppSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormYesNoBtnsCtrl from "../FormYesNoBtnsCtrl/FormYesNoBtnsCtrl";
-import { getMasterData } from "../../Services/api";
+import { warning_NHSNumberText } from "../Config";
+import { setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
 
 const Questionnaire = () => {
     const dispatch = useDispatch()
@@ -55,26 +56,32 @@ const Questionnaire = () => {
             overseasPatient == undefined || overseasPatient == ""*/
 
             setShowCloseButton(true);
-            setModalText("Complete questionnaire");
+            setModalText("Please complete the questionnaire");
             openModal()
             return
         }
         if(discussedAtMDT == 'No' || awareOfDiagnosis == 'No'){
             setShowCloseButton(true);
             if(discussedAtMDT == 'No')
-                setModalText("Cannot continue if not discussed at MDT");
+                setModalText("Unable to proceed if patient has not been discussed at MDT and the stage has not been defined");
             else
-                setModalText("Cannot continue if patient not aware of diagnosis");
+                setModalText("Unable to proceed if the patient is not informed of the diagnosis");
             openModal();
             return;
         }
         if(overseasPatient == 'No'){
             if(!details.NHSNumber || details.NHSNumber == ""){
                 setShowCloseButton(true)
-                setModalText("Enter NHS Number")
+                setModalText(warning_NHSNumberText)
                 openModal()
                 return
             }
+        }
+        if(!details.DateatMDT || details.DateatMDT === ""){
+            setShowCloseButton(true)
+            setModalText("Enter date at MDT")
+            openModal()
+            return
         }
         if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
             setShowCloseButton(true)
@@ -147,9 +154,14 @@ const Questionnaire = () => {
             const numberExists = nhsNumbers && nhsNumbers.some((nhsNumber) => nhsNumber.title === value);
             if(numberExists)
             {
+                dispatch(setPatientMandatory(false))
+                dispatch(setNOKMandatory(false))
+                dispatch(setReferMandatory(false))
+                dispatch(setTTCMandatory(false))
+
                 value = "Yes"
                 setShowCloseButton(true)
-                setModalText("As NHS Number already available, no need to upload all reports again.")
+                setModalText("<span style='line-height:28px'>The NHS number has been recognised as not needing all the reports specified. <br/>Please complete as many of the fields as you can and attach the reports you have available.</span>")
                 openModal()
             }
             else
@@ -250,7 +262,7 @@ const Questionnaire = () => {
                     <br/><br/>
                 </div>
             
-                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton}>
+                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isHtmlContent={true}>
                     {modalText}
                 </ModalDialog>
         </div>

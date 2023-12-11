@@ -17,7 +17,8 @@ const OTPValidation = () => {
   const emailId = useSelector(state => state.email)
   const [resendAttempts, setResendAttempts] = useState(0)
   const maxResendAttempts = 3
-  const [maxAttempts, setMaxAttempts] = useState(0);
+  const [maxAttempts, setMaxAttempts] = useState(0)
+  const [textBoxValues, setTextBoxValues] = useState(Array(6).fill(''))
 
   useEffect(() => {
     let timer;
@@ -32,7 +33,7 @@ const OTPValidation = () => {
       } else {
         openModal();
         setShowCloseButton(true);
-        setModalText("Maximum OTP attempts reached. Please refresh and try again.");
+        setModalText("Maximum verification code attempts reached. Please refresh and try again.");
       }
     }
 
@@ -99,7 +100,7 @@ const OTPValidation = () => {
           if(response && response.indexOf("Invalid") > -1){
             if(maxAttempts < 5){
               setMaxAttempts(maxAttempts + 1)
-              setModalText("Invalid OTP.");
+              setModalText("Invalid verification code.");
             }
             else{
               setModalText("You have reached maximum attempts. Please refresh and try again.");
@@ -121,10 +122,11 @@ const OTPValidation = () => {
   };
 
   const handleResendOTP = async () => {
+    setEnteredOTP(Array(6).fill(''))
     setResendAttempts(resendAttempts + 1)
     openModal()
     setShowCloseButton(false)
-    setModalText("Sending OTP... Please wait.")
+    setModalText("Sending verification code... Please wait.")
     await generateOTP(emailId);
     closeModal();
     setRemainingTime(120)
@@ -144,16 +146,17 @@ const OTPValidation = () => {
               maxLength="1"
               onKeyUp={(event) => handleKeyDown(event, index)}
               onChange={(event) => handleTextboxChange(event, index)}
+              value={enteredOTP[index]}
             />
           ))}
         </p>
         <p>
         {maxAttempts !== 5 && (
           isTimerActive ? (
-            <span>OTP will expire in {Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
+            <span>Verification code will expire in {Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
           ) : (
             <a style={{ color: "#005cbb" }} href="javascript:void(0)" onClick={handleResendOTP}>
-              Re-send OTP
+              Resend verification code
             </a>
           )
         )}

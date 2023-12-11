@@ -9,6 +9,7 @@ import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFiles, updateReportsList } from "./ReportsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
+import { warning_MandatoryText } from "../Config";
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -78,104 +79,130 @@ const Reports = () => {
   },[])
 
   const handleNext = () => {
-    var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
-    const patientMandatoryFields = ['Surname','FirstName','DateofBirth'
-                              
-                            
-                            ]//'NHSNumber', 'Title','Sex','MaritalStatus',
-                            //'Ethnicorigin','Religion','SpecialRequirements','AddressLine1','AddressLine2','AddressLine3',
-                            //'AddressLine4','PostCode','HomePhoneNumber','MobileNumber'
-    var emptyFields = []
-    var hasMFToFill = false
+    if(formdata.IsExistingNHSNumber != "Yes") {
+      //var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
+      var errorMsg = `<div style='max-height:500px;overflow-y:auto;width:400px;'><b style='line-height:28px'>${warning_MandatoryText}</b><br/><br/>`
+      const patientMandatoryFields = ['Surname','FirstName','DateofBirth','HomePhoneNumber']
 
-    for (const fieldName of patientMandatoryFields) {
-      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-        emptyFields.push(fieldName)
-        hasMFToFill = true
-      }
-    }
+      const patientMFDN = {}
+      patientMFDN["Surname"] = "Surname"
+      patientMFDN["FirstName"] = "First Name"
+      patientMFDN["DateofBirth"] = "Date of Birth"
+      patientMFDN["HomePhoneNumber"] = "Primary Contact Number"
+      var emptyFields = []
+      var hasMFToFill = false
 
-    if(overseasPatient == 'No'){
-        if(!details.NHSNumber || details.NHSNumber == ""){
-          emptyFields.push("NHSNumber")
-        } 
-    }
-    
-    if (emptyFields.length > 0) {
-      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Patient Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
-    }
-
-    const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
-                            'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
-                            'NextofKinHomePhoneNumber', 'NextofKinMobileNumber', 'RelationshiptoPatient' ]
-
-    emptyFields = []
-
-    if(!formdata["NoNextOfKin"]){
-      for (const fieldName of nextofKinMandatoryFields) {
+      for (const fieldName of patientMandatoryFields) {
         if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-          emptyFields.push(fieldName)
+          emptyFields.push(patientMFDN[fieldName])
           hasMFToFill = true
         }
       }
-    }
 
-    if (emptyFields.length > 0) {
-      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Next of Kin Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
-    }
-    
-    const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
-    //, 'DateDecisiontoRefer'
+      if(overseasPatient == 'No'){
+          if(!details.NHSNumber || details.NHSNumber == ""){
+            emptyFields.push("NHS Number")
+          } 
+      }
+      
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Patient Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
 
-    emptyFields = []
+      const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
+                              'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
+                              'NextofKinMobileNumber' ]
 
-    for (const fieldName of referMandatoryFields) {
-      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-        emptyFields.push(fieldName)
-        hasMFToFill = true
+      const nextofKinMFDN = {}
+      nextofKinMFDN["NextofKinFirstName"] = "Next of Kin First Name"
+      nextofKinMFDN["NextofKinLastName"] = "Next of Kin Last Name"
+      nextofKinMFDN["NextofKinAddressLine1"] = "Next of Kin Address Line1"
+      nextofKinMFDN["NextofKinAddressLine2"] = "Next of Kin Address Line2"
+      nextofKinMFDN["NextofKinAddressLine3"] = "Next of Kin Address Line3"
+      nextofKinMFDN["NextofKinAddressLine4"] = "Next of Kin Address Line4"
+      nextofKinMFDN["NextofKinPostCode"] = "Next of Kin Post Code"
+      nextofKinMFDN["NextofKinHomePhoneNumber"] = "Next of Kin Home Phone Number"
+      nextofKinMFDN["NextofKinMobileNumber"] = "Next of Kin Mobile Number"
+      nextofKinMFDN["RelationshiptoPatient"] = "Relationship to Patient"
+      emptyFields = []
+
+      if(!formdata["NoNextOfKin"]){
+        for (const fieldName of nextofKinMandatoryFields) {
+          if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+            emptyFields.push(nextofKinMFDN[fieldName])
+            hasMFToFill = true
+          }
+        }
+      }
+
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Next of Kin Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+      
+      const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
+      
+      const referMFDN = {}
+      referMFDN["GPName"] = "GP Name"
+      referMFDN["GPPractice"] = "GP Practice"
+      referMFDN["GPPracticeAddress"] = "GP Practice Address"
+      referMFDN["ReferringOrganisation"] = "Referring Organisation"
+      referMFDN["ReferringConsultant"] = "Referring Consultant"
+
+      emptyFields = []
+
+      for (const fieldName of referMandatoryFields) {
+        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+          emptyFields.push(referMFDN[fieldName])
+          hasMFToFill = true
+        }
+      }
+
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+
+      let treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'IsthisaTargetPatient', 'TargetCategory' ]
+      //'PrimaryDiagnosis', 
+      const treatmentMFDN = {}
+      treatmentMFDN["MedicalOncologistCCCConsultant"] = "Medical Oncologist CCC Consultant"
+      treatmentMFDN["ClinicalOncologistCCCConsultant"] = "Clinical Oncologist CCC Consultant"
+      treatmentMFDN["IsthisaTargetPatient"] = "Is this a Target Patient"
+      treatmentMFDN["TargetCategory"] = "Target Category"
+
+      if(details && details.IsthisaTargetPatient == "No"){
+        treatmentMandatoryFields = treatmentMandatoryFields.filter(field => field !== 'TargetCategory')
+      }
+
+      emptyFields = []
+
+      for (const fieldName of treatmentMandatoryFields) {
+        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+          emptyFields.push(treatmentMFDN[fieldName])
+          hasMFToFill = true
+        }
+      }
+
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Treatment & Target Category</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+
+      errorMsg = errorMsg + "</div>"
+
+      if(hasMFToFill){//checkonce// && false
+        setModalText(errorMsg)
+        setShowCloseButton(true)
+        setIsConfirmation(false)
+        openModal()
+        return
       }
     }
-
-    if (emptyFields.length > 0) {
-      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
-    }
-
-    let treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'IsthisaTargetPatient', 'TargetCategory' ]
-    //'PrimaryDiagnosis', 
-
-    if(details && details.IsthisaTargetPatient == "No"){
-      treatmentMandatoryFields = treatmentMandatoryFields.filter(field => field !== 'TargetCategory')
-    }
-
-    emptyFields = []
-
-    for (const fieldName of treatmentMandatoryFields) {
-      if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-        emptyFields.push(fieldName)
-        hasMFToFill = true
-      }
-    }
-
-    if (emptyFields.length > 0) {
-      errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Treatment & Target Category</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
-    }
-
-    errorMsg = errorMsg + "</div>"
-
-    if(hasMFToFill){//checkonce// && false
-      setModalText(errorMsg)
-      setShowCloseButton(true)
-      setIsConfirmation(false)
-      openModal()
-      return
-    }
-    debugger
-    const mainReports = reportslist.filter((report) => report.IsMain);
+    const mainReports = reportslist.filter((report) => (report.IsMain || !report.IsMain));
     const mainReportsWithFiles = mainReports.every((mainReport) => {
         if(details && details.IsthisaTargetPatient == "No" && mainReport.ReportName == "IPT Form"){
           return true
         }
-        return files.some((file) => file.ReportIndex === mainReport.ReportIndex)
+        //return files.some((file) => file.ReportIndex === mainReport.ReportIndex)
+        return files.some((file) => file.ReportName === mainReport.ReportName)
       });
 
     if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
@@ -213,7 +240,7 @@ const Reports = () => {
 
   const handleDragEnter = (e, report) => {
     e.preventDefault();
-    setDraggingOver(report);
+    setDraggingOver(report.ReportIndex);
   };
 
   const handleDragOver = (e) => {
@@ -319,7 +346,7 @@ const Reports = () => {
         setConfirmationBtnText("Delete")
         setShowCloseButton(false)
         setConfirmationType("Delete-File")
-        setModalText("Are you sure to delete the file?");
+        setModalText("Are you sure you want to delete the file?");
         setIsConfirmation(true);
         openModal();
         setReportFileToDelete(e.target.title);
@@ -459,23 +486,23 @@ const Reports = () => {
           var filename = null;
           if (hasFile) {
             var file = files.find(file => file.ReportIndex === report.ReportIndex);
-            filename = file.ReportFile.name;
+            filename = file.ReportFile.name.replace(/_\d+\.pdf$/, '.pdf');
           }
 
           return (
             <div style={{display:'flex'}}>
-                <div style={{width:'80px',display:'block',alignItems:'right',height:'40px',textAlign:'right'}}>{hasFile && <>
+                <div style={{width:'80px',display:'block',alignItems:'right',height:'40px',textAlign:'right',minWidth:'80px'}}>{hasFile && <>
                   {report.IsMain && <img src={addReport} title={report.ReportName} onClick={handleAddDuplicateReport} 
                   style={{width: '30px',cursor: 'pointer',marginRight:'5px',marginTop:'5px'}}/>}
                   <img src={viewIcon} title={report.ReportName} onClick={handlePDFView} 
                   style={{width: '40px',cursor: 'pointer',marginRight:'5px',height:'28px',marginTop:'8px'}}/>
                   </>
                 }</div>
-                <div
+                <div 
                 key={index}
                 title={report.ReportName}
                 className={`report-strip drop-area ${
-                    draggingOver === report.ReportName ? "dragging" : ""
+                    draggingOver === report.ReportIndex ? "dragging" : ""
                 } ${hasFile ? "with-file" : ""}`}
                 onDragEnter={(e) => handleDragEnter(e, report)}
                 onDragOver={handleDragOver}
