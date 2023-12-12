@@ -83,6 +83,12 @@ const Questionnaire = () => {
             openModal()
             return
         }
+        if(!details.TreatmentDecision || details.TreatmentDecision === ""){
+            setShowCloseButton(true)
+            setModalText("Select Treatment Decision")
+            openModal()
+            return
+        }
         if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
             setShowCloseButton(true)
             setModalText("Enter valid NHS Number")
@@ -241,11 +247,11 @@ const Questionnaire = () => {
                     {overseasPatient === 'Yes' && (
                         <><br/>
                             <div>
-                                <FormYesNoBtnsCtrl label="NHS Entitlement?" onChangeValue={onChangeTextHandle} 
+                                <FormYesNoBtnsCtrl label="Patient entitled to NHS treatment" onChangeValue={onChangeTextHandle} 
                                             title="HasAssessmentbeenCompleted" value={details && details.HasAssessmentbeenCompleted} />
                             </div><br/>
                             <div>
-                                <FormTextAreaCtrl label="Outcome of Assessment" onChangeText={onChangeTextHandle} 
+                                <FormTextAreaCtrl label="Outcome of NHS Entitlement Assessment" onChangeText={onChangeTextHandle} 
                                     title="OutcomeofAssessment" value={details && details.OutcomeofAssessment} ctrlWidth="633px"/>
                             </div>
                         </>
