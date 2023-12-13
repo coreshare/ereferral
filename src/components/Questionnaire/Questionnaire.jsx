@@ -110,7 +110,7 @@ const Questionnaire = () => {
             setDiscussedAtMDT(value)
             if(value == 'No'){
                 resetControls("DiscussedatMDT")
-                setModalText("Cannot continue if not discussed at MDT")
+                setModalText("Unable to proceed if patient has not been discussed at MDT and the stage has not been defined")
                 openModal();
                 return;
             }
@@ -125,7 +125,7 @@ const Questionnaire = () => {
             setAwareOfDiagnosis(value)
             if(value == 'No'){
                 resetControls("PatientAwareofDiagnosis")
-                setModalText("Cannot continue if patient not aware of diagnosis")
+                setModalText("Unable to proceed if the patient is not informed of the diagnosis")
                 openModal();
                 return;
             }

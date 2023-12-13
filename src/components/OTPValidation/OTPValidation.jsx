@@ -117,7 +117,7 @@ const OTPValidation = () => {
     else{
       openModal();
       setShowCloseButton(true);
-      setModalText("Enter valid OTP");
+      setModalText("Enter valid verification code");
     }
   };
 
