@@ -87,7 +87,7 @@ const OTPValidation = () => {
       openModal();
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
-      var response = await validateOTP(concatenatedNumberString);//"Success";//checkonce
+      const response = await validateOTP(concatenatedNumberString);//"Success";//checkonce
       if(response == "Success"){
           closeModal();
           dispatch(setAppStep(1))

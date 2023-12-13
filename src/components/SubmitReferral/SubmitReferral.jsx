@@ -49,7 +49,7 @@ const SubmitReferral = () => {
             setIsConfirmation(false)
             setShowCloseButton(false)
             setModalText("Submitting Data... Please wait.")
-            var itemId = await saveData(details);
+            const itemId = await saveData(details);
             console.log(itemId);
             var reportsMetadata = {};
             for(var i=0;i < reports.length;i++){
