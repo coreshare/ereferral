@@ -5,6 +5,7 @@ import { generateOTP, validateOTP } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppStep } from "../AppSlice";
+import { setAccessToken } from "../AcessTokenSlice";
 
 const OTPValidation = () => {
   const dispatch = useDispatch()
@@ -88,8 +89,9 @@ const OTPValidation = () => {
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
       const response = await validateOTP(concatenatedNumberString);//"Success";//checkonce
-      if(response == "Success"){
+      if(response !== null){
           closeModal();
+          dispatch(setAccessToken(response))
           dispatch(setAppStep(1))
           //onNext();
       }
