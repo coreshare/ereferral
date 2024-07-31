@@ -22,7 +22,7 @@ const EmailOTPRequest = () =>{
     const [isSupportedMode, setIsSupportedMode] = useState(true)
 
     useEffect(() => {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        /*const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         const isPrivateMode = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.isPrivate;
 
         if (isSafari || isPrivateMode) {
@@ -31,11 +31,23 @@ const EmailOTPRequest = () =>{
         } else {
             clearSessionString();
         }
-        //clearSessionString()
+        */
+        clearSessionString()
     },[isSupportedMode])
 
     const clearSessionString = async () => {
-        await clearSession()
+        try {
+            await clearSession();
+        } 
+        catch (error) {
+            if (error.message.includes('400')) {
+              alert(error.message);
+            } else if (error.message.includes('500')) {
+              alert(error.message);
+            } else {
+              alert(error.message);
+            }
+        }
     }
 
     const handleEmailOTPRequest = async () =>{
@@ -73,30 +85,35 @@ const EmailOTPRequest = () =>{
             setShowCloseButton(false)
             setModalText("Validating email... Please wait.")
             openModal();
+            //checkonce
+            //Change to domain before live.
             //var isValid = await validateDomain(domain);
-            const isValid = await validateDomain(emailId);
-            if(isValid == "OTP Generated Already")
-            {
-                setShowCloseButton(true)
-                setModalText("Another eReferral session already in progress. Please close all browsers and try again.")
-                return
-            }
-            //if((isValid==undefined || isValid == "Not valid") && false){//checkonce
-            if(isValid==undefined || isValid == "Not valid"){
-                setShowCloseButton(true)
-                setModalText("Email not found in our records.")
-                //openModal();
-                return;
-            }
-            else{
-                var value = emailId
-                dispatch(setReferrerEmail(value));
-                setShowCloseButton(false)
+            try{
+                await validateDomain(emailId);
+                dispatch(setReferrerEmail(emailId));
                 setModalText("Sending verification code... Please wait.")
                 dispatch(setEmail(emailId))
-                await generateOTP(emailId);
+                await generateOTP();
                 closeModal();
                 dispatch(setUserValidationStep(1))
+            }
+            catch (error) {
+                setShowCloseButton(true)
+                if (error.message.includes('400')) {
+                    if(error.message.includes('OTP Generated Already')){
+                        setModalText("Another eReferral session already in progress. Please close all browsers and try again.")
+                    }
+                    else if(error.message.includes('Not valid')){
+                        setModalText("Email not found in our records.")
+                    }
+                    else {
+                        setModalText(error.message)
+                    }
+                } else if (error.message.includes('500')) {
+                    setModalText(error.message)
+                } else {
+                    setModalText(error.message)
+                }
             }
         }
         //generate otp
@@ -116,9 +133,19 @@ const EmailOTPRequest = () =>{
     }
 
     const onChange = async (value) => {
-        //console.log("Captcha value:", value)
-        const response = await validateReCaptcha(value)
-        setCaptchaResponse(response)
+        try {
+            await validateReCaptcha(value)
+            setCaptchaResponse("validated")
+        } 
+        catch (error) {
+            if (error.message.includes('400')) {
+                alert(error.message);
+            } else if (error.message.includes('500')) {
+                alert(error.message);
+            } else {
+                alert(error.message);
+            }
+        }
     }
 
     return(

@@ -110,16 +110,16 @@ const Reports = () => {
       }
 
       const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
-                              'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
+                              'NextofKinAddressLine2', /*'NextofKinAddressLine3', 'NextofKinAddressLine4', */'NextofKinPostCode',
                               'NextofKinMobileNumber' ]
 
       const nextofKinMFDN = {}
       nextofKinMFDN["NextofKinFirstName"] = "Next of Kin First Name"
       nextofKinMFDN["NextofKinLastName"] = "Next of Kin Last Name"
-      nextofKinMFDN["NextofKinAddressLine1"] = "Next of Kin Address Line1"
-      nextofKinMFDN["NextofKinAddressLine2"] = "Next of Kin Address Line2"
-      nextofKinMFDN["NextofKinAddressLine3"] = "Next of Kin Address Line3"
-      nextofKinMFDN["NextofKinAddressLine4"] = "Next of Kin Address Line4"
+      nextofKinMFDN["NextofKinAddressLine1"] = "Next of Kin Address Line 1"
+      nextofKinMFDN["NextofKinAddressLine2"] = "Next of Kin Address Line 2"
+      nextofKinMFDN["NextofKinAddressLine3"] = "Next of Kin Address Line 3"
+      nextofKinMFDN["NextofKinAddressLine4"] = "Next of Kin Address Line 4"
       nextofKinMFDN["NextofKinPostCode"] = "Next of Kin Post Code"
       nextofKinMFDN["NextofKinHomePhoneNumber"] = "Next of Kin Home Phone Number"
       nextofKinMFDN["NextofKinMobileNumber"] = "Next of Kin Mobile Number"
@@ -139,26 +139,28 @@ const Reports = () => {
         errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Next of Kin Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
       }
       
-      const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
-      
-      const referMFDN = {}
-      referMFDN["GPName"] = "GP Name"
-      referMFDN["GPPractice"] = "GP Practice"
-      referMFDN["GPPracticeAddress"] = "GP Practice Address"
-      referMFDN["ReferringOrganisation"] = "Referring Organisation"
-      referMFDN["ReferringConsultant"] = "Referring Consultant"
+      if(formdata.OverseasPatient != "Yes"){
+        const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
+        
+        const referMFDN = {}
+        referMFDN["GPName"] = "GP Name"
+        referMFDN["GPPractice"] = "GP Practice"
+        referMFDN["GPPracticeAddress"] = "GP Practice Address"
+        referMFDN["ReferringOrganisation"] = "Referring Organisation"
+        referMFDN["ReferringConsultant"] = "Referring Consultant"
 
-      emptyFields = []
+        emptyFields = []
 
-      for (const fieldName of referMandatoryFields) {
-        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
-          emptyFields.push(referMFDN[fieldName])
-          hasMFToFill = true
+        for (const fieldName of referMandatoryFields) {
+          if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+            emptyFields.push(referMFDN[fieldName])
+            hasMFToFill = true
+          }
         }
-      }
 
-      if (emptyFields.length > 0) {
-        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+        if (emptyFields.length > 0) {
+          errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+        }
       }
 
       let treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'IsthisaTargetPatient', 'TargetCategory' ]
@@ -198,9 +200,11 @@ const Reports = () => {
     }
     const mainReports = reportslist.filter((report) => (report.IsMain || !report.IsMain));
     const mainReportsWithFiles = mainReports.every((mainReport) => {
-        if(details && details.IsthisaTargetPatient == "No" && mainReport.ReportName == "IPT Form"){
+        if(details && ((details.IsthisaTargetPatient == "No" && mainReport.ReportName == "IPT Form") || 
+          (details.DiscussedatMDT == "No" && mainReport.ReportName.startsWith("MDT ")))){
           return true
         }
+
         //return files.some((file) => file.ReportIndex === mainReport.ReportIndex)
         return files.some((file) => file.ReportName === mainReport.ReportName)
       });
@@ -217,7 +221,7 @@ const Reports = () => {
       const tempReports = reportslist.filter((report) => report.ReportName == "IPT Form")
       if(tempReports.length > 0){
         const iptFormFile = files.some((file) => file.ReportName === "IPT Form")
-        if(!iptFormFile){
+        if(!iptFormFile && details.IsExistingNHSNumber != "Yes"){
           setModalText("Please upload IPT Form report.")
           setShowCloseButton(true)
           setIsConfirmation(false)
@@ -510,7 +514,7 @@ const Reports = () => {
                 onDrop={(e) => handleDrop(e, report.ReportName, report.ReportIndex, report.ReportOrder)}
                 onClick={() => handleFileUpload(null, report)}
                 >
-                {!report.IsMain && "Additional"} {report.ReportName}{hasFile && " - "}{hasFile && filename}
+                {!report.IsMain && "Additional"} {report.ReportName}{details.DiscussedatMDT === "No" && report.ReportName.startsWith("MDT ") && " (Optional)"}{hasFile && " - "}{hasFile && filename}
                 </div>
                 {(hasFile || !report.IsMain) && <div><img src={deleteIcon} title={report.ReportIndex} 
                   onClick={(e) => {handleDeleteFile(e, hasFile, report.IsMain)}} style={{width: '25px',margin:'7px 0px 0px 5px',cursor:'pointer'}}/></div>}

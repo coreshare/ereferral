@@ -32,12 +32,13 @@ const LeftNavForDetails = () => {
         patientMFDN["HomePhoneNumber"] = "Primary Contact Number"
         var emptyFields = []
 
+        //if(details && details.IsExistingNHSNumber != "Yes") {
         for (const fieldName of patientMandatoryFields) {
             if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                 emptyFields.push(patientMFDN[fieldName])
             }
         }
-
+        //}
         if(details.OverseasPatient == 'No'){
             if(!details.NHSNumber || details.NHSNumber == ""){
                 emptyFields.push("NHS Number")
@@ -47,6 +48,10 @@ const LeftNavForDetails = () => {
         if (emptyFields.length > 0) {
             errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
             setModalText(errorMsg)
+
+            const title = "enablePatientMandatory"
+            const value = true
+            dispatch(setPatientMandatory({title, value}))
             return true
         }
         else if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length < 10 || details.NHSNumber.length > 10)){
@@ -71,23 +76,23 @@ const LeftNavForDetails = () => {
         //var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b style='line-height:28px'>You must ensure you complete all the below mandatory fields to continue:</b><br/><br/>"
         var errorMsg = `<div style='max-height:500px;overflow-y:auto;width:400px;'><b style='line-height:28px'>${warning_MandatoryText}</b><br/><br/>`
         const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
-                            'NextofKinAddressLine2', 'NextofKinAddressLine3', 'NextofKinAddressLine4', 'NextofKinPostCode',
+                            'NextofKinAddressLine2', /*'NextofKinAddressLine3', 'NextofKinAddressLine4', */'NextofKinPostCode',
                             'NextofKinMobileNumber' ]
 
         const nextofKinMFDN = {}
         nextofKinMFDN["NextofKinFirstName"] = "First Name"
         nextofKinMFDN["NextofKinLastName"] = "Last Name"
-        nextofKinMFDN["NextofKinAddressLine1"] = "Address Line1"
-        nextofKinMFDN["NextofKinAddressLine2"] = "Address Line2"
-        nextofKinMFDN["NextofKinAddressLine3"] = "Address Line3"
-        nextofKinMFDN["NextofKinAddressLine4"] = "Address Line4"
+        nextofKinMFDN["NextofKinAddressLine1"] = "Address Line 1"
+        nextofKinMFDN["NextofKinAddressLine2"] = "Address Line 2"
+        nextofKinMFDN["NextofKinAddressLine3"] = "Address Line 3"
+        nextofKinMFDN["NextofKinAddressLine4"] = "Address Line 4"
         nextofKinMFDN["NextofKinPostCode"] = "Post Code"
         nextofKinMFDN["NextofKinHomePhoneNumber"] = "Home Phone Number"
-        nextofKinMFDN["NextofKinMobileNumber"] = "Mobile Number"
+        nextofKinMFDN["NextofKinMobileNumber"] = "Primary Contact Number"
         nextofKinMFDN["RelationshiptoPatient"] = "Relationship to Patient"
         var emptyFields = []
 
-        if(!details["NoNextOfKin"]){
+        if(!details["NoNextOfKin"] /*&& details && details.IsExistingNHSNumber != "Yes"*/){
             for (const fieldName of nextofKinMandatoryFields) {
                 if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                     emptyFields.push(nextofKinMFDN[fieldName])
@@ -98,6 +103,9 @@ const LeftNavForDetails = () => {
         if (emptyFields.length > 0) {
             errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
             setModalText(errorMsg)
+            const title = "enableNOKMandatory"
+            const value = true
+            dispatch(setNOKMandatory({title, value}))
             return true
         }
         else if(details.NextofKinHomePhoneNumber && details.NextofKinHomePhoneNumber != "" && (details.NextofKinHomePhoneNumber.length != 11)){
@@ -105,7 +113,7 @@ const LeftNavForDetails = () => {
             return true
         }
         else if(details.NextofKinMobileNumber && details.NextofKinMobileNumber != "" && (details.NextofKinMobileNumber.length != 11)){
-            setModalText("Enter valid Mobile Number")
+            setModalText("Enter valid Primary Contact Number")
             return true
         }
         return false
@@ -114,8 +122,14 @@ const LeftNavForDetails = () => {
         //return false//checkonce
         //var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b style='line-height:28px'>You must ensure you complete all the below mandatory fields to continue:</b><br/><br/>"
         var errorMsg = `<div style='max-height:500px;overflow-y:auto;width:400px;'><b style='line-height:28px'>${warning_MandatoryText}</b><br/><br/>`
-        const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
+        const referMandatoryFields = ['ReferringOrganisation', 'ReferringConsultant']
         
+        if(details.OverseasPatient != "Yes")
+        {
+            referMandatoryFields.push('GPName');
+            referMandatoryFields.push('GPPractice');
+            referMandatoryFields.push('GPPracticeAddress');
+        }
         const referMFDN = {}
         referMFDN["GPName"] = "Specified GP"
         referMFDN["GPPractice"] = "GP Practice Name"
@@ -125,12 +139,13 @@ const LeftNavForDetails = () => {
 
         let emptyFields = []
 
+        //if(details && details.IsExistingNHSNumber != "Yes") {
         for (const fieldName of referMandatoryFields) {
             if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                 emptyFields.push(referMFDN[fieldName])
             }
         }
-    
+        //}
         if (emptyFields.length > 0) {
             errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
             setModalText(errorMsg)
@@ -159,12 +174,13 @@ const LeftNavForDetails = () => {
 
         let emptyFields = []
 
+        //if(details && details.IsExistingNHSNumber != "Yes") {
         for (const fieldName of treatmentMandatoryFields) {
             if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                 emptyFields.push(treatmentMFDN[fieldName])
             }
         }
-
+        //}
         if (emptyFields.length > 0) {
             errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div></div>`;
             setModalText(errorMsg)
@@ -175,17 +191,14 @@ const LeftNavForDetails = () => {
 
     const handleGoToStep = (step) => {
         setIsConfirmation(false)
-        if(details && details.IsExistingNHSNumber != "Yes"){
+        //if(details && details.IsExistingNHSNumber != "Yes"){
             if(sharedStrings.leftNavClearLinkText === "Patient"){
                 if (step != 0 && checkPatientDetailsFieldsValidation()){
-                    const title = "enablePatientMandatory"
-                    const value = true
-                    dispatch(setPatientMandatory({title, value}))
                     setShowCloseButton(true)
                     openModal()
                     return
                 }
-                else if(step != 0 && step != 1 && !details.NoNextOfKin){
+                else if(step != 0 && step != 1 && !details.NoNextOfKin && checkNOKDetailsFieldsValidation()){ 
                     setModalText("Please fill in Next of Kin Details.")
                     openModal()
                     return
@@ -203,9 +216,6 @@ const LeftNavForDetails = () => {
             }
             if(sharedStrings.leftNavClearLinkText === "Next of Kin"){
                 if ((step != 0 && step != 1) && checkNOKDetailsFieldsValidation()){
-                    const title = "enableNOKMandatory"
-                    const value = true
-                    dispatch(setNOKMandatory({title, value}))
                     setShowCloseButton(true)
                     openModal()
                     return
@@ -246,7 +256,7 @@ const LeftNavForDetails = () => {
                     return
                 }
             }
-        }
+        //}
 
         if(step == 0)
             dispatch(setLeftNavClearLinkText("Patient"))

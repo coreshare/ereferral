@@ -31,7 +31,7 @@ const PatientDetails = () => {
     const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
     //const [enableRedBorder, setEnableRedBorder] = useState(false)
     const enableRedBorder = useSelector(state => state.sharedStrings.enablePatientMandatory)
-    const mandatoryFlag = useSelector(state => state.details.IsExistingNHSNumber === 'Yes' ? false : true)
+    const mandatoryFlag = true//useSelector(state => state.details.IsExistingNHSNumber === 'Yes' ? false : true)
     
     useEffect(() => {
         dispatch(setLeftNavClearLinkText("Patient"))
@@ -81,7 +81,7 @@ const PatientDetails = () => {
 
 
     const handleNext = () => {
-        if (details && details.IsExistingNHSNumber != "Yes" && checkFieldsValidation()){
+        if (checkFieldsValidation()){
             setShowCloseButton(true)
             openModal()
             return
@@ -100,12 +100,14 @@ const PatientDetails = () => {
         var emptyFields = []
         var hasMFToFill = false
 
+        //if(details && details.IsExistingNHSNumber != "Yes"){
         for (const fieldName of patientMandatoryFields) {
             if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                 emptyFields.push(patientMFDN[fieldName])
                 hasMFToFill = true
             }
         }
+        //}
 
         if(details.OverseasPatient == 'No'){
             if(!details.NHSNumber || details.NHSNumber == ""){
@@ -165,7 +167,7 @@ const PatientDetails = () => {
 
                 value = "Yes"
                 setShowCloseButton(true)
-                setModalText("<span style='line-height:28px'>The NHS number has been recognised as not needing all the reports specified. <br/>Please complete as many of the fields as you can and attach the reports you have available.</span>")
+                setModalText("<span style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</span>")
                 openModal()
             }
             else
@@ -187,14 +189,15 @@ const PatientDetails = () => {
 
     return (
         <div className="detailssection">
-            <div style={{float:'left'}}>
-                <div style={{display:"inline-block",width:"100%"}}>
+            <div style={{display:"inline-block",width:"100%"}}>
                     <h3 className="detailsHeader" style={{float:"left"}}>Patient Details</h3>
                     <div className="detailsNext" style={{float:"right"}}>
                         <button onClick={handleNext}>Next</button>
                         <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
                     </div>
                 </div>
+            <div style={{float:'left'}}>
+                
                 
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>

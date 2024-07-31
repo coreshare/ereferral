@@ -28,7 +28,7 @@ const NextofKinDetails = () => {
     //const [enableRedBorder, setEnableRedBorder] = useState(false)
     const enableRedBorder = useSelector(state => state.sharedStrings.enableNOKMandatory)
     //const mandatoryFlag = useSelector(state => !state.details.IsExistingNHSNumber)
-    const mandatoryFlag = useSelector(state => state.details.IsExistingNHSNumber === 'Yes' ? false : true)
+    const mandatoryFlag = true//useSelector(state => state.details.IsExistingNHSNumber === 'Yes' ? false : true)
 
     useEffect(() => {
         if(details){
@@ -71,11 +71,11 @@ const NextofKinDetails = () => {
         nextofKinMFDN["NextofKinAddressLine4"] = "Address Line 4"
         nextofKinMFDN["NextofKinPostCode"] = "Post Code"
         nextofKinMFDN["NextofKinHomePhoneNumber"] = "Home Phone Number"
-        nextofKinMFDN["NextofKinMobileNumber"] = "Mobile Number"
+        nextofKinMFDN["NextofKinMobileNumber"] = "Primary Contact Number"
         nextofKinMFDN["RelationshiptoPatient"] = "Relationship to Patient"
         var emptyFields = []
 
-        if(!details["NoNextOfKin"]){
+        if(!details["NoNextOfKin"]/* && details && details.IsExistingNHSNumber != "Yes"*/){
             for (const fieldName of nextofKinMandatoryFields) {
                 if (!details.hasOwnProperty(fieldName) || details[fieldName] === "") {
                     emptyFields.push(nextofKinMFDN[fieldName])
@@ -98,13 +98,13 @@ const NextofKinDetails = () => {
             return true
         }
         else if(details.NextofKinMobileNumber && details.NextofKinMobileNumber != "" && (details.NextofKinMobileNumber.length != 11)){
-            setModalText("Enter valid Mobile Number")
+            setModalText("Enter valid Primary Contact Number")
             return true
         }
     }
     const handleNext = () => {
         setIsConfirmation(false)
-        if (details && details.IsExistingNHSNumber != "Yes" && checkFieldsValidation()){
+        if (checkFieldsValidation()){
             setShowCloseButton(true)
             openModal()
             return
@@ -181,15 +181,16 @@ const NextofKinDetails = () => {
                     </div>
                 </div>
                 <div style={{display:'inline-block',width:'100%'}}>
+                <FormCheckBoxCtrl label="No Next of Kin" onChangeText={onChangeTextHandle} title="NoNextOfKin" value={details && details.NoNextOfKin} /><br/>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormCheckBoxCtrl label="No Next of Kin" onChangeText={onChangeTextHandle} title="NoNextOfKin" value={details && details.NoNextOfKin} /><br/>
+                        
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="NextofKinFirstName" value={details && details.NextofKinFirstName} onlyText={true} disableCtrl={disableControls} isMandatory={mandatoryFlag} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinFirstName || details.NextofKinFirstName === "")}/><br/>
                         <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="NextofKinLastName" value={details && details.NextofKinLastName} onlyText={true} disableCtrl={disableControls} isMandatory={mandatoryFlag} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinLastName || details.NextofKinLastName === "")}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="NextofKinMiddlename" value={details && details.NextofKinMiddlename} onlyText={true} disableCtrl={disableControls}/><br/>
                         <FormTextBoxCtrl label="Address Line 1" onChangeText={onChangeTextHandle} title="NextofKinAddressLine1" value={details && details.NextofKinAddressLine1} disableCtrl={disableControls} isMandatory={mandatoryFlag} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinAddressLine1 || details.NextofKinAddressLine1 === "")}/><br/>
                         <FormTextBoxCtrl label="Address Line 2" onChangeText={onChangeTextHandle} title="NextofKinAddressLine2" value={details && details.NextofKinAddressLine2} disableCtrl={disableControls} isMandatory={mandatoryFlag} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinAddressLine2 || details.NextofKinAddressLine2 === "")}/><br/>
-                        <FormTextBoxCtrl label="Address Line 3" onChangeText={onChangeTextHandle} title="NextofKinAddressLine3" value={details && details.NextofKinAddressLine3} disableCtrl={disableControls} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinAddressLine3 || details.NextofKinAddressLine3 === "")}/><br/>
-                        <FormTextBoxCtrl label="Address Line 4" onChangeText={onChangeTextHandle} title="NextofKinAddressLine4" value={details && details.NextofKinAddressLine4} disableCtrl={disableControls} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinAddressLine4 || details.NextofKinAddressLine4 === "")}/><br/>
+                        <FormTextBoxCtrl label="Address Line 3" onChangeText={onChangeTextHandle} title="NextofKinAddressLine3" value={details && details.NextofKinAddressLine3} disableCtrl={disableControls} /><br/>
+                        <FormTextBoxCtrl label="Address Line 4" onChangeText={onChangeTextHandle} title="NextofKinAddressLine4" value={details && details.NextofKinAddressLine4} disableCtrl={disableControls} /><br/>
                         <FormTextBoxCtrl label="Post Code" onChangeText={onChangeTextHandle} title="NextofKinPostCode" value={details && details.NextofKinPostCode} disableCtrl={disableControls} isMandatory={mandatoryFlag} enableRedBorder={!disableControls && enableRedBorder && (!details.NextofKinPostCode || details.NextofKinPostCode === "")}/><br/>
                         
                     </div>

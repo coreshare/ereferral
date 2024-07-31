@@ -16,5 +16,5 @@ const detailsSlice = createSlice({
     },
 });  
 
-export const { updateDetails, resetDetails } = detailsSlice.actions;
+export const { updateDetails, resetDetails, removeDetailField } = detailsSlice.actions;
 export default detailsSlice.reducer;

@@ -22,7 +22,6 @@ const ChooseStages = () => {
     const stagesMasterData = useSelector(state => state.stage.stagesData)
     const [stages, setStages] = useState([])
     const userEmail = useSelector(state => state.email)
-    const accessToken = useSelector(state => state.accessToken)
     const [isConfirmation, setIsConfirmation] = useState(true)
     const [confirmationBtnText, setConfirmationBtnText] = useState("")
 
@@ -90,35 +89,48 @@ const ChooseStages = () => {
         setShowCloseButton(false);
         setModalText("Getting Referral Type Stages... Please wait.");
         openModal();
-        setTimeout(async ()=> {
-            const stages = await getReferralTypeStages(accessToken);//checkonce
-            /*const stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1', StageOrder: 1, ReportOrder: 1},
-            {title: 'Breast', stage: 'Stage I-II', report: 'Report 11', StageOrder: 3, ReportOrder: 2},
-            {title: 'Breast', stage: 'Stage III', report: 'Report 2', StageOrder: 4, ReportOrder: 2},
-            {title: 'Breast', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
-            {title: 'Breast', stage: 'Stage IV', report: 'Report 3', StageOrder: 5, ReportOrder: 1},
-            {title: 'Lung', stage: 'Stage I-II', report: 'Report 11', StageOrder: 1, ReportOrder: 1},
-            {title: 'Lung', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
-            {title: 'Lung', stage: 'Stage IV', report: 'Report 33', StageOrder: 3, ReportOrder: 1},
-            {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44', StageOrder: 4, ReportOrder: 1},
-            {title: 'Lung', stage: 'Thymoma', report: 'Referral Letter or MDT Outcome', StageOrder: 5, ReportOrder: 3},
-            {title: 'Lung', stage: 'Thymoma', report: 'IPT Form', StageOrder: 5, ReportOrder: 1},
-            {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy', StageOrder: 5, ReportOrder: 2},
-            {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS', StageOrder: 5, ReportOrder: 4},
-            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1', StageOrder: 5, ReportOrder: 5},
-            {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1', StageOrder: 5, ReportOrder: 6}];
-            */
-            const sortedStages = stages.sort((a, b) => {
-                if (a.StageOrder !== b.StageOrder) {
-                    return a.StageOrder - b.StageOrder;
-                } else {
-                    return a.ReportOrder - b.ReportOrder;
-                }
-            })
-            
-            dispatch(setStagesList(sortedStages))
-            closeModal();
-        },100)
+        
+        try{
+            setTimeout(async ()=> {
+                const stages = await getReferralTypeStages();//checkonce
+                /*const stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1', StageOrder: 1, ReportOrder: 1},
+                {title: 'Breast', stage: 'Stage I-II', report: 'Report 11', StageOrder: 3, ReportOrder: 2},
+                {title: 'Breast', stage: 'Stage III', report: 'Report 2', StageOrder: 4, ReportOrder: 2},
+                {title: 'Breast', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
+                {title: 'Breast', stage: 'Stage IV', report: 'Report 3', StageOrder: 5, ReportOrder: 1},
+                {title: 'Lung', stage: 'Stage I-II', report: 'Report 11', StageOrder: 1, ReportOrder: 1},
+                {title: 'Lung', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
+                {title: 'Lung', stage: 'Stage IV', report: 'Report 33', StageOrder: 3, ReportOrder: 1},
+                {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44', StageOrder: 4, ReportOrder: 1},
+                {title: 'Lung', stage: 'Thymoma', report: 'Referral Letter or MDT Outcome', StageOrder: 5, ReportOrder: 3},
+                {title: 'Lung', stage: 'Thymoma', report: 'IPT Form', StageOrder: 5, ReportOrder: 1},
+                {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy', StageOrder: 5, ReportOrder: 2},
+                {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS', StageOrder: 5, ReportOrder: 4},
+                {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1', StageOrder: 5, ReportOrder: 5},
+                {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of squamous cell carcinoma: PDL-1', StageOrder: 5, ReportOrder: 6}];
+                */
+                const sortedStages = stages.sort((a, b) => {
+                    if (a.StageOrder !== b.StageOrder) {
+                        return a.StageOrder - b.StageOrder;
+                    } else {
+                        return a.ReportOrder - b.ReportOrder;
+                    }
+                })
+                
+                dispatch(setStagesList(sortedStages))
+                closeModal();
+            },100)
+        }
+        catch (error) {
+            setShowCloseButton(true)
+            if (error.message.includes('400')) {
+                setModalText(error.message)
+            } else if (error.message.includes('500')) {
+                setModalText(error.message)
+            } else {
+                setModalText(error.message)
+            }
+        }
     }
 
     const handleBack = () => {
@@ -180,15 +192,16 @@ const ChooseStages = () => {
 
     return(
         <div>
-            <div className="choosestage-container">
-                <div className="choosestage-header">
-                    <div style={{float: 'left'}}>Please choose a {selectedReferralType} Cancer stage</div>
+            <div className="choosestage-header" style={{margin: '40px',width: 'calc(100% - 80px - 10%)', paddingLeft: '10%'}}>
+                    <div style={{float: 'left'}}>Please choose a {selectedReferralType} Cancer referral type</div>
                     <div style={{float: 'right'}}>
                         <button onClick={handleNext} className="buttonCtrl">Next</button>
                         <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>
                         {/*<ButtonCtrl className="buttonCtrl" btnText="Next" btnClickHandler={handleCreateReferral} />*/}
                     </div>
                 </div>
+            <div className="choosestage-container">
+                
                 <div className="choosestage-gallery">
                     <div className="leftColumn">
                         {stages.map((stage, index) => (

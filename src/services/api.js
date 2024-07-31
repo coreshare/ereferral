@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.ereferralonline.com";//"https://ereferralapi.azurewebsites.net";
+const BASE_URL = "https://app.ereferralonline.com";
 const Email_URL = "";
 
 export const emailOTP = async (data) => {
@@ -21,7 +21,7 @@ export const emailOTP = async (data) => {
   }
 };
 
-export const submitData = async (data, accessToken) => {
+export const submitData = async (data) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
@@ -29,9 +29,6 @@ export const submitData = async (data, accessToken) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
     });
 
     if (!response.ok) {
@@ -44,7 +41,7 @@ export const submitData = async (data, accessToken) => {
   }
 };
 
-export const saveData = async (data, accessToken) => {
+export const saveData = async (data) => {
   const transformedData = transformData(data);
   const formData = new FormData();
   formData.append("jsonObject", JSON.stringify(transformedData));
@@ -53,36 +50,58 @@ export const saveData = async (data, accessToken) => {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
       body: formData,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
-    });
-
-    const responseBody = await response.json();
-    return responseBody.toString();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const generateOTP = async (emailval) => {
-  const formData = new FormData();
-  formData.append("email", emailval);
-  try {
-    const response = await fetch(`${BASE_URL}/OTP/generate`, {
-      method: "POST",
-      body: formData,
       credentials: "include"
     });
 
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-    
-    const responseBody = await response.text();
-    return responseBody;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
+  }
+}
+
+export const generateOTP = async () => {
+  //const formData = new FormData();
+  //formData.append("email", emailval);
+  try {
+    const response = await fetch(`${BASE_URL}/OTP/generate`, {
+      method: "POST",
+      //body: formData,
+      credentials: "include"
+    });
+
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
@@ -120,60 +139,62 @@ export const validateOTP = async (otpval) => {
       body: formData,
       credentials: "include"
     });
-
+    
     if (response.ok) {
-      const responseBody = await response.json();
-      const accessToken = responseBody.accessToken;
-
-      console.log("Access Token:", accessToken);
-      return accessToken;
-    }
-
-    if (response.status === 400) {
-      const errorResponse = await response.json();
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
       console.error("Bad Request:", errorResponse);
-      return null;
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    throw new Error("Request failed with status: " + response.status);
-    /*if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
-    }
-
-    const responseBody = await response.text();
-
-    console.log("Response:", responseBody);*/
-    //return responseBody;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
-export const validateReCaptcha = async (captcharesponse) => {
+export const validateReCaptcha = async (captchavalue) => {
   const formData = new FormData();
-  formData.append("recaptchaResponse", captcharesponse);
+  formData.append("recaptchaResponse", captchavalue);
   try {
     const response = await fetch(`${BASE_URL}/Recaptcha/ValidateRecaptcha`, {
       method: "POST",
-      body: formData
+      body: formData,
+      credentials: "include"
     });
 
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    const responseBody = await response.text();
-
-    console.log("Response:", responseBody);
-    return responseBody;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
-export const validateDomain = async (domainval) => {
+export const validateDomain = async (emailval) => {
   const formData = new FormData();
-  formData.append("domain", domainval);
+  formData.append("email", emailval);
   try {
     const response = await fetch(`${BASE_URL}/SPData/ValidateDomain`, {
       method: "POST",
@@ -181,16 +202,24 @@ export const validateDomain = async (domainval) => {
       credentials: "include"
     });
 
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    const responseBody = await response.text();
-
-    console.log("Response:", responseBody);
-    return responseBody;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
@@ -201,26 +230,32 @@ export const clearSession = async () => {
       credentials: "include"
     });
 
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    const responseBody = await response.text();
-
-    console.log("Response:", responseBody);
-    return responseBody;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
-export const getNHSNumbers = async (accessToken) => {
+export const getNHSNumbers = async () => {
   try {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "GET",
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
+      credentials: "include"
     });
     
     if (!response.ok) {
@@ -237,51 +272,63 @@ export const getNHSNumbers = async (accessToken) => {
 };
 
 
-export const getMasterData = async (type_name, accessToken) => {
+export const getMasterData = async (type_name) => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/${type_name}`, {
       method: "GET",
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
+      credentials: "include"
     });
     
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Response:", data);
+      return data;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    const data = await response.json();
-
-    console.log("Response:", data);
-    return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
-export const getReferralTypeStages = async (domainval, accessToken) => {
+export const getReferralTypeStages = async () => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {
       method: "POST",
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
+      credentials: "include"
     });
     
-    if (!response.ok) {
-      throw new Error("Request failed with status: " + response.status);
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Response:", data);
+      return data;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
     }
-
-    const data = await response.json();
-
-    console.log("Response:", data);
-    return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
   }
 };
 
-export const uploadFileToLib = async (file, metadata, accessToken) => {
+export const uploadFileToLib = async (file, metadata) => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('metadata', JSON.stringify(metadata));
@@ -290,9 +337,7 @@ export const uploadFileToLib = async (file, metadata, accessToken) => {
     const response = await fetch(`${BASE_URL}/SPData/UploadFile`, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
+      credentials: "include"
     });
 
     const responseBody = await response.json();
@@ -302,7 +347,7 @@ export const uploadFileToLib = async (file, metadata, accessToken) => {
   }
 };
 
-export const uploadFile = async (file, accessToken) => {
+export const uploadFile = async (file) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
@@ -310,9 +355,7 @@ export const uploadFile = async (file, accessToken) => {
     const response = await fetch(`${BASE_URL}/SPData/UploadFile`, {
       method: "POST",
       body: formData,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
+      credentials: "include"
     });
 
     if (!response.ok) {
@@ -325,7 +368,7 @@ export const uploadFile = async (file, accessToken) => {
   }
 };
 
-export const uploadFiles = async (files, accessToken) => {
+export const uploadFiles = async (files) => {
   try {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -335,9 +378,6 @@ export const uploadFiles = async (files, accessToken) => {
     const response = await fetch(`${BASE_URL}/SPData/UploadFiles`, {
       method: "POST",
       body: formData,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
     });
 
     //const responseData = await response.json();
@@ -354,7 +394,7 @@ export const uploadFiles = async (files, accessToken) => {
   }
 };
 
-export const uploadFilesTest = async (files, accessToken) => {
+export const uploadFilesTest = async (files) => {
   try {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -364,9 +404,6 @@ export const uploadFilesTest = async (files, accessToken) => {
     const response = await fetch(`${BASE_URL}/SPData/UploadFilesTest`, {
       method: "POST",
       body: formData,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      }
     });
 
     const responseData = await response.json();
@@ -379,7 +416,35 @@ export const uploadFilesTest = async (files, accessToken) => {
   } catch (error) {
     throw new Error("Failed to upload file");
   }
-};
+}
+
+export const resetSession = async () => {debugger
+  try {
+    const response = await fetch(`${BASE_URL}/Session/ResetSession`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (response.ok) {
+      const responseBody = await response.text();
+      console.log("Response:", responseBody);
+      return responseBody;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
+  }
+}
 
 const transformData = (data) => {
   const transformed = {};

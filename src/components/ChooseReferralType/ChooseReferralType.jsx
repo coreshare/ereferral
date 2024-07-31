@@ -17,7 +17,7 @@ import { setClinicalOncologistList, setCommunicationRequirementList, setCovidLis
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
 
-const imageNames = ["Breast", "Lung", "", "", "", "", "", "", "", "", "", "", "", ""];
+const imageNames = ["Breast", "Lung", "CNS", "", "", "", "", "", "", "", "", "", "", ""];
 
 const ChooseReferralType = () => {
   const imageUrls = [Breast, Lung, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel];
@@ -26,7 +26,6 @@ const ChooseReferralType = () => {
   const selectedReferralType = useSelector(state => state.referralType)
   const listData = useSelector(state => state.masterData)
   const referrerEmail = useSelector(state => state.sharedStrings.ReferrerEmail)
-  const accessToken = useSelector(state => state.accessToken)
   
   //Load master data asynchronously. 
   useEffect(() => {
@@ -49,7 +48,8 @@ const ChooseReferralType = () => {
   },[])
 
   const fetchData = (type_name) => {
-    getMasterData(type_name, accessToken)
+    try{
+    getMasterData(type_name)
       .then((data) => {
         switch (type_name) {
           case "NHSNumbers":
@@ -97,12 +97,17 @@ const ChooseReferralType = () => {
           default:
             console.error(`Unsupported type_name: ${type_name}`);
         }
-
-        console.log("Response:", data);
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    }
+    catch (error) {
+      if (error.message.includes('400')) {
+        alert(error.message)
+      } else if (error.message.includes('500')) {
+        alert(error.message)
+      } else {
+        alert(error.message)
+      }
+    }
   };
 
   const handleImageClick = (e) => {
