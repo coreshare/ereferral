@@ -1,4 +1,4 @@
-const BASE_URL = "https://app.ereferralonline.com";
+const BASE_URL = "https://ereferralapi.azurewebsites.net";
 const Email_URL = "";
 
 export const emailOTP = async (data) => {
