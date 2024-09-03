@@ -30,6 +30,7 @@ const RefererDetails = () => {
                     label: status.hospital,
                     value: status.hospital
                 })))
+                //[{label: "test1",value:"test1"}]rollback
             }
             prevLeftNavClearText.current = "Refer"
         }

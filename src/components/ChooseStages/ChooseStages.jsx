@@ -138,6 +138,10 @@ const ChooseStages = () => {
         //goBack();
     }
 
+    const handleExit = () => {
+        dispatch(setReferralTypeStageStep(1))
+    }
+
     const handleNext = () => {
         if(selectedStage == null){
             setShowCloseButton(true);
@@ -195,7 +199,7 @@ const ChooseStages = () => {
             <div className="choosestage-header" style={{margin: '40px',width: 'calc(100% - 80px - 10%)', paddingLeft: '10%'}}>
                     <div style={{float: 'left'}}>Please choose a {selectedReferralType} Cancer referral type</div>
                     <div style={{float: 'right'}}>
-                        <button onClick={handleNext} className="buttonCtrl">Next</button>
+                        {/*<button onClick={handleNext} className="buttonCtrl">Next</button>*/}
                         <button onClick={handleBack} className="buttonCtrl" style={{marginRight: '10px'}}>Back</button>
                         {/*<ButtonCtrl className="buttonCtrl" btnText="Next" btnClickHandler={handleCreateReferral} />*/}
                     </div>
@@ -223,6 +227,16 @@ const ChooseStages = () => {
                                 ))}
                             </div>
                         )}
+                        {selectedStage && (<><br/><div>
+                            <div className="agreebuttons" style={{marginBottom:'10px'}}>
+                                <div>I understand that if I do not provide all of the above required reports a referral will not be made.</div>
+                                <div><button className="buttonCtrl" onClick={handleNext}>Agree and Continue</button></div>
+                            </div>
+                            <div className="agreebuttons">
+                                <div>I dont have all the reports as yet, I will come back later.</div>
+                                <div><button className="buttonCtrl" onClick={handleExit}>Exit</button></div>
+                            </div>
+                        </div></>)}
                     </div>
                 </div>
                 <div className="agreeTerm">
