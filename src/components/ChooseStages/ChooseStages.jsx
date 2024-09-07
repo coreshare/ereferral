@@ -104,6 +104,7 @@ const ChooseStages = () => {
                 {title: 'Lung', stage: 'Mesothelioma', report: 'Report 44', StageOrder: 4, ReportOrder: 1},
                 {title: 'Lung', stage: 'Thymoma', report: 'Referral Letter or MDT Outcome', StageOrder: 5, ReportOrder: 3},
                 {title: 'Lung', stage: 'Thymoma', report: 'IPT Form', StageOrder: 5, ReportOrder: 1},
+                {title: 'Lung', stage: 'Thymoma', report: 'MDT Report', StageOrder: 5, ReportOrder: 7},
                 {title: 'Lung', stage: 'Thymoma', report: 'Histology report of biopsy', StageOrder: 5, ReportOrder: 2},
                 {title: 'Lung', stage: 'Thymoma', report: 'Histology report of EBUS', StageOrder: 5, ReportOrder: 4},
                 {title: 'Lung', stage: 'Thymoma', report: 'Molecular profile in case of adenocarcinoma: EGFR, ALK and PD-L1', StageOrder: 5, ReportOrder: 5},
@@ -228,7 +229,7 @@ const ChooseStages = () => {
                             </div>
                         )}
                         {selectedStage && (<><br/><div>
-                            <div className="agreebuttons" style={{marginBottom:'10px'}}>
+                            <div className="agreebuttons agreecontinue" style={{marginBottom:'10px'}}>
                                 <div>I understand that if I do not provide all of the above required reports a referral will not be made.</div>
                                 <div><button className="buttonCtrl" onClick={handleNext}>Agree and Continue</button></div>
                             </div>

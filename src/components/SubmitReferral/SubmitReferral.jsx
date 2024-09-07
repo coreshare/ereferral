@@ -76,7 +76,8 @@ const SubmitReferral = () => {
                     {
                         reportsMetadata[reports[i].ReportFile.name] = {};
                     }
-                    reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
+                    //reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
+                    reportsMetadata[reports[i].ReportFile.name].Report=reports[i].MappedReports.join(";");
                     reportsMetadata[reports[i].ReportFile.name].ReportOrder=reports[i].ReportOrder;
                 }
                 

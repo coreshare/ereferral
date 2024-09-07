@@ -8,7 +8,7 @@ import addReport from "../../Images/addReport.png";
 import deleteIcon from "../../Images/deleteIcon.png";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFiles, updateReportsList } from "./ReportsSlice";
+import { updateFiles, updateReportsList, updateMandatoryReportsList } from "./ReportsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { warning_MandatoryText } from "../Config";
 
@@ -18,6 +18,7 @@ const Reports = () => {
   const selectedStage = useSelector(state => state.stage.currentStage)
   const files = useSelector((state) => state.reports.files);
   const reportslist = useSelector((state) => state.reports.reportsList);
+  const mandatoryReportslist = useSelector(state => state.reports.mandatoryReportsList);
   const [draggingOver, setDraggingOver] = useState(null);
   const [fileToView, setFileToView] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -43,15 +44,189 @@ const Reports = () => {
       const reportstemp = selectedStage.reports.map(report => {
         newIndex = newIndex + 1;
         setReportIndex(newIndex);
-        return {ReportName: report, IsMain: true, ReportIndex: newIndex }
+        return { ReportName: report }
       })
       reportstemp.sort((a, b) => a.ReportName.localeCompare(b.ReportName));
-      dispatch(updateReportsList(reportstemp))
+      dispatch(updateReportsList(reportstemp));
+      dispatch(updateMandatoryReportsList(reportstemp));
+    }
+    
+    const isIPTFormIncluded = selectedStage.reports.filter(report => report === "IPT Form");
+    if(isIPTFormIncluded.length > 0){
+      if (details && details.IsthisaTargetPatient === "No") {
+        const filteredReports = reportslist.filter(report => report.ReportName !== "IPT Form");
+        dispatch(updateMandatoryReportsList(filteredReports));
+      }
+      else{
+        if (!mandatoryReportslist.some(report => report.ReportName === "IPT Form")) {
+          dispatch(updateMandatoryReportsList(reportslist));
+        }
+      }
     }
   },[])
 
-  const handleNext = () => {}
-  const handleBack = () => {}
+  const handleNext = () => {
+    if(formdata.IsExistingNHSNumber != "Yes") {
+      //var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b>You must ensure you complete all the below mandatory fields before submitting your referral:</b><br/><br/>"
+      var errorMsg = `<div style='max-height:500px;overflow-y:auto;width:400px;'><b style='line-height:28px'>${warning_MandatoryText}</b><br/><br/>`
+      const patientMandatoryFields = ['Surname','FirstName','DateofBirth','HomePhoneNumber']
+
+      const patientMFDN = {}
+      patientMFDN["Surname"] = "Surname"
+      patientMFDN["FirstName"] = "First Name"
+      patientMFDN["DateofBirth"] = "Date of Birth"
+      patientMFDN["HomePhoneNumber"] = "Primary Contact Number"
+      var emptyFields = []
+      var hasMFToFill = false
+
+      for (const fieldName of patientMandatoryFields) {
+        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+          emptyFields.push(patientMFDN[fieldName])
+          hasMFToFill = true
+        }
+      }
+
+      if(overseasPatient == 'No'){
+          if(!details.NHSNumber || details.NHSNumber == ""){
+            emptyFields.push("NHS Number")
+          } 
+      }
+      
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Patient Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+
+      const nextofKinMandatoryFields = ['NextofKinFirstName', 'NextofKinLastName', 'NextofKinAddressLine1',
+                              'NextofKinAddressLine2', /*'NextofKinAddressLine3', 'NextofKinAddressLine4', */'NextofKinPostCode',
+                              'NextofKinMobileNumber' ]
+
+      const nextofKinMFDN = {}
+      nextofKinMFDN["NextofKinFirstName"] = "Next of Kin First Name"
+      nextofKinMFDN["NextofKinLastName"] = "Next of Kin Last Name"
+      nextofKinMFDN["NextofKinAddressLine1"] = "Next of Kin Address Line 1"
+      nextofKinMFDN["NextofKinAddressLine2"] = "Next of Kin Address Line 2"
+      nextofKinMFDN["NextofKinAddressLine3"] = "Next of Kin Address Line 3"
+      nextofKinMFDN["NextofKinAddressLine4"] = "Next of Kin Address Line 4"
+      nextofKinMFDN["NextofKinPostCode"] = "Next of Kin Post Code"
+      nextofKinMFDN["NextofKinHomePhoneNumber"] = "Next of Kin Home Phone Number"
+      nextofKinMFDN["NextofKinMobileNumber"] = "Next of Kin Mobile Number"
+      nextofKinMFDN["RelationshiptoPatient"] = "Relationship to Patient"
+      emptyFields = []
+
+      if(!formdata["NoNextOfKin"]){
+        for (const fieldName of nextofKinMandatoryFields) {
+          if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+            emptyFields.push(nextofKinMFDN[fieldName])
+            hasMFToFill = true
+          }
+        }
+      }
+
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Next of Kin Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+      
+      if(formdata.OverseasPatient != "Yes"){
+        const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
+        
+        const referMFDN = {}
+        referMFDN["GPName"] = "GP Name"
+        referMFDN["GPPractice"] = "GP Practice"
+        referMFDN["GPPracticeAddress"] = "GP Practice Address"
+        referMFDN["ReferringOrganisation"] = "Referring Organisation"
+        referMFDN["ReferringConsultant"] = "Referring Consultant"
+
+        emptyFields = []
+
+        for (const fieldName of referMandatoryFields) {
+          if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+            emptyFields.push(referMFDN[fieldName])
+            hasMFToFill = true
+          }
+        }
+
+        if (emptyFields.length > 0) {
+          errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+        }
+      }
+
+      let treatmentMandatoryFields = [ 'MedicalOncologistCCCConsultant', 'ClinicalOncologistCCCConsultant', 'IsthisaTargetPatient', 'TargetCategory' ]
+      //'PrimaryDiagnosis', 
+      const treatmentMFDN = {}
+      treatmentMFDN["MedicalOncologistCCCConsultant"] = "Medical Oncologist CCC Consultant"
+      treatmentMFDN["ClinicalOncologistCCCConsultant"] = "Clinical Oncologist CCC Consultant"
+      treatmentMFDN["IsthisaTargetPatient"] = "Is this a Target Patient"
+      treatmentMFDN["TargetCategory"] = "Target Category"
+
+      if(details && details.IsthisaTargetPatient == "No"){
+        treatmentMandatoryFields = treatmentMandatoryFields.filter(field => field !== 'TargetCategory')
+      }
+
+      emptyFields = []
+
+      for (const fieldName of treatmentMandatoryFields) {
+        if (!formdata.hasOwnProperty(fieldName) || formdata[fieldName] === "") {
+          emptyFields.push(treatmentMFDN[fieldName])
+          hasMFToFill = true
+        }
+      }
+
+      if (emptyFields.length > 0) {
+        errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Treatment & Target Category</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+      }
+
+      errorMsg = errorMsg + "</div>"
+
+      if(hasMFToFill){//checkonce// && false
+        setModalText(errorMsg)
+        setShowCloseButton(true)
+        setIsConfirmation(false)
+        openModal()
+        return
+      }
+    }
+
+    //const mainReports = reportslist.filter((report) => (report.IsMain || !report.IsMain));
+    const mainReportsWithFiles = reportslist.every((mainReport) => {
+        if(details && ((details.IsthisaTargetPatient == "No" && mainReport.ReportName == "IPT Form") || 
+          (details.DiscussedatMDT == "No" && mainReport.ReportName.startsWith("MDT ")))){
+          return true
+        }
+        
+        return files.some((file) => file.MappedReports.includes(mainReport.ReportName))
+        //files.some((file) => file.ReportName === mainReport.ReportName)
+    });
+
+    if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
+      setModalText("Please upload files for all reports before proceeding")
+      setShowCloseButton(true)
+      setIsConfirmation(false)
+      openModal()
+      return
+    }
+
+    if(details && details.IsthisaTargetPatient == "Yes"){
+      const tempReports = reportslist.filter((report) => report.ReportName == "IPT Form")
+      if(tempReports.length > 0){
+        const iptFormFile = files.some((file) => file.MappedReports.includes("IPT Form"));//files.some((file) => file.ReportName === "IPT Form")
+        if(!iptFormFile && details.IsExistingNHSNumber != "Yes"){
+          setModalText("Please upload IPT Form report.")
+          setShowCloseButton(true)
+          setIsConfirmation(false)
+          openModal()
+          return
+        }
+      }
+    } else if (details && details.IsthisaTargetPatient === "No") {
+      const updatedFiles = files.filter((file) => file.ReportName !== "IPT Form");
+      dispatch(updateFiles(updatedFiles));
+    }
+
+    dispatch(setReferralSubmissionStep(currentStep + 1))
+  }
+  const handleBack = () => {
+    dispatch(setReferralSubmissionStep(currentStep - 1))
+  }
   const closePDFModal = () => {
     setIsPDFModalOpen(false);
   }
@@ -64,7 +239,7 @@ const Reports = () => {
     }
     closeModal();
   }
-  const handlePDFView = (e) => {debugger;
+  const handlePDFView = (e) => {
     openPDFModal();
     var internalFileName = e.target.title;
     const foundFile = files.find(file => {
@@ -73,6 +248,7 @@ const Reports = () => {
     
     setReportHeaderOnPreview(foundFile.ReportFile.name)
     setFileToView(foundFile.ReportFile);
+    setSelectedFile(foundFile);
   }
   const openModal = () => {
     setIsModalOpen(true);
@@ -108,7 +284,12 @@ const Reports = () => {
     fileInput.click();
   
     fileInput.addEventListener("change", (event) => {
-      const selectedFiles = event.target.files;
+      uploadFilesToCollection(event);
+    });
+  };
+
+  const uploadFilesToCollection = (event) => {debugger;
+    const selectedFiles = event.target.files;
       const validFiles = [];
   
       Array.from(selectedFiles).forEach((selFile) => {
@@ -155,8 +336,62 @@ const Reports = () => {
         };
         reader.readAsArrayBuffer(selFile);
       });
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDraggingOver(true);
+  };
+  
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setDraggingOver(false);
+  };
+  
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDraggingOver(false);
+  
+    const droppedFiles = e.dataTransfer.files;
+    uploadFilesToCollection({ target: { files: droppedFiles } });
+  };
+
+  const handleReportSelection = (reportName) => {
+    const updatedFile = {
+      ...selectedFile,
+      MappedReports: selectedFile.MappedReports.includes(reportName)
+        ? selectedFile.MappedReports.filter((name) => name !== reportName)
+        : [...selectedFile.MappedReports, reportName],
+    };
+
+    const updatedFiles = files.map((file) =>
+      file.InternalFileName === updatedFile.InternalFileName ? updatedFile : file
+    );
+
+    dispatch(updateFiles(updatedFiles));
+
+    let updatedReports = [...selectedFile.MappedReports];
+    if (updatedReports.includes(reportName)) {
+      updatedReports = updatedReports.filter(name => name !== reportName);
+    } else {
+      updatedReports.push(reportName);
+    }
+    setSelectedFile({
+      ...selectedFile,
+      MappedReports: updatedReports
     });
   };
+
+  const handleReportsNeeded = () => {
+    const reportItems = mandatoryReportslist.map(report => `<li>${report.ReportName}</li>`).join('');
+    const htmlString = `<div style='font-size:28px;color:black;font-weight:600;text-align:left;margin-bottom:15px'>Reports</div>
+          <div style='color:#005cbb;font-weight:500;font-size:18px'>To make a ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format)</div>
+          <ol style="padding-left: 20px;text-align:left;line-height:1.8;font-size:18px">${reportItems}</ol>`;
+
+    setModalText(htmlString);
+    setIsConfirmation(false);
+    openModal();
+  }
 
   return (
     <div>
@@ -169,30 +404,88 @@ const Reports = () => {
             </div>
         </div>
         <div>
-          <button className="plainButtons reportsbutton" style={{backgroundImage:`url(${viewIcon})`}}>Reports Needed</button>
+          <button className="plainButtons reportsbutton" style={{backgroundImage:`url(${viewIcon})`}} onClick={handleReportsNeeded}>Reports Needed</button>
           <button className="plainButtons uploadbutton" style={{backgroundImage:`url(${uploadIcon})`}} onClick={() => handleFileUpload(this)}>Upload</button>
         </div>
 
-        {files.length > 0 && (
-          <div>
-            {files.map((file, index) => (
-                <>
-                  <div key={index} className="report-strip" style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                    <div>{file?.ReportFile?.name || 'Unknown File'}</div>
-                    <div>
-                      <img src={deleteIcon} title={file?.InternalFileName} 
-                      onClick={(e) => {handleDeleteFile(e)}} style={{width: '25px',margin:'7px 10px 0px 5px',cursor:'pointer'}}/>
-                      <img src={viewIcon} title={file?.InternalFileName} onClick={(e) => {handlePDFView(e)}} 
-                        style={{width: '35px',cursor: 'pointer',marginRight:'5px',height:'25px',marginTop:'8px'}}/>
-                    </div>
-                  </div>
-                </>
-              ))}
-          </div>
-        )}
+        <div
+  onDragOver={handleDragOver}
+  onDragLeave={handleDragLeave}
+  onDrop={handleDrop}
+  style={{
+    position: 'relative',
+    minHeight: '100px',
+    border: (draggingOver || files.length === 0) ? '2px dashed #000' : '2px dashed transparent',
+    backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+  }}
+>
+  {(draggingOver || files.length === 0) && (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+        zIndex: 1,fontSize:'24px',fontWeight:'600'
+      }}
+    >
+      Drop files here to upload.
+    </div>
+  )}
 
-        {fileToView && <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
-            <PDFViewer file={fileToView}></PDFViewer>
+  {files.length > 0 && (
+    <div style={{ zIndex: 0, opacity: draggingOver ? '0.1': '1' }}> 
+      {files.map((file, index) => (
+        <div
+          key={index}
+          className="report-strip"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>{file?.ReportFile?.name || 'Unknown File'}</div>
+          <div>
+            <img
+              src={deleteIcon}
+              title={file?.InternalFileName}
+              onClick={(e) => handleDeleteFile(e)}
+              style={{ width: '25px', margin: '7px 10px 0px 5px', cursor: 'pointer' }}
+            />
+            <img
+              src={viewIcon}
+              title={file?.InternalFileName}
+              onClick={(e) => handlePDFView(e)}
+              style={{ width: '35px', cursor: 'pointer', marginRight: '5px', height: '25px', marginTop: '8px' }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+
+
+      {fileToView && <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
+            <div style={{float:'left',width: '50%'}}><PDFViewer file={fileToView}></PDFViewer></div>
+            <div style={{textAlign:'left',marginLeft:'calc(50% + 50px)',width:'calc(50% - 100px)'}}>
+              <div style={{fontSize:'20px',fontWeight:'500',marginBottom:'10px'}}>Please select or deselect the checkboxes below to map the reports.</div>
+            {mandatoryReportslist.map((report, index) => (
+                <div key={index} style={{display:'flex',alignItems:'center',lineHeight:'2',fontSize:'18px'}}>
+                  <input type="checkbox" style={{height:'20px',width:'20px',marginRight:'10px'}} 
+                          checked={selectedFile.MappedReports.includes(report.ReportName)}
+                          onChange={() => handleReportSelection(report.ReportName)}/> {report.ReportName}
+                </div>
+              ))
+            }
+            </div>
         </PDFModalDialog>}
       </div>
       <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation} 

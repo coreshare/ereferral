@@ -5,6 +5,7 @@ const reportsSlice = createSlice({
   initialState: {
     files: [],
     reportsList: [],
+    mandatoryReportsList: []
   },
   reducers: {
     updateFiles: (state, action) => {
@@ -13,14 +14,18 @@ const reportsSlice = createSlice({
     updateReportsList: (state, action) => {
       state.reportsList = action.payload;
     },
+    updateMandatoryReportsList: (state, action) => {
+      state.mandatoryReportsList = action.payload;
+    },
     resetReports: (state) => {
       return {
         files: [],
         reportsList: [],
+        mandatoryReportsList: []
       }; // Reset the state to its initial value
     },
   },
 });
 
-export const { updateFiles, updateReportsList, resetReports } = reportsSlice.actions;
+export const { updateFiles, updateReportsList, updateMandatoryReportsList, resetReports } = reportsSlice.actions;
 export default reportsSlice.reducer;
