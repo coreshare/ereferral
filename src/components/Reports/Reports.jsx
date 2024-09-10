@@ -383,21 +383,30 @@ const Reports = () => {
   };
 
   const handleReportsNeeded = () => {
-    const reportItems = mandatoryReportslist.map(report => {
+    const reportItems = mandatoryReportslist.map((report, index) => {
       const isMapped = files.some(file => file.MappedReports.includes(report.ReportName));
-      
-      const checkmark = isMapped ? `<span style="font-size: 24px; color: green; font-weight: bold;">&#10003;</span>` : '&nbsp;&nbsp;&nbsp;'; 
-  
-      return `<li style='list-style-type: none;'>
-                <span style="display: inline-block; width: 30px; text-align: center;">${checkmark}</span>
-                ${report.ReportName}
-              </li>`;
+      const hasMappedReports = files.some(file => file.MappedReports && file.MappedReports.length > 0);
+
+
+      let checkmark = isMapped && hasMappedReports
+        ? `<span style="font-size: 24px; color: green; font-weight: bold; width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&#10003;</span>`
+        : `<span style="width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&nbsp;</span>`;
+
+      if(!hasMappedReports){
+        checkmark = `<span style="width: 30px; display: none; text-align: center; margin-right: 10px;">&nbsp;</span>`;
+      }
+
+      return `
+        <li style="margin-bottom: 5px; display: flex; align-items: center;">
+          ${checkmark}
+          <span>${index + 1}. ${report.ReportName}</span>
+        </li>`;
     }).join('');
   
     const htmlString = `
       <div style='font-size:28px;color:black;font-weight:600;text-align:left;margin-bottom:15px'>Reports</div>
       <div style='color:#005cbb;font-weight:500;font-size:18px;text-align:left;line-height:1.6'>To make a ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format). <br/>Please note that the ticked reports have already been mapped.</div>
-      <ol style="padding-left: 0px;text-align:left;line-height:1.8;font-size:18px">
+      <ol style="padding-left: 0;text-align:left;line-height:1.8;font-size:18px">
         ${reportItems}
       </ol>`;
   
@@ -405,6 +414,12 @@ const Reports = () => {
     setIsConfirmation(false);
     openModal();
   };
+
+
+
+
+
+
   
     
 
