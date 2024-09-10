@@ -502,7 +502,7 @@ const Reports = () => {
                 zIndex: 1,
                 fontSize: '24px',
                 fontWeight: '600',
-                border: '4px dashed #888',zIndex:'0'
+                border: '4px dashed #888',zIndex:'0',color:'#888'
               }}
             >
               Drop files here to upload.

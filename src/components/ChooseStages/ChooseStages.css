@@ -45,5 +45,5 @@
 .rightColumn{width: 75%;margin-left: 100px;min-width: 600px;}
 .agreebuttons{padding:10px 20px 10px 20px;border:1px solid #444;background: #fff;display: flex; justify-content: space-between; align-items: center }
 .agreebuttons .buttonCtrl{box-shadow: none !important;}
-.agreecontinue .buttonCtrl{width: 235px;}
+.agreebuttons .buttonCtrl{width: 235px;}
 .agreecontinue > div:first-child{width: calc(100% - 260px);line-height: 1.6;}
