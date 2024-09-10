@@ -484,7 +484,6 @@ const Reports = () => {
             style={{
               position: 'relative',
               minHeight: '100px',
-              border: draggingOver || files.length === 0 ? '4px dashed #888' : '4px dashed transparent',
               backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
               marginTop: '20px',
             }}
@@ -502,7 +501,8 @@ const Reports = () => {
                 backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
                 zIndex: 1,
                 fontSize: '24px',
-                fontWeight: '600',zIndex:'0'
+                fontWeight: '600',
+                border: '4px dashed #888',zIndex:'0'
               }}
             >
               Drop files here to upload.
