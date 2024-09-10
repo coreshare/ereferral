@@ -444,7 +444,7 @@ const Reports = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  flexDirection: 'column', // To stack the hint text below the main content
+                  flexDirection: 'column',
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
@@ -480,14 +480,13 @@ const Reports = () => {
             </div>
           )}
   
-          {/* Drag to upload section always displayed at the bottom */}
           <div
             style={{
               position: 'relative',
               minHeight: '100px',
               border: draggingOver || files.length === 0 ? '2px dashed #000' : '2px dashed transparent',
               backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
-              marginTop: '20px',  // Added margin to separate it from the file list
+              marginTop: '20px',
             }}
           >
             <div
@@ -504,7 +503,7 @@ const Reports = () => {
                 zIndex: 1,
                 fontSize: '24px',
                 fontWeight: '600',
-                border: '4px dotted #444',zIndex:'-1'
+                border: '4px dotted #444',zIndex:'0'
               }}
             >
               Drop files here to upload.
