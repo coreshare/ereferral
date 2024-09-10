@@ -22,7 +22,7 @@ const ModalDialog = ({ isOpen, onClose, showCloseButton, isConfirmation, confirm
         {!isConfirmation && showCloseButton && <></>}
         {isConfirmation && <br/>}
         {showCloseButton && <><br/><button style={{marginTop:"20px"}} className="btn-primary close-button" onClick={onClose}>
-          Ok
+          OK
         </button></>}
         {isConfirmation && <><br/>
         <button className="btn-primary close-button" onClick={() => {handleConfirmation(true)}} style={{marginRight:'5px'}}>

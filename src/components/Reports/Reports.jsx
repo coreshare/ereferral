@@ -383,117 +383,159 @@ const Reports = () => {
   };
 
   const handleReportsNeeded = () => {
-    const reportItems = mandatoryReportslist.map(report => `<li>${report.ReportName}</li>`).join('');
-    const htmlString = `<div style='font-size:28px;color:black;font-weight:600;text-align:left;margin-bottom:15px'>Reports</div>
-          <div style='color:#005cbb;font-weight:500;font-size:18px'>To make a ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format)</div>
-          <ol style="padding-left: 20px;text-align:left;line-height:1.8;font-size:18px">${reportItems}</ol>`;
-
+    const reportItems = mandatoryReportslist.map(report => {
+      const isMapped = files.some(file => file.MappedReports.includes(report.ReportName));
+      
+      const checkmark = isMapped ? `<span style="font-size: 24px; color: green; font-weight: bold;">&#10003;</span>` : '&nbsp;&nbsp;&nbsp;'; 
+  
+      return `<li style='list-style-type: none;'>
+                <span style="display: inline-block; width: 30px; text-align: center;">${checkmark}</span>
+                ${report.ReportName}
+              </li>`;
+    }).join('');
+  
+    const htmlString = `
+      <div style='font-size:28px;color:black;font-weight:600;text-align:left;margin-bottom:15px'>Reports</div>
+      <div style='color:#005cbb;font-weight:500;font-size:18px;text-align:left;line-height:1.6'>To make a ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format). <br/>Please note that the ticked reports have already been mapped.</div>
+      <ol style="padding-left: 0px;text-align:left;line-height:1.8;font-size:18px">
+        ${reportItems}
+      </ol>`;
+  
     setModalText(htmlString);
     setIsConfirmation(false);
     openModal();
-  }
+  };
+  
+    
 
   return (
     <div>
-      <div style={{ float: "left",width:"100%" }}>
-        <div style={{display:"inline-block",width:"100%"}}>
-            <h3 className="detailsHeader" style={{float:"left",marginBottom:'5px'}}>Reports</h3>
-            <div className="detailsNext" style={{float:"right"}}>
-                <button onClick={handleNext}>Next</button>
-                <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
-            </div>
-        </div>
-        <div>
-          <button className="plainButtons reportsbutton" style={{backgroundImage:`url(${viewIcon})`}} onClick={handleReportsNeeded}>Reports Needed</button>
-          <button className="plainButtons uploadbutton" style={{backgroundImage:`url(${uploadIcon})`}} onClick={() => handleFileUpload(this)}>Upload</button>
-        </div>
-
-        <div
-  onDragOver={handleDragOver}
-  onDragLeave={handleDragLeave}
-  onDrop={handleDrop}
-  style={{
-    position: 'relative',
-    minHeight: '100px',
-    border: (draggingOver || files.length === 0) ? '2px dashed #000' : '2px dashed transparent',
-    backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
-  }}
->
-  {(draggingOver || files.length === 0) && (
-    <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
-        zIndex: 1,fontSize:'24px',fontWeight:'600'
-      }}
-    >
-      Drop files here to upload.
-    </div>
-  )}
-
-  {files.length > 0 && (
-    <div style={{ zIndex: 0, opacity: draggingOver ? '0.1': '1' }}> 
-      {files.map((file, index) => (
-        <div
-          key={index}
-          className="report-strip"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div>{file?.ReportFile?.name || 'Unknown File'}</div>
-          <div>
-            <img
-              src={deleteIcon}
-              title={file?.InternalFileName}
-              onClick={(e) => handleDeleteFile(e)}
-              style={{ width: '25px', margin: '7px 10px 0px 5px', cursor: 'pointer' }}
-            />
-            <img
-              src={viewIcon}
-              title={file?.InternalFileName}
-              onClick={(e) => handlePDFView(e)}
-              style={{ width: '35px', cursor: 'pointer', marginRight: '5px', height: '25px', marginTop: '8px' }}
-            />
+      <div style={{ float: "left", width: "100%" }}>
+        <div style={{ display: "inline-block", width: "100%" }}>
+          <h3 className="detailsHeader" style={{ float: "left", marginBottom: '5px' }}>Reports</h3>
+          <div className="detailsNext" style={{ float: "right" }}>
+            <button onClick={handleNext}>Next</button>
+            <button onClick={handleBack} style={{ marginRight: '10px' }}>Back</button>
           </div>
         </div>
-      ))}
-    </div>
-  )}
-</div>
-
-
-
-      {fileToView && <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
-            <div style={{float:'left',width: '50%'}}><PDFViewer file={fileToView}></PDFViewer></div>
-            <div style={{textAlign:'left',marginLeft:'calc(50% + 50px)',width:'calc(50% - 100px)'}}>
-              <div style={{fontSize:'20px',fontWeight:'500',marginBottom:'10px'}}>Please select or deselect the checkboxes below to map the reports.</div>
-            {mandatoryReportslist.map((report, index) => (
-                <div key={index} style={{display:'flex',alignItems:'center',lineHeight:'2',fontSize:'18px'}}>
-                  <input type="checkbox" style={{height:'20px',width:'20px',marginRight:'10px'}} 
-                          checked={selectedFile.MappedReports.includes(report.ReportName)}
-                          onChange={() => handleReportSelection(report.ReportName)}/> {report.ReportName}
+  
+        <div>
+          <button className="plainButtons reportsbutton" style={{ backgroundImage: `url(${viewIcon})` }} onClick={handleReportsNeeded}>Reports Needed</button>
+          <button className="plainButtons uploadbutton" style={{ backgroundImage: `url(${uploadIcon})` }} onClick={() => handleFileUpload(this)}>Upload</button>
+        </div>
+  
+        <div
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          style={{
+            position: 'relative',
+            minHeight: '100px',
+            border: '2px dashed transparent',
+          }}
+        >
+          {files.length > 0 && (
+            <div style={{ zIndex: 0, opacity: draggingOver ? '0.1' : '1' }}>
+              {files.map((file, index) => (
+                <div
+                key={index}
+                className="report-strip"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexDirection: 'column', // To stack the hint text below the main content
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                  <div>{file?.ReportFile?.name || 'Unknown File'}</div>
+                  <div>
+                    <img
+                      src={deleteIcon}
+                      title={file?.InternalFileName}
+                      onClick={(e) => handleDeleteFile(e)}
+                      style={{ width: '25px', margin: '7px 10px 0px 5px', cursor: 'pointer' }}
+                    />
+                    <img
+                      src={viewIcon}
+                      title={file?.InternalFileName}
+                      onClick={(e) => handlePDFView(e)}
+                      style={{ width: '35px', cursor: 'pointer', marginRight: '5px', height: '25px', marginTop: '8px' }}
+                    />
+                  </div>
                 </div>
-              ))
-            }
+                {file?.MappedReports.length > 0 && 
+                <div style={{ marginTop: '0px', fontSize: '14px', color: '#888',alignSelf:'flex-start' }}>
+                  {file?.MappedReports.map((report, index) => (
+                    <span key={index} style={{lineHeight:'1.6'}}>
+                      {report}
+                      {index < file?.MappedReports.length - 1 && (
+                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> | </span>
+                      )}
+                    </span>
+                  ))}
+                </div>}
+              </div>              
+              ))}
             </div>
-        </PDFModalDialog>}
+          )}
+  
+          {/* Drag to upload section always displayed at the bottom */}
+          <div
+            style={{
+              position: 'relative',
+              minHeight: '100px',
+              border: draggingOver || files.length === 0 ? '2px dashed #000' : '2px dashed transparent',
+              backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+              marginTop: '20px',  // Added margin to separate it from the file list
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+                zIndex: 1,
+                fontSize: '24px',
+                fontWeight: '600',
+                border: '4px dotted #444',zIndex:'-1'
+              }}
+            >
+              Drop files here to upload.
+            </div>
+          </div>
+        </div>
+  
+        {fileToView && (
+          <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
+            <div style={{ float: 'left', width: '50%' }}><PDFViewer file={fileToView}></PDFViewer></div>
+            <div style={{ textAlign: 'left', marginLeft: 'calc(50% + 50px)', width: 'calc(50% - 100px)' }}>
+              <div style={{ fontSize: '20px', fontWeight: '500', marginBottom: '10px' }}>Please select or deselect the checkboxes below to map the reports.</div>
+              {mandatoryReportslist.map((report, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '18px',marginBottom:'10px' }}>
+                  <input type="checkbox" style={{ height: '20px', width: '20px', marginRight: '10px', flexShrink:'0' }}
+                    checked={selectedFile.MappedReports.includes(report.ReportName)}
+                    onChange={() => handleReportSelection(report.ReportName)} /> <div style={{flexGrow:'1'}}>{report.ReportName}</div>
+                </div>
+              ))}
+            </div>
+          </PDFModalDialog>
+        )}
+  
       </div>
-      <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation} 
-      confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
+  
+      <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation}
+        confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
         {modalText}
       </ModalDialog>
     </div>
-  );
+  );  
 };
  
 export default Reports;
