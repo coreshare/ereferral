@@ -63,6 +63,9 @@ const Reports = () => {
         }
       }
     }
+    else{
+      dispatch(updateMandatoryReportsList(reportslist));
+    }
   },[])
 
   const handleNext = () => {
@@ -222,6 +225,17 @@ const Reports = () => {
       dispatch(updateFiles(updatedFiles));
     }
 
+    const filesWithEmptyMappedReports = files
+      .filter(file => !Array.isArray(file.MappedReports) || file.MappedReports.length === 0)
+      .map(file => file.name);//.join('\n');
+    if(filesWithEmptyMappedReports.length > 0){
+      setModalText("Please remove the reports that don't have mapped reports.<br/>" + filesWithEmptyMappedReports.join("\n"))
+      setShowCloseButton(true)
+      setIsConfirmation(false)
+      openModal()
+      return
+    }
+      
     dispatch(setReferralSubmissionStep(currentStep + 1))
   }
   const handleBack = () => {
@@ -382,7 +396,7 @@ const Reports = () => {
     });
   };
 
-  const handleReportsNeeded = () => {
+  const handleReportsNeeded = () => {debugger;
     const reportItems = mandatoryReportslist.map((report, index) => {
       const isMapped = files.some(file => file.MappedReports.includes(report.ReportName));
       const hasMappedReports = files.some(file => file.MappedReports && file.MappedReports.length > 0);
