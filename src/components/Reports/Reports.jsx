@@ -386,8 +386,7 @@ const Reports = () => {
     const reportItems = mandatoryReportslist.map((report, index) => {
       const isMapped = files.some(file => file.MappedReports.includes(report.ReportName));
       const hasMappedReports = files.some(file => file.MappedReports && file.MappedReports.length > 0);
-
-
+      
       let checkmark = isMapped && hasMappedReports
         ? `<span style="font-size: 24px; color: green; font-weight: bold; width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&#10003;</span>`
         : `<span style="width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&nbsp;</span>`;
@@ -412,6 +411,7 @@ const Reports = () => {
   
     setModalText(htmlString);
     setIsConfirmation(false);
+    setShowCloseButton(true);
     openModal();
   };
 
@@ -480,12 +480,12 @@ const Reports = () => {
                   </div>
                 </div>
                 {file?.MappedReports.length > 0 && 
-                <div style={{ marginTop: '0px', fontSize: '14px', color: '#888',alignSelf:'flex-start' }}>
+                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start',fontWeight:"normal" }}>
                   {file?.MappedReports.map((report, index) => (
                     <span key={index} style={{lineHeight:'1.6'}}>
                       {report}
                       {index < file?.MappedReports.length - 1 && (
-                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> | </span>
+                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> <br/> </span>
                       )}
                     </span>
                   ))}
