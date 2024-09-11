@@ -4,13 +4,16 @@ import PDFViewer from "../PDFViewer/PDFViewer";
 import PDFModalDialog from "../PDFModalDialog/PDFModalDialog";
 import viewIcon from "../../Images/viewIcon.png";
 import uploadIcon from "../../Images/upload-sign.svg";
-import addReport from "../../Images/addReport.png";
+import uploadcloudicon from "../../Images/cloud-upload-signal.svg";
 import deleteIcon from "../../Images/deleteIcon.png";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFiles, updateReportsList, updateMandatoryReportsList } from "./ReportsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { warning_MandatoryText } from "../Config";
+import videoSrc from "../../Images/NHSVideo.mp4"
+import PopupVideo from "../PopupVideo/PopupVideo";
+import infoIcon from "../../Images/info-filled.svg"
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -37,6 +40,7 @@ const Reports = () => {
   const [selectedFile, setSelectedFile] = useState(null)
   const formdata = useSelector(state => state.details)
   const [overseasPatient, setOverseasPatient] = useState(details.OverseasPatient);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   
   useEffect(() => {
     if(reportslist.length == 0){
@@ -224,12 +228,16 @@ const Reports = () => {
       const updatedFiles = files.filter((file) => file.ReportName !== "IPT Form");
       dispatch(updateFiles(updatedFiles));
     }
-
+    
     const filesWithEmptyMappedReports = files
-      .filter(file => !Array.isArray(file.MappedReports) || file.MappedReports.length === 0)
-      .map(file => file.name);//.join('\n');
+      .filter(file => Array.isArray(file.MappedReports) && file.MappedReports.length === 0)
+      .map(file => `<li style='text-align:left'>${file.ReportFile.name}</li>`)
+      .join("");
+
+      const resultInULFormat = `<ul style='line-height:1.6;'>${filesWithEmptyMappedReports}</ul>`;
+
     if(filesWithEmptyMappedReports.length > 0){
-      setModalText("Please remove the reports that don't have mapped reports.<br/>" + filesWithEmptyMappedReports.join("\n"))
+      setModalText("<div style='font-size:18px'>A document does not contain a tag. Please either add a tag or delete the document.</div>" + resultInULFormat)
       setShowCloseButton(true)
       setIsConfirmation(false)
       openModal()
@@ -429,8 +437,8 @@ const Reports = () => {
     openModal();
   };
 
-
-
+  const openVideoPopup = () => setIsPopupOpen(true);
+  const closeVideoPopup = () => setIsPopupOpen(false);
 
 
 
@@ -442,17 +450,20 @@ const Reports = () => {
       <div style={{ float: "left", width: "100%" }}>
         <div style={{ display: "inline-block", width: "100%" }}>
           <h3 className="detailsHeader" style={{ float: "left", marginBottom: '5px' }}>Reports</h3>
+          <img onClick={openVideoPopup} src={infoIcon} style={{width:'30px',margin:'5px 0px 0px 10px',cursor:"pointer"}}/>
           <div className="detailsNext" style={{ float: "right" }}>
             <button onClick={handleNext}>Next</button>
             <button onClick={handleBack} style={{ marginRight: '10px' }}>Back</button>
           </div>
         </div>
   
-        <div>
-          <button className="plainButtons reportsbutton" style={{ backgroundImage: `url(${viewIcon})` }} onClick={handleReportsNeeded}>Reports Needed</button>
+        <div style={{display:"none"}}>
+          <button className="plainButtons reportsbutton" style={{ backgroundImage: `url(${viewIcon})`,display:"none" }} onClick={handleReportsNeeded}>Reports Needed</button>
           <button className="plainButtons uploadbutton" style={{ backgroundImage: `url(${uploadIcon})` }} onClick={() => handleFileUpload(this)}>Upload</button>
         </div>
-  
+        <button style={{display:"none"}} onClick={openVideoPopup}>Play Video</button>
+        <div style={{ display: 'flex', justifyContent: 'space-between',marginTop:'10px' }}>
+          
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -460,9 +471,40 @@ const Reports = () => {
           style={{
             position: 'relative',
             minHeight: '100px',
-            border: '2px dashed transparent',
+            border: '2px dashed transparent',width:'50%'
           }}
         >
+
+          <div
+            style={{
+              position: 'relative',
+              minHeight: '100px',
+              backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+              marginTop: '10px'
+            }}
+            >
+              <div  onClick={() => handleFileUpload(this)} 
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
+                  zIndex: 1,
+                  fontWeight: '500',marginBottom:'10px',cursor:"pointer",padding:'10px',
+                  border: '4px dashed #888',zIndex:'0',color:'#888',textAlign:'center',lineHeight:'1.6',fontSize:'18px'
+                }}
+              ><div><img src={uploadcloudicon} style={{width:'50px'}}/></div>
+                <div>
+                Please click here or drag and drop to upload your documents manually. Once your document is uploaded, click on the &nbsp;<img src={viewIcon} style={{width:'25px',position:'relative',top:'3px'}}/>&nbsp; icon to add your report tags
+                </div>
+              </div>
+            </div>
+
           {files.length > 0 && (
             <div style={{ zIndex: 0, opacity: draggingOver ? '0.1' : '1' }}>
               {files.map((file, index) => (
@@ -476,7 +518,7 @@ const Reports = () => {
                   flexDirection: 'column',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center',fontWeight:"normal" }}>
                   <div>{file?.ReportFile?.name || 'Unknown File'}</div>
                   <div>
                     <img
@@ -494,9 +536,9 @@ const Reports = () => {
                   </div>
                 </div>
                 {file?.MappedReports.length > 0 && 
-                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start',fontWeight:"normal" }}>
+                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start' }}>
                   {file?.MappedReports.map((report, index) => (
-                    <span key={index} style={{lineHeight:'1.6'}}>
+                    <span key={index} style={{lineHeight:'1.6',fontWeight:'600',fontSize:'18px'}}>
                       {report}
                       {index < file?.MappedReports.length - 1 && (
                         <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> <br/> </span>
@@ -508,36 +550,90 @@ const Reports = () => {
               ))}
             </div>
           )}
-  
-          <div
-            style={{
-              position: 'relative',
-              minHeight: '100px',
-              backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
-              marginTop: '20px',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
-                zIndex: 1,
-                fontSize: '24px',
-                fontWeight: '600',
-                border: '4px dashed #888',zIndex:'0',color:'#888'
-              }}
-            >
-              Drop files here to upload.
-            </div>
+
           </div>
+
+          <div style={{width:'calc(50% - 40px)',marginLeft:'40px',marginTop:'10px'}}>
+        <div
+          style={{
+            fontSize: '28px',
+            color: 'black',
+            fontWeight: 600,
+            textAlign: 'left',
+            marginBottom: '15px',display:"none"
+          }}
+        >
+          Reports
         </div>
+        <div
+          style={{
+            color: '#005cbb',
+            fontWeight: 500,
+            fontSize: '18px',
+            textAlign: 'left',
+            lineHeight: 1.6
+          }}
+        >
+          To make a {selectedStage.title} SRG and {selectedStage.stage} referral, the following information will be required (in pdf format). <br />
+          
+        </div>
+        <ol style={{ paddingLeft: '0', textAlign: 'left', lineHeight: 1.8, fontSize: '18px' }}>
+          {mandatoryReportslist.map((report, index) => {
+            const isMapped = files.some(file => file.MappedReports.includes(report.ReportName));
+            const hasMappedReports = files.some(file => file.MappedReports && file.MappedReports.length > 0);
+
+            let checkmark = isMapped && hasMappedReports ? (
+              <span
+                style={{
+                  fontSize: '24px',
+                  color: 'green',
+                  fontWeight: 'bold',
+                  width: '30px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  marginRight: '10px'
+                }}
+              >
+                &#10003;
+              </span>
+            ) : (
+              <span
+                style={{
+                  width: '30px',
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  marginRight: '10px'
+                }}
+              >
+                &nbsp;
+              </span>
+            );
+
+            if (!hasMappedReports) {
+              checkmark = (
+                <span
+                  style={{
+                    width: '30px',
+                    display: 'none',
+                    textAlign: 'center',
+                    marginRight: '10px'
+                  }}
+                >
+                  &nbsp;
+                </span>
+              );
+            }
+
+            return (
+              <li key={index} style={{ marginBottom: '5px', display: 'flex', alignItems: 'center' }}>
+                {checkmark}
+                <span>{index + 1}. {report.ReportName}</span>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+      </div>
   
         {fileToView && (
           <PDFModalDialog isOpen={isPDFModalOpen} onClose={closePDFModal} showCloseButton={true} header={reportHeaderOnPreview}>
@@ -552,6 +648,12 @@ const Reports = () => {
                 </div>
               ))}
             </div>
+            {/*<div class="video-container">
+                <video controls>
+                    <source src={videoSrc} type="video/mp4"/>
+                    Your browser does not support the video tag.
+                </video>
+            </div>*/}
           </PDFModalDialog>
         )}
   
@@ -561,6 +663,9 @@ const Reports = () => {
         confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
         {modalText}
       </ModalDialog>
+
+      <PopupVideo videoSrc={videoSrc} isOpen={isPopupOpen} onClose={closeVideoPopup} />
+
     </div>
   );  
 };

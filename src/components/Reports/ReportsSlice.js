@@ -17,15 +17,18 @@ const reportsSlice = createSlice({
     updateMandatoryReportsList: (state, action) => {
       state.mandatoryReportsList = action.payload;
     },
-    resetReports: (state) => {
+    resetReports: () => {
       return {
         files: [],
         reportsList: [],
         mandatoryReportsList: []
-      }; // Reset the state to its initial value
+      };
     },
+    resetFiles: (state) => {
+      state.files = [];
+    }
   },
 });
 
-export const { updateFiles, updateReportsList, updateMandatoryReportsList, resetReports } = reportsSlice.actions;
+export const { updateFiles, updateReportsList, updateMandatoryReportsList, resetReports, resetFiles } = reportsSlice.actions;
 export default reportsSlice.reducer;

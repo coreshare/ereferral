@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice"
 import { updateDetails } from "../DetailsSlice"
 import ModalDialog from "../ModalDialog/ModalDialog"
+import { resetFiles } from "../Reports/ReportsSlice.js"
 import { setLeftNavClearLinkText, setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice"
 import {warning_ValidEmailText,warning_MandatoryText} from "../Config.js"
 
@@ -273,11 +274,11 @@ const LeftNavForDetails = () => {
     }
 
     const handleClearDetails = () => {
-        if(leftNavStep != 4){
+        if(leftNavStep != 4 || true){
             setShowCloseButton(false)
             setIsConfirmation(true)
             setConfirmationBtnText("Yes")
-            setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + " details?")
+            setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + (leftNavStep != 4 ? " details?" : "?"))
             openModal()
         }
     }
@@ -292,6 +293,8 @@ const LeftNavForDetails = () => {
                 resetReferDetails()
             else if(leftNavStep == 3)
                 resetTreatmentDetails()
+            else if(leftNavStep == 4)
+                resetReportsDetails()
         }
         closeModal()
     }
@@ -306,6 +309,9 @@ const LeftNavForDetails = () => {
 
     const resetControl = (title, value) => {
         dispatch(updateDetails({ title, value }));
+    }
+    const resetReportsDetails = () => {debugger;
+        dispatch(resetFiles())
     }
 
     const resetTreatmentDetails = () => {
@@ -375,8 +381,8 @@ const LeftNavForDetails = () => {
             {/*<button onClick={() => handleGoToStep (3)}>MDT Details</button><br/>*/}
             <button style={{display:"block"}} onClick={() => handleGoToStep (4)} className={`${leftNavStep === 4 ? 'active' : ''}`}>Reports</button>
 
-            {leftNavStep != 4 && <><hr style={{width:"200px",float:"left",height:"1px",background:"black",marginBottom: "15px"}}/>
-            <button style={{textAlign:"left",lineHeight:"28px"}} onClick={() => handleClearDetails()}>Clear {sharedStrings.leftNavClearLinkText} Details</button></>}
+            {(leftNavStep != 4 || true) && <><hr style={{width:"200px",float:"left",height:"1px",background:"black",marginBottom: "15px"}}/>
+            <button style={{textAlign:"left",lineHeight:"28px"}} onClick={() => handleClearDetails()}>Clear {sharedStrings.leftNavClearLinkText} {leftNavStep != 4 && `Details`}</button></>}
 
         </div>
 
