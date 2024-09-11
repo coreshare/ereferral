@@ -485,7 +485,6 @@ const Reports = () => {
             >
               <div  onClick={() => handleFileUpload(this)} 
                 style={{
-                  position: 'absolute',
                   top: 0,
                   left: 0,
                   right: 0,
@@ -495,8 +494,8 @@ const Reports = () => {
                   justifyContent: 'center',
                   backgroundColor: draggingOver ? 'rgba(0, 92, 187, 0.1)' : 'transparent',
                   zIndex: 1,
-                  fontWeight: '500',marginBottom:'10px',cursor:"pointer",padding:'10px',
-                  border: '4px dashed #888',zIndex:'0',color:'#888',textAlign:'center',lineHeight:'1.6',fontSize:'18px'
+                  marginBottom:'10px',cursor:"pointer",padding:'10px',
+                  border: '4px dashed #888',zIndex:'0',color:'#888',textAlign:'center',lineHeight:'1.6',fontSize:'16px'
                 }}
               ><div><img src={uploadcloudicon} style={{width:'50px'}}/></div>
                 <div>
