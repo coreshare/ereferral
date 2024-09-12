@@ -14,6 +14,7 @@ import { warning_MandatoryText } from "../Config";
 import videoSrc from "../../Images/NHSVideo.mp4"
 import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
+import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 
 const Reports = () => {
   const dispatch = useDispatch()
