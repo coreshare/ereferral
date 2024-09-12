@@ -278,7 +278,10 @@ const LeftNavForDetails = () => {
             setShowCloseButton(false)
             setIsConfirmation(true)
             setConfirmationBtnText("Yes")
-            setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + (leftNavStep != 4 ? " details?" : "?"))
+            if(leftNavStep != 4)
+                setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + "details?")
+            else
+                setModalText("Are you sure you want to delete all the documents?")
             openModal()
         }
     }

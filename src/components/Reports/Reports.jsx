@@ -512,13 +512,22 @@ const Reports = () => {
                 className="report-strip"
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
                   justifyContent: 'space-between',
                   flexDirection: 'column',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center',fontWeight:"normal" }}>
-                  <div>{file?.ReportFile?.name || 'Unknown File'}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%',fontWeight:"normal" }}>
+                {file?.MappedReports.length > 0 && 
+                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start' }}>
+                  {file?.MappedReports.map((report, index) => (
+                    <span key={index} style={{lineHeight:'1.6',fontWeight:'600',fontSize:'18px'}}>
+                      {report}
+                      {index < file?.MappedReports.length - 1 && (
+                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> <br/> </span>
+                      )}
+                    </span>
+                  ))}
+                </div>}
                   <div>
                     <img
                       src={deleteIcon}
@@ -534,17 +543,8 @@ const Reports = () => {
                     />
                   </div>
                 </div>
-                {file?.MappedReports.length > 0 && 
-                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start' }}>
-                  {file?.MappedReports.map((report, index) => (
-                    <span key={index} style={{lineHeight:'1.6',fontWeight:'600',fontSize:'18px'}}>
-                      {report}
-                      {index < file?.MappedReports.length - 1 && (
-                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> <br/> </span>
-                      )}
-                    </span>
-                  ))}
-                </div>}
+                <div style={{fontWeight:"normal",marginTop:'10px',fontSize:'15px'}}>{file?.ReportFile?.name || 'Unknown File'}</div>
+                
               </div>              
               ))}
             </div>
