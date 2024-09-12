@@ -43,6 +43,7 @@ const Reports = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   
   useEffect(() => {
+    dispatch(setLeftNavClearLinkText("Reports"))
     if(reportslist.length == 0){
       var newIndex = 0;
       const reportstemp = selectedStage.reports.map(report => {
