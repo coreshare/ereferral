@@ -8,10 +8,9 @@ import { setStage, setStagesList } from "./StagesSlice";
 import { updateDetails } from "../DetailsSlice";
 import { setReferralTypeStageStep } from "../ReferralTypeSlice";
 import { setAppStep } from "../AppSlice";
-import { updateFiles, updateReportsList } from "../Reports/ReportsSlice";
+import { updateFiles, updateReportsList, updateMandatoryReportsList } from "../Reports/ReportsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { warning_SelectStageText } from "../Config.js"
-import { resetReports } from "../Reports/ReportsSlice";
 
 const ChooseStages = () => {
     const dispatch = useDispatch();
@@ -44,6 +43,7 @@ const ChooseStages = () => {
             return { ReportName: report, IsMain: true, ReportIndex: ++reportIndex, ReportOrder: matchingStage && matchingStage.reportOrder }
         });
         dispatch(updateReportsList(filteredReports));
+        dispatch(updateMandatoryReportsList(filteredReports));
         dispatch(updateFiles([]))
     };
 
@@ -153,7 +153,7 @@ const ChooseStages = () => {
             return;
         }
         //dispatch(setReferralTypeStageStep(currentStep + 1))
-        dispatch(resetReports())
+        //dispatch(resetReports())
         dispatch(setReferralSubmissionStep(0))
         dispatch(setAppStep(2))
     }
