@@ -506,51 +506,63 @@ const Reports = () => {
               </div>
             </div>
 
-          {files.length > 0 && (
-            <div style={{ zIndex: 0, opacity: draggingOver ? '0.1' : '1' }}>
-              {files.map((file, index) => (
-                <div
-                key={index}
-                className="report-strip"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexDirection: 'column',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%',fontWeight:"normal" }}>
-                {file?.MappedReports.length > 0 && 
-                <div style={{ marginTop: '0px', fontSize: '14px', color: '#444',alignSelf:'flex-start' }}>
-                  {file?.MappedReports.map((report, index) => (
-                    <span key={index} style={{lineHeight:'1.6',fontWeight:'600',fontSize:'18px'}}>
-                      {report}
-                      {index < file?.MappedReports.length - 1 && (
-                        <span style={{ color: 'black',fontWeight:'bold', fontSize:'16px' }}> <br/> </span>
-                      )}
-                    </span>
-                  ))}
-                </div>}
-                  <div>
-                    <img
-                      src={deleteIcon}
-                      title={file?.InternalFileName}
-                      onClick={(e) => handleDeleteFile(e)}
-                      style={{ width: '25px', margin: '7px 10px 0px 5px', cursor: 'pointer' }}
-                    />
-                    <img
-                      src={viewIcon}
-                      title={file?.InternalFileName}
-                      onClick={(e) => handlePDFView(e)}
-                      style={{ width: '35px', cursor: 'pointer', marginRight: '5px', height: '25px', marginTop: '8px' }}
-                    />
-                  </div>
-                </div>
-                <div style={{fontWeight:"normal",marginTop:'10px',fontSize:'15px'}}>{file?.ReportFile?.name || 'Unknown File'}</div>
-                
-              </div>              
-              ))}
-            </div>
-          )}
+            {files.length > 0 && (
+  <div style={{ zIndex: 0, opacity: draggingOver ? '0.1' : '1' }}>
+    {files.map((file, index) => (
+      <div
+        key={index}
+        className="report-strip"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginBottom: '10px', // Add space between file entries
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div style={{ flex: 1 }}>
+            {file?.MappedReports.length > 0 && (
+              <div style={{ fontSize: '14px', color: '#444' }}>
+                {file?.MappedReports.map((report, index) => (
+                  <span key={index} style={{ display: 'block', lineHeight: '1.6', fontWeight: '600', fontSize: '18px' }}>
+                    {report}
+                    {index < file?.MappedReports.length - 1 && (
+                      <span style={{ color: 'black', fontWeight: 'bold', fontSize: '16px' }}>
+                        <br />
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+            {file?.MappedReports.length == 0 && (
+        <div style={{ fontSize: '15px', fontWeight: 'normal', marginTop: '0px' }}>
+          {file?.ReportFile?.name || 'Unknown File'}
+        </div>)}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={deleteIcon}
+              title={file?.InternalFileName}
+              onClick={(e) => handleDeleteFile(e)}
+              style={{ width: '25px', margin: '0 10px', cursor: 'pointer' }}
+            />
+            <img
+              src={viewIcon}
+              title={file?.InternalFileName}
+              onClick={(e) => handlePDFView(e)}
+              style={{ width: '35px', height: '25px', cursor: 'pointer' }}
+            />
+          </div>
+        </div>
+        {file?.MappedReports.length > 0 && (
+        <div style={{ fontSize: '15px', fontWeight: 'normal', marginTop: '10px' }}>
+          {file?.ReportFile?.name || 'Unknown File'}
+        </div>)}
+      </div>
+    ))}
+  </div>
+)}
+
 
           </div>
 
