@@ -15,6 +15,7 @@ import videoSrc from "../../Images/NHSVideo.mp4"
 import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
 import { setLeftNavClearLinkText } from "../SharedStringsSlice";
+import { getPDSData } from "../../Services/api";
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -444,7 +445,7 @@ const Reports = () => {
 
 
 
-  const getPDSData = async () => {
+  const getPatientData = async () => {
     console.log("get PDS Data");
     setTimeout(async ()=> {
       var pdsData = await getPDSData();
@@ -463,7 +464,7 @@ const Reports = () => {
           <div className="detailsNext" style={{ float: "right" }}>
             <button onClick={handleNext}>Next</button>
             <button onClick={handleBack} style={{ marginRight: '10px' }}>Back</button>
-            <button onClick={getPDSData}>Get PDS Data</button>
+            <button onClick={getPatientData}>Get PDS Data</button>
           </div>
         </div>
   
