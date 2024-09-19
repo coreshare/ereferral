@@ -445,9 +445,12 @@ const Reports = () => {
 
 
   const getPDSData = async () => {
-    var pdsData = await getPDSData();
-    console.log(pdsData);
-    alert(pdsData);
+    console.log("get PDS Data");
+    setTimeout(async ()=> {
+      var pdsData = await getPDSData();
+      console.log(pdsData);
+      alert(pdsData);
+    },100);
   }
     
 
