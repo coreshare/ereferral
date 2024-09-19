@@ -444,7 +444,11 @@ const Reports = () => {
 
 
 
-  
+  const getPDSData = async () => {
+    var pdsData = await getPDSData();
+    console.log(pdsData);
+    alert(pdsData);
+  }
     
 
   return (
@@ -456,6 +460,7 @@ const Reports = () => {
           <div className="detailsNext" style={{ float: "right" }}>
             <button onClick={handleNext}>Next</button>
             <button onClick={handleBack} style={{ marginRight: '10px' }}>Back</button>
+            <button onClick={getPDSData}>Get PDS Data</button>
           </div>
         </div>
   

@@ -300,6 +300,34 @@ export const getMasterData = async (type_name) => {
   }
 };
 
+export const getPDSData = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/SPData/GetPDSRecord`, {
+      method: "GET",
+      credentials: "include"
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Response:", data);
+      return data;
+    } else if (response.status === 400) {
+      const errorResponse = await response.text();
+      console.error("Bad Request:", errorResponse);
+      throw new Error(`Bad Request (Status Code: ${response.status}): ${errorResponse}`);
+    } else if (response.status === 500) {
+      const errorResponse = await response.text();
+      console.error("Internal Server Error:", errorResponse);
+      throw new Error(`Internal Server Error (Status Code: ${response.status}): ${errorResponse}`);
+    } else {
+      throw new Error("Unexpected error: " + response.status);
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed: " + error.message);
+  }
+};
+
 export const getReferralTypeStages = async () => {
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetReferralTypeStages`, {
