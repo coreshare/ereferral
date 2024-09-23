@@ -43,6 +43,7 @@ const Reports = () => {
   const formdata = useSelector(state => state.details)
   const [overseasPatient, setOverseasPatient] = useState(details.OverseasPatient);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [highlightReport, setHighlightReport] = useState(false);
   
   useEffect(() => {
     dispatch(setLeftNavClearLinkText("Reports"))
@@ -208,6 +209,7 @@ const Reports = () => {
     });
 
     if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
+      setHighlightReport(true);
       setModalText("Please upload files for all reports before proceeding")
       setShowCloseButton(true)
       setIsConfirmation(false)
@@ -220,6 +222,7 @@ const Reports = () => {
       if(tempReports.length > 0){
         const iptFormFile = files.some((file) => file.MappedReports.includes("IPT Form"));//files.some((file) => file.ReportName === "IPT Form")
         if(!iptFormFile && details.IsExistingNHSNumber != "Yes"){
+          setHighlightReport(true);
           setModalText("Please upload IPT Form report.")
           setShowCloseButton(true)
           setIsConfirmation(false)
@@ -413,11 +416,11 @@ const Reports = () => {
       const hasMappedReports = files.some(file => file.MappedReports && file.MappedReports.length > 0);
       
       let checkmark = isMapped && hasMappedReports
-        ? `<span style="font-size: 24px; color: green; font-weight: bold; width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&#10003;</span>`
+        ? `<span style="font-size: 18px; color: green; font-weight: bold; width: 30px; display: inline-block; text-align: center; margin-right: 10px;align-self:flex-start">&#10003;</span>`
         : `<span style="width: 30px; display: inline-block; text-align: center; margin-right: 10px;">&nbsp;</span>`;
 
       if(!hasMappedReports){
-        checkmark = `<span style="width: 30px; display: none; text-align: center; margin-right: 10px;">&nbsp;</span>`;
+        checkmark = `<span style="width: 30px; display: none; text-align: center; margin-right: 10px">&nbsp;</span>`;
       }
 
       return `
@@ -464,7 +467,7 @@ const Reports = () => {
           <div className="detailsNext" style={{ float: "right" }}>
             <button onClick={handleNext}>Next</button>
             <button onClick={handleBack} style={{ marginRight: '10px' }}>Back</button>
-            <button onClick={getPatientData}>Get PDS Data</button>
+            {/*<button onClick={getPatientData}>Get PDS Data</button>*/}
           </div>
         </div>
   
@@ -482,7 +485,7 @@ const Reports = () => {
           style={{
             position: 'relative',
             minHeight: '100px',
-            border: '2px dashed transparent',width:'50%'
+            border: '2px dashed transparent',width:'65%'
           }}
         >
 
@@ -509,8 +512,8 @@ const Reports = () => {
                   border: '4px dashed #888',zIndex:'0',color:'#888',textAlign:'center',lineHeight:'1.6',fontSize:'16px'
                 }}
               ><div><img src={uploadcloudicon} style={{width:'50px'}}/></div>
-                <div>
-                Please click here or drag and drop to upload your documents manually. Once your document is uploaded, click on the &nbsp;<img src={viewIcon} style={{width:'25px',position:'relative',top:'3px'}}/>&nbsp; icon to add your report tags
+                <div style={{padding:"0px 40px"}}>
+                Please click here or drag and drop to upload your documents manually. <br/>Once your document is uploaded, click on the &nbsp;<img src={viewIcon} style={{width:'25px',position:'relative',top:'3px'}}/>&nbsp; icon to add your report tags
                 </div>
               </div>
             </div>
@@ -575,7 +578,7 @@ const Reports = () => {
 
           </div>
 
-          <div style={{width:'calc(50% - 40px)',marginLeft:'40px',marginTop:'10px'}}>
+          <div style={{width:'calc(35% - 40px)',marginLeft:'40px',marginTop:'10px'}}>
         <div
           style={{
             fontSize: '28px',
@@ -596,7 +599,7 @@ const Reports = () => {
             lineHeight: 1.6
           }}
         >
-          To make a {selectedStage.title} SRG and {selectedStage.stage} referral, the following information will be required (in pdf format). <br />
+          Referral Type: <b>{selectedStage.title}</b> SRG and <b>{selectedStage.stage}</b> stage<br/> The following information will be required (in pdf format). <br />
           
         </div>
         <ol style={{ paddingLeft: '0', textAlign: 'left', lineHeight: 1.8, fontSize: '18px' }}>
@@ -607,13 +610,13 @@ const Reports = () => {
             let checkmark = isMapped && hasMappedReports ? (
               <span
                 style={{
-                  fontSize: '24px',
+                  fontSize: '18px',
                   color: 'green',
                   fontWeight: 'bold',
                   width: '30px',
                   display: 'inline-block',
                   textAlign: 'center',
-                  marginRight: '10px'
+                  marginRight: '10px',alignSelf:"flex-start"
                 }}
               >
                 &#10003;
@@ -647,9 +650,10 @@ const Reports = () => {
             }
 
             return (
-              <li key={index} style={{ marginBottom: '5px', display: 'flex', alignItems: 'center' }}>
+              <li key={index} style={{ marginBottom: '5px', display: 'flex', alignItems: 'flex-start', fontSize: '16px', lineHeight: '1.4' }}>
                 {checkmark}
-                <span>{index + 1}. {report.ReportName}</span>
+                <span style={{ width: '30px', textAlign: 'center', marginRight: '10px', alignSelf: 'flex-start' }}>{index + 1}.</span>
+                <span className={(highlightReport && !files.some(file => file.MappedReports.includes(report.ReportName))) ? 'errorborder' : ''} style={{flex: '1 1 0%'}}> {report.ReportName}</span>
               </li>
             );
           })}
