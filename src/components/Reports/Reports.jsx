@@ -15,7 +15,6 @@ import videoSrc from "../../Images/NHSVideo.mp4"
 import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
 import { setLeftNavClearLinkText } from "../SharedStringsSlice";
-import { getPDSData } from "../../Services/api";
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -444,19 +443,7 @@ const Reports = () => {
   };
 
   const openVideoPopup = () => setIsPopupOpen(true);
-  const closeVideoPopup = () => setIsPopupOpen(false);
-
-
-
-  const getPatientData = async () => {
-    console.log("get PDS Data");
-    setTimeout(async ()=> {
-      var pdsData = await getPDSData();
-      console.log(pdsData);
-      alert(pdsData);
-    },100);
-  }
-    
+  const closeVideoPopup = () => setIsPopupOpen(false);    
 
   return (
     <div>

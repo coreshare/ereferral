@@ -300,10 +300,14 @@ export const getMasterData = async (type_name) => {
   }
 };
 
-export const getPDSData = async () => {
+export const getPDSData = async (nhsNumber) => {
+  const formData = new FormData();
+  formData.append("nhsNumber", nhsNumber);
+
   try {
     const response = await fetch(`${BASE_URL}/SPData/GetPDSRecord`, {
-      method: "GET",
+      method: "POST",
+      body: formData,
       credentials: "include"
     });
     

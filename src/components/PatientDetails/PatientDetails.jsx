@@ -9,7 +9,8 @@ import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { setLeftNavClearLinkText, setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
-import {warning_ValidEmailText,warning_MandatoryText} from "../Config.js"
+import {warning_ValidEmailText,warning_MandatoryText} from "../Config.js";
+import { getPDSData } from "../../Services/api.js";
 
 const PatientDetails = () => {
     const dispatch = useDispatch()
@@ -77,8 +78,17 @@ const PatientDetails = () => {
                 value: status.title
             })))
         }
-    },[details])
+        getPatientData();
+    },[])//details
 
+    const getPatientData = async () => {
+        setTimeout(async ()=> {
+            if(details.NHSNumber && details.NHSNumber != ""){
+                var pdsData = await getPDSData(details.NHSNumber);
+                alert(pdsData);
+            }
+        },100);
+    }
 
     const handleNext = () => {
         if (checkFieldsValidation()){
@@ -176,6 +186,7 @@ const PatientDetails = () => {
             }
             title = "IsExistingNHSNumber";
             dispatch(updateDetails({title, value}))
+            getPatientData();
         }
     }
 
