@@ -90,7 +90,7 @@ const PatientDetails = () => {
                     var value=pdsData["First Name"];
                     dispatch(updateDetails({title,value}));
                     title="Surname";
-                    value=pdsData["LastName"];
+                    value=pdsData["Last Name"];
                     dispatch(updateDetails({title,value}));
                     title="MiddleName";
                     value=pdsData["Middle Name"];
@@ -118,10 +118,50 @@ const PatientDetails = () => {
                     title="GPPracticeAddress";
                     value=pdsData["GP Address"];
                     dispatch(updateDetails({title,value}));
+                    title="DateofBirth";
+                    value=formatDateToYYYYMMDD(pdsData["Date of Birth"]);
+                    dispatch(updateDetails({title,value}));
+                    title="HomePhoneNumber";
+                    value=pdsData["Primary Contact Number"];
+                    dispatch(updateDetails({title,value}));
+                    title="Sex";
+                    if(pdsData["Gender"].toLowerCase() == "female")
+                        value="F";
+                    else if(pdsData["Gender"].toLowerCase() == "male")
+                        value="M";
+                    else 
+                        value="U";
+                    dispatch(updateDetails({title,value}));
+                    title="MobileNumber";
+                    value=pdsData["Mobile"];
+                    dispatch(updateDetails({title,value}));
+                    title="MaritalStatus";
+                    value=pdsData["Marital Status"];
+                    dispatch(updateDetails({title,value}));
+                    title="Ethnicorigin";
+                    value=pdsData["Ethnicity"];
+                    dispatch(updateDetails({title,value}));
+                    title="PostCode";
+                    value=pdsData["Post Code"];
+                    dispatch(updateDetails({title,value}));
+                    title="Religion";
+                    value=pdsData["Religion"];
+                    dispatch(updateDetails({title,value}));
+                    title="EmailAddress";
+                    value=pdsData["Email"];
+                    dispatch(updateDetails({title,value}));
+                    title="SpecialRequirements";
+                    value=pdsData["Special Requirements"];
+                    dispatch(updateDetails({title,value}));
                 }
             }
         },100);
     }
+    const formatDateToYYYYMMDD = (date) => {
+        if (!date) return '';
+        const [day, month, year] = date.split('-');
+        return `${year}-${month}-${day}`;
+      };
 
     const handleNext = () => {
         if (checkFieldsValidation()){
