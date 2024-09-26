@@ -85,7 +85,40 @@ const PatientDetails = () => {
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
                 var pdsData = await getPDSData(details.NHSNumber);
-                alert(pdsData["First Name"]);
+                if(pdsData){
+                    var title="FirstName";
+                    var value=pdsData["First Name"];
+                    dispatch(updateDetails({title,value}));
+                    title="Surname";
+                    value=pdsData["LastName"];
+                    dispatch(updateDetails({title,value}));
+                    title="MiddleName";
+                    value=pdsData["Middle Name"];
+                    dispatch(updateDetails({title,value}));
+                    title="Title";
+                    value=pdsData["Title"];
+                    dispatch(updateDetails({title,value}));
+                    const addressFields = [
+                        "AddressLine1",
+                        "AddressLine2",
+                        "AddressLine3",
+                        "AddressLine4"
+                      ];
+                    const addressLines = (pdsData["Address"] || "").split(',').map(line => line.trim());
+                    const addressUpdate = addressFields.reduce((acc, field, index) => {
+                        acc[field] = addressLines[index] || "";
+                        return acc;
+                    }, {});
+                    for (const [title, value] of Object.entries(addressUpdate)) {
+                        dispatch(updateDetails({ title, value }));
+                    }
+                    title="GPPractice";
+                    value=pdsData["GP Practice"];
+                    dispatch(updateDetails({title,value}));
+                    title="GPPracticeAddress";
+                    value=pdsData["GP Address"];
+                    dispatch(updateDetails({title,value}));
+                }
             }
         },100);
     }
