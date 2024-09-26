@@ -84,75 +84,123 @@ const PatientDetails = () => {
     const getPatientData = async () => {
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
-                var pdsData = await getPDSData(details.NHSNumber);
-                if(pdsData){
+                try {
+                    var pdsData = await getPDSData(details.NHSNumber);
+                    if(pdsData){
+                        var title="FirstName";
+                        var value=pdsData["First Name"];
+                        dispatch(updateDetails({title,value}));
+                        title="Surname";
+                        value=pdsData["Last Name"];
+                        dispatch(updateDetails({title,value}));
+                        title="MiddleName";
+                        value=pdsData["Middle Name"];
+                        dispatch(updateDetails({title,value}));
+                        title="Title";
+                        value=pdsData["Title"];
+                        dispatch(updateDetails({title,value}));
+                        const addressFields = [
+                            "AddressLine1",
+                            "AddressLine2",
+                            "AddressLine3",
+                            "AddressLine4"
+                        ];
+                        const addressLines = (pdsData["Address"] || "").split(',').map(line => line.trim());
+                        const addressUpdate = addressFields.reduce((acc, field, index) => {
+                            acc[field] = addressLines[index] || "";
+                            return acc;
+                        }, {});
+                        for (const [title, value] of Object.entries(addressUpdate)) {
+                            dispatch(updateDetails({ title, value }));
+                        }
+                        title="GPPractice";
+                        value=pdsData["GP Practice"];
+                        dispatch(updateDetails({title,value}));
+                        title="GPPracticeAddress";
+                        value=pdsData["GP Address"];
+                        dispatch(updateDetails({title,value}));
+                        title="DateofBirth";
+                        value=pdsData["Date of Birth"];//formatDateToYYYYMMDD(pdsData["Date of Birth"]);
+                        dispatch(updateDetails({title,value}));
+                        title="HomePhoneNumber";
+                        value=pdsData["Primary Contact Number"];
+                        dispatch(updateDetails({title,value}));
+                        title="Sex";
+                        if(pdsData["Gender"].toLowerCase() == "female")
+                            value="F";
+                        else if(pdsData["Gender"].toLowerCase() == "male")
+                            value="M";
+                        else 
+                            value="U";
+                        dispatch(updateDetails({title,value}));
+                        title="MobileNumber";
+                        value=pdsData["Mobile"];
+                        dispatch(updateDetails({title,value}));
+                        title="MaritalStatus";
+                        value=pdsData["Marital Status"];
+                        dispatch(updateDetails({title,value}));
+                        title="Ethnicorigin";
+                        value=pdsData["Ethnicity"];
+                        dispatch(updateDetails({title,value}));
+                        title="PostCode";
+                        value=pdsData["Post Code"];
+                        dispatch(updateDetails({title,value}));
+                        title="Religion";
+                        value=pdsData["Religion"];
+                        dispatch(updateDetails({title,value}));
+                        title="EmailAddress";
+                        value=pdsData["Email"];
+                        dispatch(updateDetails({title,value}));
+                        title="SpecialRequirements";
+                        value=pdsData["Special Requirements"];
+                        dispatch(updateDetails({title,value}));
+                    }
+                } catch (error) {
                     var title="FirstName";
-                    var value=pdsData["First Name"];
+                    var value="";
                     dispatch(updateDetails({title,value}));
                     title="Surname";
-                    value=pdsData["Last Name"];
                     dispatch(updateDetails({title,value}));
                     title="MiddleName";
-                    value=pdsData["Middle Name"];
                     dispatch(updateDetails({title,value}));
                     title="Title";
-                    value=pdsData["Title"];
                     dispatch(updateDetails({title,value}));
-                    const addressFields = [
-                        "AddressLine1",
-                        "AddressLine2",
-                        "AddressLine3",
-                        "AddressLine4"
-                      ];
-                    const addressLines = (pdsData["Address"] || "").split(',').map(line => line.trim());
-                    const addressUpdate = addressFields.reduce((acc, field, index) => {
-                        acc[field] = addressLines[index] || "";
-                        return acc;
-                    }, {});
-                    for (const [title, value] of Object.entries(addressUpdate)) {
-                        dispatch(updateDetails({ title, value }));
-                    }
+                    title="AddressLine1";
+                    dispatch(updateDetails({ title, value }));
+                    title="AddressLine2";
+                    dispatch(updateDetails({ title, value }));
+                    title="AddressLine3";
+                    dispatch(updateDetails({ title, value }));
+                    title="AddressLine4";
+                    dispatch(updateDetails({ title, value }));
                     title="GPPractice";
-                    value=pdsData["GP Practice"];
                     dispatch(updateDetails({title,value}));
                     title="GPPracticeAddress";
-                    value=pdsData["GP Address"];
                     dispatch(updateDetails({title,value}));
                     title="DateofBirth";
-                    value=formatDateToYYYYMMDD(pdsData["Date of Birth"]);
                     dispatch(updateDetails({title,value}));
                     title="HomePhoneNumber";
-                    value=pdsData["Primary Contact Number"];
                     dispatch(updateDetails({title,value}));
                     title="Sex";
-                    if(pdsData["Gender"].toLowerCase() == "female")
-                        value="F";
-                    else if(pdsData["Gender"].toLowerCase() == "male")
-                        value="M";
-                    else 
-                        value="U";
                     dispatch(updateDetails({title,value}));
                     title="MobileNumber";
-                    value=pdsData["Mobile"];
                     dispatch(updateDetails({title,value}));
                     title="MaritalStatus";
-                    value=pdsData["Marital Status"];
                     dispatch(updateDetails({title,value}));
                     title="Ethnicorigin";
-                    value=pdsData["Ethnicity"];
                     dispatch(updateDetails({title,value}));
                     title="PostCode";
-                    value=pdsData["Post Code"];
                     dispatch(updateDetails({title,value}));
                     title="Religion";
-                    value=pdsData["Religion"];
                     dispatch(updateDetails({title,value}));
                     title="EmailAddress";
-                    value=pdsData["Email"];
                     dispatch(updateDetails({title,value}));
                     title="SpecialRequirements";
-                    value=pdsData["Special Requirements"];
                     dispatch(updateDetails({title,value}));
+                    setShowCloseButton(true);
+                    setModalText("No patient record is found against this NHS number. Please complete the remaining fields manually.");
+                    openModal();
+                    return
                 }
             }
         },100);
