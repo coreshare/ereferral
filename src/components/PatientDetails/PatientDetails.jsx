@@ -85,7 +85,7 @@ const PatientDetails = () => {
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
                 var pdsData = await getPDSData(details.NHSNumber);
-                alert(pdsData);
+                alert(pdsData["First Name"]);
             }
         },100);
     }
