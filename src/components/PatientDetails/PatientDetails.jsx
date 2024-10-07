@@ -350,7 +350,7 @@ const PatientDetails = () => {
                         <FormSelectCtrl label="Ethnicity" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin} options={ethnicoriginsList}/><br/>
                         <FormSelectCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion} options={religionsList}/><br/>
                         <FormSelectCtrl label="Special Requirements" onChangeText={onChangeTextHandle} title="SpecialRequirements" value={details && details.SpecialRequirements} options={specialRequirementsDataList}/><br/>
-                        {1=2 && <FormTextBoxCtrl label="ODS Code" onChangeText={onChangeTextHandle} title="ODSCode" value={details && details.ODSCode} onlyText={true} />}
+                        {1==2 && <FormTextBoxCtrl label="ODS Code" onChangeText={onChangeTextHandle} title="ODSCode" value={details && details.ODSCode} onlyText={true} />}
                     </div>
                     <div style={{float:'left'}}>
                         <FormTextBoxCtrl label="Address Line 1" onChangeText={onChangeTextHandle} title="AddressLine1" value={details && details.AddressLine1}/><br/>
