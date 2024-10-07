@@ -99,6 +99,9 @@ const PatientDetails = () => {
                         title="Title";
                         value=pdsData["Title"];
                         dispatch(updateDetails({title,value}));
+                        title="ODSCode";
+                        value=pdsData["ODSCode"];
+                        dispatch(updateDetails({title,value}));
                         const addressFields = [
                             "AddressLine1",
                             "AddressLine2",
@@ -196,6 +199,8 @@ const PatientDetails = () => {
                     title="EmailAddress";
                     dispatch(updateDetails({title,value}));
                     title="SpecialRequirements";
+                    dispatch(updateDetails({title,value}));
+                    title="ODSCode";
                     dispatch(updateDetails({title,value}));
                     setShowCloseButton(true);
                     setModalText("No patient record is found against this NHS number. Please complete the remaining fields manually.");
@@ -345,6 +350,7 @@ const PatientDetails = () => {
                         <FormSelectCtrl label="Ethnicity" onChangeText={onChangeTextHandle} title="Ethnicorigin" value={details && details.Ethnicorigin} options={ethnicoriginsList}/><br/>
                         <FormSelectCtrl label="Religion" onChangeText={onChangeTextHandle} title="Religion" value={details && details.Religion} options={religionsList}/><br/>
                         <FormSelectCtrl label="Special Requirements" onChangeText={onChangeTextHandle} title="SpecialRequirements" value={details && details.SpecialRequirements} options={specialRequirementsDataList}/><br/>
+                        {1=2 && <FormTextBoxCtrl label="ODS Code" onChangeText={onChangeTextHandle} title="ODSCode" value={details && details.ODSCode} onlyText={true} />}
                     </div>
                     <div style={{float:'left'}}>
                         <FormTextBoxCtrl label="Address Line 1" onChangeText={onChangeTextHandle} title="AddressLine1" value={details && details.AddressLine1}/><br/>
