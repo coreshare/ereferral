@@ -220,23 +220,21 @@ const Questionnaire = () => {
             return;
         }
         dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
-        
-        setIsConfirmation(false)
-        setShowCloseButton(false)
-        //setContentInHtml(false)
-        setModalText("Validating NHS Number... Please wait.")
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
                 try {
+                    setIsConfirmation(false)
+                    setShowCloseButton(false)
+                    setModalText("Validating NHS Number... Please wait.")
                     var pdsData = await getPDSData(details.NHSNumber);
-                    closeModal();
+                    openModal()
                     if(pdsData){
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
                         setModalText("<div>" + 
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
-                                "<div><ul>" + 
+                                "<div><ul style='text-align:left;line-height:1.6'>" + 
                                     "<li>First Name: " + pdsData["First Name"] + "</li>" +
                                     "<li>Last Name: " + pdsData["Last Name"] + "</li>" +
                                     "<li>Date of Birth: " + pdsData["Date of Birth"] + "</li>" +
