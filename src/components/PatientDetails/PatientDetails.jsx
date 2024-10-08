@@ -8,7 +8,7 @@ import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { setAppStep } from "../AppSlice";
 import FormSelectCtrl from "../FormSelectCtrl/FormSelectCtrl";
 import ModalDialog from "../ModalDialog/ModalDialog";
-import { setLeftNavClearLinkText, setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
+import { setLeftNavClearLinkText, setNOKMandatory, setPatientMandatory, setPDSAPICallsCount, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
 import {warning_ValidEmailText,warning_MandatoryText} from "../Config.js";
 import { getPDSData } from "../../Services/api.js";
 
@@ -33,6 +33,8 @@ const PatientDetails = () => {
     //const [enableRedBorder, setEnableRedBorder] = useState(false)
     const enableRedBorder = useSelector(state => state.sharedStrings.enablePatientMandatory)
     const mandatoryFlag = true//useSelector(state => state.details.IsExistingNHSNumber === 'Yes' ? false : true)
+    const pdsApiCallsAttempted = useSelector(state => state.sharedStrings.pdsAPICallsCount)
+    const MAX_ATTEMPTS = 5;
     
     useEffect(() => {
         dispatch(setLeftNavClearLinkText("Patient"))
@@ -82,6 +84,14 @@ const PatientDetails = () => {
     },[])//details
 
     const getPatientData = async () => {
+        if (pdsApiCallsAttempted >= MAX_ATTEMPTS) {
+            setModalText("You have reached the maximum attempts to get patient data. Please continue updating manually or try refreshing.");
+            setShowCloseButton(true);
+            openModal();
+            return;
+        }
+        dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
+        
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
                 try {

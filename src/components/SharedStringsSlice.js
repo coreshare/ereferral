@@ -8,7 +8,8 @@ const sharedStringsSlice = createSlice({
         enablePatientMandatory: false,
         enableNOKMandatory: false,
         enableReferMandatory: false,
-        enableTTCMandatory: false
+        enableTTCMandatory: false,
+        pdsAPICallsCount: 0
     },
     reducers: {
         setLeftNavClearLinkText: (state, action) => {
@@ -20,7 +21,7 @@ const sharedStringsSlice = createSlice({
         setPatientMandatory: (state, action) => {
             state.enablePatientMandatory = action.payload;
         },
-        setNOKMandatory: (state, action) => {debugger
+        setNOKMandatory: (state, action) => {
             state.enableNOKMandatory = action.payload;
         },
         setReferMandatory: (state, action) => {
@@ -28,6 +29,9 @@ const sharedStringsSlice = createSlice({
         },
         setTTCMandatory: (state, action) => {
             state.enableTTCMandatory = action.payload;
+        },
+        setPDSAPICallsCount: (state, action) => {
+            state.pdsAPICallsCount = action.payload;
         },
         resetMandatory: (state) => {
             state.enablePatientMandatory = false
@@ -39,5 +43,5 @@ const sharedStringsSlice = createSlice({
 });  
 
 export const { setLeftNavClearLinkText, setReferrerEmail, setPatientMandatory, setNOKMandatory,
-    setReferMandatory, setTTCMandatory, resetMandatory } = sharedStringsSlice.actions;
+    setReferMandatory, setTTCMandatory, resetMandatory, setPDSAPICallsCount } = sharedStringsSlice.actions;
 export default sharedStringsSlice.reducer;

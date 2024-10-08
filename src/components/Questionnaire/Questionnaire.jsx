@@ -12,7 +12,8 @@ import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import FormTextBoxCtrl from "../FormTextBoxCtrl/FormTextBoxCtrl";
 import FormYesNoBtnsCtrl from "../FormYesNoBtnsCtrl/FormYesNoBtnsCtrl";
 import { warning_NHSNumberText } from "../Config";
-import { setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
+import { setNOKMandatory, setPatientMandatory, setPDSAPICallsCount, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice";
+import { getPDSData } from "../../Services/api.js";
 
 const Questionnaire = () => {
     const dispatch = useDispatch()
@@ -24,9 +25,14 @@ const Questionnaire = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showCloseButton,setShowCloseButton] = useState(true);
+    const [confirmationBtnText, setConfirmationBtnText] = useState("");
+    const [isConfirmation, setIsConfirmation] = useState(true)
     const [modalText, setModalText] = useState("");
     const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
     const [disableMDTCtrl, setDisableMDTCtrl] = useState(false)
+    const pdsApiCallsAttempted = useSelector(state => state.sharedStrings.pdsAPICallsCount)
+    const MAX_ATTEMPTS = 5;
+
     /*
     useEffect(() => {
         if(nhsNumbers.length == 0){
@@ -46,7 +52,12 @@ const Questionnaire = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
+    const handleConfirmation = (isConfirmed) => {
+        if(isConfirmed){
+            dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+        }
+        closeModal();
+    }
     const handleNext = () => {
         if(awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
         (awareOfDiagnosis == "Yes" && (discussedAtMDT == undefined || discussedAtMDT == "")) || 
@@ -57,11 +68,13 @@ const Questionnaire = () => {
             overseasPatient == undefined || overseasPatient == ""*/
 
             setShowCloseButton(true);
+            setIsConfirmation(false);
             setModalText("Please complete the questionnaire");
             openModal()
             return
         }
         if(/*discussedAtMDT == 'No' || */awareOfDiagnosis == 'No'){
+            setIsConfirmation(false);
             setShowCloseButton(true);
             /*if(discussedAtMDT == 'No')
                 setModalText("Unable to proceed if patient has not been discussed at MDT and the stage has not been defined");
@@ -79,26 +92,33 @@ const Questionnaire = () => {
             }
         }
         if(details && details.DiscussedatMDT == "Yes" && (!details.DateatMDT || details.DateatMDT == "")){
+            setIsConfirmation(false);
             setShowCloseButton(true)
             setModalText("Enter date at MDT")
             openModal()
             return
         }
         if(!details.TreatmentDecision || details.TreatmentDecision === ""){
+            setIsConfirmation(false);
             setShowCloseButton(true)
             setModalText("Select Treatment Decision")
             openModal()
             return
-        }
+        }debugger;
         if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
+            setIsConfirmation(false);
             setShowCloseButton(true)
             setModalText("Enter valid NHS Number")
             openModal()
             return
         }
-        //dispatch(setReferralSubmissionStep(0))
-        //dispatch(setAppStep(2))
-        dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+        else if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length == 10)){
+            getPatientData();
+        }
+        else{
+            dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+        }
+        //dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
     }
 
     const handleBack = () => {
@@ -170,6 +190,7 @@ const Questionnaire = () => {
                 dispatch(setTTCMandatory(false))
 
                 value = "Yes"
+                setIsConfirmation(false);
                 setShowCloseButton(true)
                 setModalText("<span style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</span>")
                 openModal()
@@ -179,7 +200,7 @@ const Questionnaire = () => {
                 value = "No"
             }
             title = "IsExistingNHSNumber";
-            dispatch(updateDetails({title, value}))
+            dispatch(updateDetails({title, value}));
         }
     }
 
@@ -189,6 +210,34 @@ const Questionnaire = () => {
         { id: 'Combinationofsystemictreatmentandradiotherapy', label: 'Combination of systemic treatment and radiotherapy' },
         { id: 'ReferredforOncologyReview', label: 'Inpatient being referred for Oncology review'}
     ];
+
+    const getPatientData = async () => {
+        if (pdsApiCallsAttempted >= MAX_ATTEMPTS) {
+            setModalText("You have reached the maximum attempts to get patient data. Please continue updating manually or try refreshing.");
+            setIsConfirmation(false);
+            setShowCloseButton(true);
+            openModal();
+            return;
+        }
+        dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
+        
+        setTimeout(async ()=> {
+            if(details.NHSNumber && details.NHSNumber != ""){
+                try {
+                    var pdsData = await getPDSData(details.NHSNumber);
+                    if(pdsData){
+                        setIsConfirmation(true)
+                        setShowCloseButton(true)
+                        setConfirmationBtnText("Yes")
+                        setModalText("<span style='line-height:28px'>Please find the below details found for entered NHS Number. Please continue if details correct.</span>")
+                        openModal()
+                    }
+                }
+                catch (error) {
+                }
+            }
+        },100);
+    }
     
     return(
         <div>
@@ -273,7 +322,8 @@ const Questionnaire = () => {
                     <br/><br/>
                 </div>
             
-                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isHtmlContent={true}>
+                <ModalDialog isOpen={isModalOpen} onClose={closeModal} showCloseButton={showCloseButton} isConfirmation={isConfirmation}
+        confirmationFn={handleConfirmation} confirmationBtnText={confirmationBtnText} isHtmlContent={true}>
                     {modalText}
                 </ModalDialog>
         </div>

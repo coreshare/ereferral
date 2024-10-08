@@ -33,6 +33,7 @@ const Header = () => {
     : null;
 
   const formattedDate = details?.DateofBirth ? formatDate(details.DateofBirth) : null;
+  const nhsNumber = details?.NHSNumber ? details.NHSNumber : null;
 
   return (
     <div className="header">
@@ -41,9 +42,23 @@ const Header = () => {
       </div>
       <div>Patient Referral Portal&nbsp;</div>
       <div>
-        {firstNameSurname && ` - ${firstNameSurname}`}
-        {formattedDate && ` - ${formattedDate}`}
-        {formattedDate && " (DOB)"}
+        {/* Corrected conditional rendering for firstNameSurname */}
+        {firstNameSurname && (
+          <>
+            <span style={{fontWeight:"normal"}}>- Name:</span> <b>{firstNameSurname}</b>
+          </>
+        )}
+        {/* Corrected conditional rendering for formattedDate */}
+        {formattedDate && (
+          <>
+            <span style={{fontWeight:"normal"}}> - DOB: </span> <b>{formattedDate}</b>
+          </>
+        )}
+        {nhsNumber && (
+          <>
+            <span style={{fontWeight:"normal"}}> - NHS Number: </span> <b>{nhsNumber}</b>
+          </>
+        )}
       </div>
     </div>
   );
