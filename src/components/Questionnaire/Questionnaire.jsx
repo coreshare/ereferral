@@ -223,7 +223,7 @@ const Questionnaire = () => {
         
         setIsConfirmation(false)
         setShowCloseButton(false)
-        setContentInHtml(false)
+        //setContentInHtml(false)
         setModalText("Validating NHS Number... Please wait.")
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
