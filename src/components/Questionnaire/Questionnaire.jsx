@@ -221,18 +221,31 @@ const Questionnaire = () => {
         }
         dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
         
+        setIsConfirmation(false)
+        setShowCloseButton(false)
+        setContentInHtml(false)
+        setModalText("Validating NHS Number... Please wait.")
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
                 try {
                     var pdsData = await getPDSData(details.NHSNumber);
+                    closeModal();
                     if(pdsData){
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
-                        setModalText("<span style='line-height:28px'>Please find the below details found for entered NHS Number. Please continue if details correct.</span>")
+                        setModalText("<div>" + 
+                                "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
+                                "<div><ul>" + 
+                                    "<li>First Name: " + pdsData["First Name"] + "</li>" +
+                                    "<li>Last Name: " + pdsData["Last Name"] + "</li>" +
+                                    "<li>Date of Birth: " + pdsData["Date of Birth"] + "</li>" +
+                                "</ul></div>" +
+                            "</div>")
                         openModal()
                     }
                     else{
+                        closeModal();
                         dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
                     }
                 }
