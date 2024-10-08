@@ -227,10 +227,13 @@ const Questionnaire = () => {
                     var pdsData = await getPDSData(details.NHSNumber);
                     if(pdsData){
                         setIsConfirmation(true)
-                        setShowCloseButton(true)
+                        setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
                         setModalText("<span style='line-height:28px'>Please find the below details found for entered NHS Number. Please continue if details correct.</span>")
                         openModal()
+                    }
+                    else{
+                        dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
                     }
                 }
                 catch (error) {
