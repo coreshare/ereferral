@@ -222,12 +222,12 @@ const Questionnaire = () => {
         dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
         setTimeout(async ()=> {
             if(details.NHSNumber && details.NHSNumber != ""){
-                try {
+                try {debugger;
                     setIsConfirmation(false)
                     setShowCloseButton(false)
                     setModalText("Validating NHS Number... Please wait.")
-                    var pdsData = await getPDSData(details.NHSNumber);
                     openModal()
+                    var pdsData = await getPDSData(details.NHSNumber);
                     if(pdsData){
                         setIsConfirmation(true)
                         setShowCloseButton(false)
