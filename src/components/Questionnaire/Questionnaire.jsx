@@ -232,12 +232,13 @@ const Questionnaire = () => {
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
+                        const formattedDate = pdsData["Date of Birth"] ? formatDate(pdsData["Date of Birth"]) : "";
                         setModalText("<div>" + 
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
                                 "<div><ul style='text-align:left;line-height:1.6'>" + 
                                     "<li>First Name: " + pdsData["First Name"] + "</li>" +
                                     "<li>Last Name: " + pdsData["Last Name"] + "</li>" +
-                                    "<li>Date of Birth: " + pdsData["Date of Birth"] + "</li>" +
+                                    "<li>Date of Birth: " + formattedDate + "</li>" +
                                 "</ul></div>" +
                             "</div>")
                         openModal()
@@ -252,6 +253,23 @@ const Questionnaire = () => {
             }
         },100);
     }
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+    
+        const [day, month, year] = dateString.split('/');
+    
+        const date = new Date(`${year}-${month}-${day}`);
+    
+        if (!isNaN(date)) {
+          return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          });
+        }
+        return "";
+      };
     
     return(
         <div>

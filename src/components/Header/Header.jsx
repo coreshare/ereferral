@@ -10,13 +10,10 @@ const Header = () => {
   const formatDate = (dateString) => {
     if (!dateString) return "";
 
-    // Split the date string into day, month, year (assuming dd/mm/yyyy)
     const [day, month, year] = dateString.split('/');
 
-    // Create a new Date object with the correct order
     const date = new Date(`${year}-${month}-${day}`);
 
-    // Check if the date is valid
     if (!isNaN(date)) {
       return date.toLocaleDateString('en-GB', {
         day: '2-digit',
