@@ -43,13 +43,13 @@ const RefererDetails = () => {
         
         if(details.OverseasPatient != "Yes")
         {
-            referMandatoryFields.push('GPName');
+            //referMandatoryFields.push('GPName');
             referMandatoryFields.push('GPPractice');
             referMandatoryFields.push('GPPracticeAddress');
         }
 
         const referMFDN = {}
-        referMFDN["GPName"] = "Specified GP"
+        //referMFDN["GPName"] = "Specified GP"
         referMFDN["GPPractice"] = "GP Practice Name"
         referMFDN["GPPracticeAddress"] = "GP Practice Address"
         referMFDN["ReferringOrganisation"] = "Referring Organisation"
