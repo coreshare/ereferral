@@ -114,7 +114,7 @@ const RefererDetails = () => {
                 </div>
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
-                        <FormTextBoxCtrl label="Specified GP" onChangeText={onChangeTextHandle} title="GPName" value={details && details.GPName} onlyText={true} isMandatory={mandatoryFlag && details.OverseasPatient != "Yes"} enableRedBorder={enableRedBorder && (!details.GPName || details.GPName === "")}/><br/>
+                        <FormTextBoxCtrl label="Specified GP" onChangeText={onChangeTextHandle} title="GPName" value={details && details.GPName} onlyText={true} /><br/>
                         <FormTextBoxCtrl label="GP Practice Name" onChangeText={onChangeTextHandle} title="GPPractice" value={details && details.GPPractice} onlyText={true} isMandatory={mandatoryFlag && details.OverseasPatient != "Yes"} enableRedBorder={enableRedBorder && (!details.GPPractice || details.GPPractice === "")}/><br/>
                         <FormTextAreaCtrl label="GP Practice Address" onChangeText={onChangeTextHandle} title="GPPracticeAddress" value={details && details.GPPracticeAddress} ctrlWidth="322px" isMandatory={mandatoryFlag && details.OverseasPatient != "Yes"} enableRedBorder={enableRedBorder && (!details.GPPracticeAddress || details.GPPracticeAddress === "")}/>
                     </div>
