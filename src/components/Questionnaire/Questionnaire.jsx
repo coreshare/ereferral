@@ -448,10 +448,10 @@ const Questionnaire = () => {
                                 
                             </div><br/></>
                         ))}
-                        <div><br/>
+                        {/*<div><br/>
                             <FormTextAreaCtrl label="MDT Comments" onChangeText={onChangeTextHandle} title="MDTComments" 
                             value={details && details.MDTComments} ctrlWidth="633px" disableCtrl={details && details.DiscussedatMDT == "No"}/>
-                        </div>
+                        </div>*/}
                         
                     <br/>
 
