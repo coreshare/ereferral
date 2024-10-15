@@ -80,7 +80,7 @@ const PatientDetails = () => {
                 value: status.title
             })))
         }
-        getPatientData();
+        //getPatientData();
     },[])//details
 
     const getPatientData = async () => {

@@ -54,6 +54,7 @@ const Questionnaire = () => {
     };
     const handleConfirmation = (isConfirmed) => {
         if(isConfirmed){
+            setPatientDetailsData()
             dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
         }
         closeModal();
@@ -104,7 +105,7 @@ const Questionnaire = () => {
             setModalText("Select Treatment Decision")
             openModal()
             return
-        }debugger;
+        }
         if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length != 10)){
             setIsConfirmation(false);
             setShowCloseButton(true)
@@ -221,14 +222,15 @@ const Questionnaire = () => {
         }
         dispatch(setPDSAPICallsCount(pdsApiCallsAttempted+1));
         setTimeout(async ()=> {
-            if(details.NHSNumber && details.NHSNumber != ""){
-                try {debugger;
+            
+                try {
                     setIsConfirmation(false)
                     setShowCloseButton(false)
                     setModalText("Validating NHS Number... Please wait.")
                     openModal()
                     var pdsData = await getPDSData(details.NHSNumber);
                     if(pdsData){
+                        closeModal()
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
@@ -244,14 +246,141 @@ const Questionnaire = () => {
                         openModal()
                     }
                     else{
-                        closeModal();
-                        dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+                        //closeModal();
+                        //dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+                        unSetPatientDetails()
                     }
                 }
                 catch (error) {
+                    closeModal()
+                    unSetPatientDetails()
                 }
-            }
+            
         },100);
+    }
+
+    const setPatientDetailsData = (pdsData) => {
+        var title="FirstName";
+        var value=pdsData["First Name"];
+        dispatch(updateDetails({title,value}));
+        title="Surname";
+        value=pdsData["Last Name"];
+        dispatch(updateDetails({title,value}));
+        title="MiddleName";
+        value=pdsData["Middle Name"];
+        dispatch(updateDetails({title,value}));
+        title="Title";
+        value=pdsData["Title"];
+        dispatch(updateDetails({title,value}));
+        title="ODSCode";
+        value=pdsData["ODSCode"];
+        dispatch(updateDetails({title,value}));
+        const addressFields = [
+            "AddressLine1",
+            "AddressLine2",
+            "AddressLine3",
+            "AddressLine4"
+        ];
+        const addressLines = (pdsData["Address"] || "").split(',').map(line => line.trim());
+        const addressUpdate = addressFields.reduce((acc, field, index) => {
+            acc[field] = addressLines[index] || "";
+            return acc;
+        }, {});
+        for (const [title, value] of Object.entries(addressUpdate)) {
+            dispatch(updateDetails({ title, value }));
+        }
+        title="GPPractice";
+        value=pdsData["GP Practice"];
+        dispatch(updateDetails({title,value}));
+        title="GPPracticeAddress";
+        value=pdsData["GP Address"];
+        dispatch(updateDetails({title,value}));
+        title="DateofBirth";
+        value=pdsData["Date of Birth"];//formatDateToYYYYMMDD(pdsData["Date of Birth"]);
+        dispatch(updateDetails({title,value}));
+        title="HomePhoneNumber";
+        value=pdsData["Primary Contact Number"];
+        dispatch(updateDetails({title,value}));
+        title="Sex";
+        if(pdsData["Gender"].toLowerCase() == "female")
+            value="F";
+        else if(pdsData["Gender"].toLowerCase() == "male")
+            value="M";
+        else 
+            value="U";
+        dispatch(updateDetails({title,value}));
+        title="MobileNumber";
+        value=pdsData["Mobile"];
+        dispatch(updateDetails({title,value}));
+        title="MaritalStatus";
+        value=pdsData["Marital Status"];
+        dispatch(updateDetails({title,value}));
+        title="Ethnicorigin";
+        value=pdsData["Ethnicity"];
+        dispatch(updateDetails({title,value}));
+        title="PostCode";
+        value=pdsData["Post Code"];
+        dispatch(updateDetails({title,value}));
+        title="Religion";
+        value=pdsData["Religion"];
+        dispatch(updateDetails({title,value}));
+        title="EmailAddress";
+        value=pdsData["Email"];
+        dispatch(updateDetails({title,value}));
+        title="SpecialRequirements";
+        value=pdsData["Special Requirements"];
+        dispatch(updateDetails({title,value}));    
+    }
+
+    const unSetPatientDetails = () => {
+        var title="FirstName";
+        var value="";
+        dispatch(updateDetails({title,value}));
+        title="Surname";
+        dispatch(updateDetails({title,value}));
+        title="MiddleName";
+        dispatch(updateDetails({title,value}));
+        title="Title";
+        dispatch(updateDetails({title,value}));
+        title="AddressLine1";
+        dispatch(updateDetails({ title, value }));
+        title="AddressLine2";
+        dispatch(updateDetails({ title, value }));
+        title="AddressLine3";
+        dispatch(updateDetails({ title, value }));
+        title="AddressLine4";
+        dispatch(updateDetails({ title, value }));
+        title="GPPractice";
+        dispatch(updateDetails({title,value}));
+        title="GPPracticeAddress";
+        dispatch(updateDetails({title,value}));
+        title="DateofBirth";
+        dispatch(updateDetails({title,value}));
+        title="HomePhoneNumber";
+        dispatch(updateDetails({title,value}));
+        title="Sex";
+        dispatch(updateDetails({title,value}));
+        title="MobileNumber";
+        dispatch(updateDetails({title,value}));
+        title="MaritalStatus";
+        dispatch(updateDetails({title,value}));
+        title="Ethnicorigin";
+        dispatch(updateDetails({title,value}));
+        title="PostCode";
+        dispatch(updateDetails({title,value}));
+        title="Religion";
+        dispatch(updateDetails({title,value}));
+        title="EmailAddress";
+        dispatch(updateDetails({title,value}));
+        title="SpecialRequirements";
+        dispatch(updateDetails({title,value}));
+        title="ODSCode";
+        dispatch(updateDetails({title,value}));
+        setShowCloseButton(false);
+        setIsConfirmation(true);
+        setConfirmationBtnText("Yes")
+        setModalText("No patient record is found against this NHS number. Do you want continue update Patient Details manually?");
+        openModal();
     }
 
     const formatDate = (dateString) => {
