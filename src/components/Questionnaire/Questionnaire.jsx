@@ -87,6 +87,7 @@ const Questionnaire = () => {
         if(overseasPatient == 'No'){
             if(!details.NHSNumber || details.NHSNumber == ""){
                 setShowCloseButton(true)
+                setIsConfirmation(false)
                 setModalText(warning_NHSNumberText)
                 openModal()
                 return
