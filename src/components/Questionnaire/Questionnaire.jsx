@@ -27,6 +27,7 @@ const Questionnaire = () => {
     const [showCloseButton,setShowCloseButton] = useState(true);
     const [confirmationBtnText, setConfirmationBtnText] = useState("");
     const [isConfirmation, setIsConfirmation] = useState(true)
+    const [confirmationType, setConfirmationType] = useState("")
     const [modalText, setModalText] = useState("");
     const nhsNumbers = useSelector(state => state.masterData.NHSNumbers)
     const [disableMDTCtrl, setDisableMDTCtrl] = useState(false)
@@ -54,8 +55,13 @@ const Questionnaire = () => {
     };
     const handleConfirmation = (isConfirmed) => {
         if(isConfirmed){
-            setPatientDetailsData()
-            dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+            if(confirmationType == "Patient Details Found"){
+                setPatientDetailsData()
+                dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+            }
+            else if(confirmationType == "No Patient Details"){
+                dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
+            }
         }
         closeModal();
     }
@@ -235,6 +241,7 @@ const Questionnaire = () => {
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
+                        setConfirmationType("Patient Details Found");
                         const formattedDate = pdsData["Date of Birth"] ? formatDate(pdsData["Date of Birth"]) : "";
                         setModalText("<div>" + 
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
@@ -380,6 +387,7 @@ const Questionnaire = () => {
         setShowCloseButton(false);
         setIsConfirmation(true);
         setConfirmationBtnText("Yes")
+        setConfirmationType("No Patient Details")
         setModalText("No patient record is found against this NHS number. Do you want continue update Patient Details manually?");
         openModal();
     }
