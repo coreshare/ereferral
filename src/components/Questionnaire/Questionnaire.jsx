@@ -33,6 +33,7 @@ const Questionnaire = () => {
     const [disableMDTCtrl, setDisableMDTCtrl] = useState(false)
     const pdsApiCallsAttempted = useSelector(state => state.sharedStrings.pdsAPICallsCount)
     const MAX_ATTEMPTS = 5;
+    const [pdsData, setPDSData] = useState(null)
 
     /*
     useEffect(() => {
@@ -235,19 +236,20 @@ const Questionnaire = () => {
                     setShowCloseButton(false)
                     setModalText("Validating NHS Number... Please wait.")
                     openModal()
-                    var pdsData = await getPDSData(details.NHSNumber);
-                    if(pdsData){
+                    var pdsDataResponse = await getPDSData(details.NHSNumber);
+                    if(pdsDataResponse){
+                        setPDSData(pdsDataResponse);
                         closeModal()
                         setIsConfirmation(true)
                         setShowCloseButton(false)
                         setConfirmationBtnText("Yes")
                         setConfirmationType("Patient Details Found");
-                        const formattedDate = pdsData["Date of Birth"] ? formatDate(pdsData["Date of Birth"]) : "";
+                        const formattedDate = pdsDataResponse["Date of Birth"] ? formatDate(pdsDataResponse["Date of Birth"]) : "";
                         setModalText("<div>" + 
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
                                 "<div><ul style='text-align:left;line-height:1.6'>" + 
-                                    "<li>First Name: " + pdsData["First Name"] + "</li>" +
-                                    "<li>Last Name: " + pdsData["Last Name"] + "</li>" +
+                                    "<li>First Name: " + pdsDataResponse["First Name"] + "</li>" +
+                                    "<li>Last Name: " + pdsDataResponse["Last Name"] + "</li>" +
                                     "<li>Date of Birth: " + formattedDate + "</li>" +
                                 "</ul></div>" +
                             "</div>")
@@ -267,7 +269,7 @@ const Questionnaire = () => {
         },100);
     }
 
-    const setPatientDetailsData = (pdsData) => {
+    const setPatientDetailsData = () => {
         var title="FirstName";
         var value=pdsData["First Name"];
         dispatch(updateDetails({title,value}));
