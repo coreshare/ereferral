@@ -379,7 +379,7 @@ const LeftNavForDetails = () => {
         <div className="leftnav">
             <button onClick={() => handleGoToStep (0)} className={`${leftNavStep === 0 ? 'active' : ''}`}>Patient Details</button><br/>
             <button onClick={() => handleGoToStep (1)} className={`${leftNavStep === 1 ? 'active' : ''}`}>Next of Kin Details</button><br/>
-            <button onClick={() => handleGoToStep (2)} className={`${leftNavStep === 2 ? 'active' : ''}`}>Refer Details</button><br/>
+            <button onClick={() => handleGoToStep (2)} className={`${leftNavStep === 2 ? 'active' : ''}`}>Referrer Details</button><br/>
             <button onClick={() => handleGoToStep (3)} className={`${leftNavStep === 3 ? 'active' : ''}`}>Treatment & Target Category</button><br/>
             {/*<button onClick={() => handleGoToStep (3)}>MDT Details</button><br/>*/}
             <button style={{display:"block"}} onClick={() => handleGoToStep (4)} className={`${leftNavStep === 4 ? 'active' : ''}`}>Reports</button>

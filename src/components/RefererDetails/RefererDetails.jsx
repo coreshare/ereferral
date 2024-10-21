@@ -106,7 +106,7 @@ const RefererDetails = () => {
         <div className="detailssection">
             <div style={{float:'left',width:"100%"}}>
                 <div style={{display:"inline-block",width:"100%"}}>
-                    <h3 className="detailsHeader" style={{float:"left"}}>Refer Details</h3>
+                    <h3 className="detailsHeader" style={{float:"left"}}>Referrer Details</h3>
                     <div className="detailsNext" style={{float:"right"}}>
                         <button onClick={handleNext}>Next</button>
                         <button onClick={handleBack} style={{marginRight:'10px'}}>Back</button>
