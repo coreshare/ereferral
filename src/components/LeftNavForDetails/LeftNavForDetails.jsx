@@ -132,7 +132,7 @@ const LeftNavForDetails = () => {
             referMandatoryFields.push('GPPracticeAddress');
         }
         const referMFDN = {}
-        referMFDN["GPName"] = "Specified GP"
+        //referMFDN["GPName"] = "Specified GP"
         referMFDN["GPPractice"] = "GP Practice Name"
         referMFDN["GPPracticeAddress"] = "GP Practice Address"
         referMFDN["ReferringOrganisation"] = "Referring Organisation"
@@ -205,7 +205,7 @@ const LeftNavForDetails = () => {
                     return
                 }
                 else if((step === 3 || step === 4) && checkReferDetailsFieldsValidation()){
-                    setModalText("Please fill in Refer Details.")
+                    setModalText("Please fill in Referrer Details.")
                     openModal()
                     return
                 }
@@ -222,7 +222,7 @@ const LeftNavForDetails = () => {
                     return
                 }
                 else if((step === 3 || step === 4) && checkReferDetailsFieldsValidation()){
-                    setModalText("Please fill in Refer Details.")
+                    setModalText("Please fill in Referrer Details.")
                     openModal()
                     return
                 }

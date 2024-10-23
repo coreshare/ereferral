@@ -156,7 +156,7 @@ const Reports = () => {
         }
 
         if (emptyFields.length > 0) {
-          errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Refer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
+          errorMsg = errorMsg + `<div style='text-align:left;line-height:28px'><b style='font-size:20px'>Referrer Details</b>:<ul>${emptyFields.map(field => `<li>${field}</li>`).join('')}</ul></div>`;
         }
       }
 
