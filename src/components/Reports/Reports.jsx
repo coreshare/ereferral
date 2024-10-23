@@ -140,7 +140,7 @@ const Reports = () => {
         const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
         
         const referMFDN = {}
-        referMFDN["GPName"] = "GP Name"
+        //referMFDN["GPName"] = "GP Name"
         referMFDN["GPPractice"] = "GP Practice"
         referMFDN["GPPracticeAddress"] = "GP Practice Address"
         referMFDN["ReferringOrganisation"] = "Referring Organisation"

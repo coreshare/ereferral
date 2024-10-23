@@ -197,6 +197,11 @@ const ChooseStages = () => {
         closeModal();
       }
 
+      const getArticle = (word) => {
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+        return vowels.includes(word[0].toLowerCase()) ? 'an' : 'a';
+      };
+
     return(
         <div>
             <div className="choosestage-header" style={{margin: '40px',width: 'calc(100% - 80px - 10%)', paddingLeft: '10%'}}>
@@ -224,7 +229,7 @@ const ChooseStages = () => {
                     <div className="rightColumn">
                         {selectedStage && (
                             <div>
-                            <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make a {selectedStage.stage} referral, the following information will be required (in pdf format):</h3>
+                            <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make {getArticle(selectedStage.title)}  {selectedStage.stage} referral, the following information will be required (in pdf format):</h3>
                                 {selectedStage.reports.map((report, index) => (
                                     <div key={index} style={{fontWeight: '600',lineHeight:'30px'}}>{index+1}. {report}</div>
                                 ))}
