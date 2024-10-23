@@ -127,7 +127,7 @@ const LeftNavForDetails = () => {
         
         if(details.OverseasPatient != "Yes")
         {
-            referMandatoryFields.push('GPName');
+            //referMandatoryFields.push('GPName');
             referMandatoryFields.push('GPPractice');
             referMandatoryFields.push('GPPracticeAddress');
         }

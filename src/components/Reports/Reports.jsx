@@ -137,7 +137,7 @@ const Reports = () => {
       }
       
       if(formdata.OverseasPatient != "Yes"){
-        const referMandatoryFields = ['GPName', 'GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
+        const referMandatoryFields = ['GPPractice', 'GPPracticeAddress', 'ReferringOrganisation', 'ReferringConsultant']
         
         const referMFDN = {}
         //referMFDN["GPName"] = "GP Name"
