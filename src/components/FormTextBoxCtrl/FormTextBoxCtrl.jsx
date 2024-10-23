@@ -33,7 +33,7 @@ const FormTextBoxCtrl = ({label, onChangeText, title, value, ctrlInSameRow, lblW
       <label style={lblWidth && { width: lblWidth }}>{label}{isMandatory && <span className="asterik">*</span>}</label>{ctrlInSameRow !== false && <br />}
       <input style={ctrlWidth && { width: ctrlWidth }} className={`textbox ${enableRedBorder ? 'redBorder' : ''}`} type="text" onChange={onChangeHandle} 
       onBlur={handleOnBlur} maxLength={maxLengthValue && maxLengthValue} minLength={minLengthValue && minLengthValue}
-      value={textboxvalue} readOnly={disableCtrl} />
+      value={textboxvalue} disabled={disableCtrl} />
     </div>
   )
 }
