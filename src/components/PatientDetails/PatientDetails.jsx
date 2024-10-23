@@ -349,7 +349,7 @@ const PatientDetails = () => {
                 <div style={{display:'inline-block',width:'100%'}}>
                     <div style={{marginRight:'200px',float: 'left'}}>
                         <FormTextBoxCtrl label="NHS Number" onBlurText={onBlurTextHandle} onChangeText={onChangeTextHandle} title="NHSNumber" value={details && details.NHSNumber} maxLengthValue={10} disallowSpaces={true} 
-                            isMandatory={mandatoryFlag && details.OverseasPatient === 'No'} disableCtrl={details && details.IsAPIPatientData == "Yes"} enableRedBorder={enableRedBorder && details.OverseasPatient === 'No' && (!details.NHSNumber || details.NHSNumber === "")} /><br/>
+                            isMandatory={mandatoryFlag && details.OverseasPatient === 'No'} disableCtrl={true} enableRedBorder={enableRedBorder && details.OverseasPatient === 'No' && (!details.NHSNumber || details.NHSNumber === "")} /><br/>
                         <FormTextBoxCtrl label="Last Name" onChangeText={onChangeTextHandle} title="Surname" value={details && details.Surname} onlyText={true} isMandatory={mandatoryFlag} enableRedBorder={enableRedBorder && (!details.Surname || details.Surname === "")}/><br/>
                         <FormTextBoxCtrl label="First Name" onChangeText={onChangeTextHandle} title="FirstName" value={details && details.FirstName} onlyText={true} isMandatory={mandatoryFlag} enableRedBorder={enableRedBorder && (!details.FirstName || details.FirstName === "")}/><br/>
                         <FormTextBoxCtrl label="Middle Name" onChangeText={onChangeTextHandle} title="MiddleName" value={details && details.MiddleName} onlyText={true}/><br/>
