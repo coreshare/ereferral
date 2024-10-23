@@ -429,9 +429,14 @@ const Reports = () => {
         </li>`;
     }).join('');
   
+    const getArticle = (word) => {
+      const vowels = ['a', 'e', 'i', 'o', 'u'];
+      return vowels.includes(word[0].toLowerCase()) ? 'an' : 'a';
+    };
+
     const htmlString = `
       <div style='font-size:28px;color:black;font-weight:600;text-align:left;margin-bottom:15px'>Reports</div>
-      <div style='color:#005cbb;font-weight:500;font-size:18px;text-align:left;line-height:1.6'>To make a ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format). <br/>Please note that the ticked reports have already been mapped.</div>
+      <div style='color:#005cbb;font-weight:500;font-size:18px;text-align:left;line-height:1.6'>To make ${getArticle(selectedStage.title)} ${selectedStage.title} SRG and ${selectedStage.stage} referral, the following information will be required (in pdf format). <br/>Please note that the ticked reports have already been mapped.</div>
       <ol style="padding-left: 0;text-align:left;line-height:1.8;font-size:18px">
         ${reportItems}
       </ol>`;
