@@ -58,6 +58,9 @@ const Questionnaire = () => {
         if(isConfirmed){
             if(confirmationType == "Patient Details Found"){
                 setPatientDetailsData()
+                var title = "IsAPIPatientData";
+                var value = "Yes"
+                dispatch(updateDetails({title, value}))
                 dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
             }
             else if(confirmationType == "No Patient Details"){
@@ -67,6 +70,10 @@ const Questionnaire = () => {
         closeModal();
     }
     const handleNext = () => {
+        var title = "IsAPIPatientData";
+        var value = "No"
+        dispatch(updateDetails({title, value}))
+        
         if(awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
         (awareOfDiagnosis == "Yes" && (discussedAtMDT == undefined || discussedAtMDT == "")) || 
         (overseasPatient == undefined || overseasPatient == ""))
@@ -253,6 +260,7 @@ const Questionnaire = () => {
                                     "<li>Date of Birth: " + formattedDate + "</li>" +
                                 "</ul></div>" +
                             "</div>")
+                        
                         openModal()
                     }
                     else{
