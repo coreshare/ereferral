@@ -17,7 +17,7 @@ import { setClinicalOncologistList, setCommunicationRequirementList, setCovidLis
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
 
-const imageNames = ["Breast", "Lung", "CNS", "Gynaecology", "Head & Neck", "Lower GI", "Bladder", "Prostate", "HpB", "Renal", "Testicular/Germ", "", "", ""];
+const imageNames = ["Bladder", "Breast", "CNS", "Gynaecology", "Head & Neck", "HpB", "Lower GI", "Lung", "Prostate", "Renal", "Testicular/Germ", "", "", ""];
 
 const ChooseReferralType = () => {
   const imageUrls = [Breast, Lung, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel];
