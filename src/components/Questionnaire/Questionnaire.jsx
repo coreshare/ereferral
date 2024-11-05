@@ -67,9 +67,11 @@ const Questionnaire = () => {
         closeModal();
     }
     const handleNext = () => {
-        if(awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
+        /*if(awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
         (awareOfDiagnosis == "Yes" && (discussedAtMDT == undefined || discussedAtMDT == "")) || 
-        (overseasPatient == undefined || overseasPatient == ""))
+        (overseasPatient == undefined || overseasPatient == ""))*/
+        if(awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
+            (awareOfDiagnosis == "Yes" && (discussedAtMDT == undefined || discussedAtMDT == "" || overseasPatient == undefined || overseasPatient == "")))
         {
             /*discussedAtMDT == undefined || discussedAtMDT == "" || 
             awareOfDiagnosis == undefined || awareOfDiagnosis == "" || 
@@ -202,10 +204,10 @@ const Questionnaire = () => {
                 dispatch(setTTCMandatory(false))
 
                 value = "Yes"
-                setIsConfirmation(false);
+                /*setIsConfirmation(false);
                 setShowCloseButton(true)
                 setModalText("<span style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</span>")
-                openModal()
+                openModal()*/
             }
             else
             {
@@ -249,6 +251,7 @@ const Questionnaire = () => {
                         setConfirmationType("Patient Details Found");
                         const formattedDate = pdsDataResponse["Date of Birth"] ? formatDate(pdsDataResponse["Date of Birth"]) : "";
                         setModalText("<div>" + 
+                                details?.IsExistingNHSNumber=="Yes" && "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" +
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
                                 "<div><ul style='text-align:left;line-height:1.6'>" + 
                                     "<li>First Name: " + pdsDataResponse["First Name"] + "</li>" +
@@ -393,7 +396,9 @@ const Questionnaire = () => {
         setIsConfirmation(true);
         setConfirmationBtnText("Yes")
         setConfirmationType("No Patient Details")
-        setModalText("No patient record is found against this NHS number. Do you want continue update Patient Details manually?");
+        setModalText(
+            details?.IsExistingNHSNumber=="Yes" && "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" +
+            "<p>No patient record is found against this NHS number. Do you want continue update Patient Details manually?</p>");
         openModal();
     }
 
