@@ -253,7 +253,9 @@ const Questionnaire = () => {
                         setConfirmationType("Patient Details Found");
                         const formattedDate = pdsDataResponse["Date of Birth"] ? formatDate(pdsDataResponse["Date of Birth"]) : "";
                         setModalText("<div>" + 
-                                details?.IsExistingNHSNumber=="Yes" && "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" +
+                            (details?.IsExistingNHSNumber === "Yes" 
+                                ? "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" 
+                                : "") +                            
                                 "<div style='line-height:28px'>Please review the details found for the entered NHS Number. Proceed if the information is correct.</div>" +
                                 "<div><ul style='text-align:left;line-height:1.6'>" + 
                                     "<li>First Name: " + pdsDataResponse["First Name"] + "</li>" +
@@ -399,7 +401,9 @@ const Questionnaire = () => {
         setConfirmationBtnText("Yes")
         setConfirmationType("No Patient Details")
         setModalText(
-            details?.IsExistingNHSNumber=="Yes" && "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" +
+            (details?.IsExistingNHSNumber === "Yes" 
+                ? "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" 
+                : "") +            
             "<p>No patient record is found against this NHS number. Do you want to continue to update the patient's details manually?</p>");
         openModal();
     }
