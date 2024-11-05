@@ -645,7 +645,10 @@ const Reports = () => {
               <li key={index} style={{ marginBottom: '5px', display: 'flex', alignItems: 'flex-start', fontSize: '16px', lineHeight: '1.4' }}>
                 {checkmark}
                 <span style={{ width: '30px', textAlign: 'center', marginRight: '10px', alignSelf: 'flex-start' }}>{index + 1}.</span>
-                <span className={(highlightReport && !files.some(file => file.MappedReports.includes(report.ReportName))) ? 'errorborder' : ''} style={{flex: '1 1 0%'}}> {report.ReportName}</span>
+                <span className={(highlightReport && 
+     !files.some(file => file.MappedReports.includes(report.ReportName)) && 
+     !(details.DiscussedatMDT === "No" && report.ReportName.startsWith("MDT "))
+    ) ? 'errorborder' : ''} style={{flex: '1 1 0%'}}> {report.ReportName}{details.DiscussedatMDT === "No" && report.ReportName.startsWith("MDT ") && " (Optional)"}</span>
               </li>
             );
           })}
