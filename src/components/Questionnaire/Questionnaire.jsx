@@ -60,7 +60,7 @@ const Questionnaire = () => {
                 setPatientDetailsData()
                 dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
             }
-            else if(confirmationType == "No Patient Details"){
+            else if(confirmationType == "No Patient Details" || confirmationType == "Max Attempts Reached"){
                 dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
             }
         }
@@ -228,8 +228,10 @@ const Questionnaire = () => {
     const getPatientData = async () => {
         if (pdsApiCallsAttempted >= MAX_ATTEMPTS) {
             setModalText("You have reached the maximum attempts to get patient data. Please continue updating manually or try refreshing.");
-            setIsConfirmation(false);
-            setShowCloseButton(true);
+            setIsConfirmation(true);
+            setShowCloseButton(false);
+            setConfirmationType("Max Attempts Reached")
+            setConfirmationBtnText("Continue");
             openModal();
             return;
         }
@@ -398,7 +400,7 @@ const Questionnaire = () => {
         setConfirmationType("No Patient Details")
         setModalText(
             details?.IsExistingNHSNumber=="Yes" && "<div style='line-height:28px'>The NHS number used has been recognised as being accepted by a Clatterbridge Cancer Centre Consultant. <br/>Please attach as many reports as you have available for the patient.</div><br/>" +
-            "<p>No patient record is found against this NHS number. Do you want continue update Patient Details manually?</p>");
+            "<p>No patient record is found against this NHS number. Do you want to continue to update the patient's details manually?</p>");
         openModal();
     }
 
