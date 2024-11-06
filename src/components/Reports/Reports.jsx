@@ -51,7 +51,7 @@ const Reports = () => {
       const reportstemp = selectedStage.reports.map(report => {
         newIndex = newIndex + 1;
         setReportIndex(newIndex);
-        return { ReportName: report }
+        return { ReportName: report.trim() }
       })
       reportstemp.sort((a, b) => a.ReportName.localeCompare(b.ReportName));
       dispatch(updateReportsList(reportstemp));
