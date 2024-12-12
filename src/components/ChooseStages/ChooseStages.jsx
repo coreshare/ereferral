@@ -97,7 +97,7 @@ const ChooseStages = () => {
                 /*const stages = [{title: 'Breast', stage: 'Stage I-II', report: 'Report 1', StageOrder: 1, ReportOrder: 1},
                 {title: 'Breast', stage: 'Stage I-II', report: 'Report 11', StageOrder: 3, ReportOrder: 2},
                 {title: 'Breast', stage: 'Stage III', report: 'Report 2', StageOrder: 4, ReportOrder: 2},
-                {title: 'Breast', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
+                {title: 'Breast', stage: 'Stage III', report: 'Report 22: <br/> 1. Report 001<br/> 2. Report 002', StageOrder: 2, ReportOrder: 1},
                 {title: 'Breast', stage: 'Stage IV', report: 'Report 3', StageOrder: 5, ReportOrder: 1},
                 {title: 'Lung', stage: 'Stage I-II', report: 'Report 11', StageOrder: 1, ReportOrder: 1},
                 {title: 'Lung', stage: 'Stage III', report: 'Report 22', StageOrder: 2, ReportOrder: 1},
@@ -231,7 +231,17 @@ const ChooseStages = () => {
                             <div>
                             <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make {getArticle(selectedStage.stage)}  {selectedStage.stage} referral, the following information will be required (in pdf format):</h3>
                                 {selectedStage.reports.map((report, index) => (
-                                    <div key={index} style={{fontWeight: '600',lineHeight:'30px'}}>{index+1}. {report}</div>
+                                    <div
+                                    key={index}
+                                    style={{ fontWeight: '600', lineHeight: '30px',display: 'flex',
+                                        alignItems: 'flex-start' }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: `
+                                          <span style="display: inline-block; margin-right: 8px; white-space: nowrap;">${index + 1}.</span>
+                                          <span style="display: inline-block;">${report.replace(/\n/g, '<br />')}</span>
+                                        `,
+                                      }}
+                                  ></div>
                                 ))}
                             </div>
                         )}

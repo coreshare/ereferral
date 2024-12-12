@@ -644,11 +644,12 @@ const Reports = () => {
             return (
               <li key={index} style={{ marginBottom: '5px', display: 'flex', alignItems: 'flex-start', fontSize: '16px', lineHeight: '1.4' }}>
                 {checkmark}
-                <span style={{ width: '30px', textAlign: 'center', marginRight: '10px', alignSelf: 'flex-start' }}>{index + 1}.</span>
-                <span className={(highlightReport && 
-     !files.some(file => file.MappedReports.includes(report.ReportName)) && 
-     !(details.DiscussedatMDT === "No" && report.ReportName.startsWith("MDT "))
-    ) ? 'errorborder' : ''} style={{flex: '1 1 0%'}}> {report.ReportName}{details.DiscussedatMDT === "No" && report.ReportName.startsWith("MDT ") && " (Optional)"}</span>
+                <span style={{ width: '30px', textAlign: 'center', marginRight: '10px', alignSelf: 'flex-start', lineHeight: '1.4' }}>{index + 1}.</span>
+                <span className={highlightReport && 
+                  !files.some(file => file.MappedReports.includes(report.ReportName)) && 
+                  !(details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ')
+                  ) ? 'errorborder' : ''} style={{ flex: '1 1 0%' }} dangerouslySetInnerHTML={{ __html: `${report.ReportName}${details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ') ? ' (Optional)' : ''}` }}>
+                </span>
               </li>
             );
           })}
@@ -662,11 +663,12 @@ const Reports = () => {
             <div style={{ textAlign: 'left', marginLeft: 'calc(50% + 50px)', width: 'calc(50% - 100px)' }}>
               <div style={{ fontSize: '20px', fontWeight: '500', marginBottom: '10px' }}>Please select or deselect the checkboxes below to map the reports.</div>
               {mandatoryReportslist.map((report, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '18px',marginBottom:'10px' }}>
-                  <input type="checkbox" style={{ height: '20px', width: '20px', marginRight: '10px', flexShrink:'0' }}
-                    checked={selectedFile.MappedReports.includes(report.ReportName)}
-                    onChange={() => handleReportSelection(report.ReportName)} /> <div style={{flexGrow:'1'}}>{report.ReportName}</div>
-                </div>
+                <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '18px', marginBottom: '10px', alignItems: 'flex-start' }}>
+                <input type="checkbox" style={{ height: '20px', width: '20px', marginRight: '10px', flexShrink: '0' }}
+                  checked={selectedFile.MappedReports.includes(report.ReportName)}
+                  onChange={() => handleReportSelection(report.ReportName)} />
+                <div style={{ flexGrow: '1', lineHeight:'1.5' }} dangerouslySetInnerHTML={{ __html: report.ReportName }}></div>
+              </div>              
               ))}
             </div>
             {/*<div class="video-container">
