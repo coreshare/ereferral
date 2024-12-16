@@ -648,8 +648,13 @@ const Reports = () => {
                 <span className={highlightReport && 
                   !files.some(file => file.MappedReports.includes(report.ReportName)) && 
                   !(details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ')
-                  ) ? 'errorborder' : ''} style={{ flex: '1 1 0%' }} dangerouslySetInnerHTML={{ __html: `${report.ReportName}${details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ') ? ' (Optional)' : ''}` }}>
+                  ) ? 'errorborder' : ''} style={{ flex: '1 1 0%' }} 
+                  dangerouslySetInnerHTML={{
+                    __html: `${report.ReportName}${details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ') ? ' (Optional)' : ''}`,
+                  }}>                        
                 </span>
+
+                
               </li>
             );
           })}
@@ -667,18 +672,18 @@ const Reports = () => {
                 <input type="checkbox" style={{ height: '20px', width: '20px', marginRight: '10px', flexShrink: '0' }}
                   checked={selectedFile.MappedReports.includes(report.ReportName)}
                   onChange={() => handleReportSelection(report.ReportName)} />
-                
-                  <div
-                    key={index}
-                    style={{ fontWeight: '600', lineHeight: '30px',display: 'flex',
-                        alignItems: 'flex-start' }}
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                          <span style="display: inline-block; margin-right: 8px; white-space: nowrap;">${index + 1}.</span>
-                          <span style="display: inline-block;">${report.replace(/\n/g, '<br />')}</span>
-                        `,
-                      }}
-                  ></div>
+                {/*<div style={{ flexGrow: '1', lineHeight:'1.5' }} dangerouslySetInnerHTML={{ __html: report.ReportName }}></div>*/}
+                <div
+                  key={index}
+                  style={{ fontWeight: '600', lineHeight: '30px',display: 'flex',
+                      alignItems: 'flex-start' }}
+                  dangerouslySetInnerHTML={{
+                      __html: `
+                        <span style="display: inline-block; margin-right: 8px; white-space: nowrap;">${index + 1}.</span>
+                        <span style="display: inline-block;">${report.ReportName.replace(/\n/g, '<br />')}</span>
+                      `,
+                    }}
+                ></div>
               </div>              
               ))}
             </div>
