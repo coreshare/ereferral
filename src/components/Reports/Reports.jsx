@@ -650,7 +650,8 @@ const Reports = () => {
                   !(details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ')
                   ) ? 'errorborder' : ''} style={{ flex: '1 1 0%' }} 
                   dangerouslySetInnerHTML={{
-                    __html: `${report.ReportName}${details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ') ? ' (Optional)' : ''}`,
+                    __html: `${report.ReportName}${details.DiscussedatMDT === 'No' && report.ReportName.startsWith('MDT ') ? ' (Optional)' : ''}`
+                      .replace(/\n/g, '<br />'),
                   }}>                        
                 </span>
 
