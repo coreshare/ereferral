@@ -667,7 +667,18 @@ const Reports = () => {
                 <input type="checkbox" style={{ height: '20px', width: '20px', marginRight: '10px', flexShrink: '0' }}
                   checked={selectedFile.MappedReports.includes(report.ReportName)}
                   onChange={() => handleReportSelection(report.ReportName)} />
-                <div style={{ flexGrow: '1', lineHeight:'1.5' }} dangerouslySetInnerHTML={{ __html: report.ReportName }}></div>
+                
+                  <div
+                    key={index}
+                    style={{ fontWeight: '600', lineHeight: '30px',display: 'flex',
+                        alignItems: 'flex-start' }}
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                          <span style="display: inline-block; margin-right: 8px; white-space: nowrap;">${index + 1}.</span>
+                          <span style="display: inline-block;">${report.replace(/\n/g, '<br />')}</span>
+                        `,
+                      }}
+                  ></div>
               </div>              
               ))}
             </div>
