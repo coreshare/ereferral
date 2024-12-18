@@ -11,13 +11,14 @@ import { resetReports } from "../Reports/ReportsSlice";
 import { getMasterData } from "../../Services/api";
 import { setClinicalOncologistList, setCommunicationRequirementList, setCovidList, setEthnicity, setMaritalStatuses, 
   setMedicalOncologistList, setNHSNumbers, setReferringOrgs, setRelationshiptoPatientList, setReligions, setSexOptionsList, setSpecialRequirementsList, 
+  setSRGList, 
   setTargetCategoriesList, 
   setTitlesList} from "../MasterDataSlice";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
 
-const imageNames = ["Bladder", "Breast", "CNS", "Gynaecology", "Head & Neck", "HpB", "LEC", "Lower GI", "Lung", "MDS", "Prostate", "Renal", "Sarcoma", "Skin", "Testicular/Germ", "", "", ""];
+//const imageNames = ["Bladder", "Breast", "CNS", "Gynaecology", "Head & Neck", "HpB", "LEC", "Lower GI", "Lung", "MDS", "Prostate", "Renal", "Sarcoma", "Skin", "Testicular/Germ", "", "", ""];
 
 const ChooseReferralType = () => {
   const imageUrls = [Breast, Lung, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel, transparentPixel];
@@ -26,6 +27,7 @@ const ChooseReferralType = () => {
   const selectedReferralType = useSelector(state => state.referralType)
   const listData = useSelector(state => state.masterData)
   const referrerEmail = useSelector(state => state.sharedStrings.ReferrerEmail)
+  //const imageNames = useSelector(state => state.SRGList)
   
   //Load master data asynchronously. 
   useEffect(() => {
@@ -42,6 +44,7 @@ const ChooseReferralType = () => {
       fetchData("RelationshiptoPatient")
       fetchData("Titles")
       fetchData("ReferringOrgs")
+      fetchData("SRGList")
     }
   },[])
 
@@ -91,6 +94,9 @@ const ChooseReferralType = () => {
             break;
           case "ReferringOrgs":
             dispatch(setReferringOrgs(data));
+            break;
+          case "SRGList":
+            dispatch(setSRGList(data));
             break;
           default:
             console.error(`Unsupported type_name: ${type_name}`);
@@ -142,11 +148,11 @@ const ChooseReferralType = () => {
                         href="javascript:void(0)"
                         className="image-tile-link"
                         onClick={(event) => handleImageClick(event, imageUrl)}
-                        title={imageNames[index]}
+                        title={listData.SRGList[index]}
                         >
-                        <div key={index} className="image-tile" title={imageNames[index]}>
+                        <div key={index} className="image-tile" title={listData.SRGList[index]}>
                             {/*<img src={imageUrl} alt={`Image ${index}`} title={imageNames[index]}/>*/}
-                            <div className="image-name" title={imageNames[index]}>{imageNames[index]}</div>
+                            <div className="image-name" title={listData.SRGList[index]}>{listData.SRGList[index]}</div>
                         </div>
                     </a>
                 ))}
