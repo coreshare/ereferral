@@ -14,6 +14,7 @@ import { setClinicalOncologistList, setCommunicationRequirementList, setCovidLis
   setSRGList, 
   setTargetCategoriesList, 
   setTitlesList} from "../MasterDataSlice";
+import ModalDialog from "../ModalDialog/ModalDialog";
 
 const transparentPixel =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/5+AAwAB/4DaaNvTAAAAAElFTkSuQmCC";
@@ -27,6 +28,8 @@ const ChooseReferralType = () => {
   const selectedReferralType = useSelector(state => state.referralType)
   const listData = useSelector(state => state.masterData)
   const referrerEmail = useSelector(state => state.sharedStrings.ReferrerEmail)
+
+  const modalText = "Getting SRGs... Please wait.";
   //const imageNames = useSelector(state => state.SRGList)
   
   //Load master data asynchronously. 
@@ -145,7 +148,7 @@ const ChooseReferralType = () => {
               {listData.SRGList.map((imageName, index) => (
                   <a key={index}
                       href="javascript:void(0)"
-                      className="image-tile-link"
+                      className="image-tile image-tile-link"
                       onClick={(event) => handleSRGClick(event, imageUrls[index])}
                       title={imageName.title}>
                       <div className="image-name" title={imageName.title}>
@@ -154,6 +157,10 @@ const ChooseReferralType = () => {
                   </a>
               ))}
           </div>
+          {listData.SRGList.length == 0 && 
+          <ModalDialog isOpen={true} showCloseButton={false} isConfirmation={false}>
+              {modalText}
+          </ModalDialog>}
       </div>
     </div>
   );
