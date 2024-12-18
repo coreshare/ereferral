@@ -145,7 +145,7 @@ const ChooseReferralType = () => {
         <div className="image-container">
             <div className="image-header">Please choose a referral type</div>
             <div className="image-gallery">
-              {listData.SRGList.map((imageName, index) => (
+              {listData.SRGList.sort((a, b) => a.title.localeCompare(b.title)).map((imageName, index) => (
                   <a key={index}
                       href="javascript:void(0)"
                       className="image-tile image-tile-link"
