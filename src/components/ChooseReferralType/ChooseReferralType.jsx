@@ -114,7 +114,7 @@ const ChooseReferralType = () => {
     }
   };
 
-  const handleImageClick = (e) => {
+  const handleSRGClick = (e) => {
     if(e.target.title != ""){
       dispatch(setReferralType(e.target.title));
       let title = "ReferralType"
@@ -142,21 +142,18 @@ const ChooseReferralType = () => {
         <div className="image-container">
             <div className="image-header">Please choose a referral type</div>
             <div className="image-gallery">
-                {imageUrls.map((imageUrl, index) => (
-                    <a
-                        key={index}
-                        href="javascript:void(0)"
-                        className="image-tile-link"
-                        onClick={(event) => handleImageClick(event, imageUrl)}
-                        title={listData.SRGList[index].title}
-                        >
-                        <div key={index} className="image-tile" title={listData.SRGList[index].title}>
-                            {/*<img src={imageUrl} alt={`Image ${index}`} title={imageNames[index]}/>*/}
-                            <div className="image-name" title={listData.SRGList[index].title}>{listData.SRGList[index].title}</div>
-                        </div>
-                    </a>
-                ))}
-        </div>
+              {listData.SRGList.map((imageName, index) => (
+                  <a key={index}
+                      href="javascript:void(0)"
+                      className="image-tile-link"
+                      onClick={(event) => handleImageClick(event, imageUrls[index])}
+                      title={imageName.Title}>
+                      <div className="image-name" title={imageName.Title}>
+                          {imageName.Title}
+                      </div>
+                  </a>
+              ))}
+          </div>
       </div>
     </div>
   );
