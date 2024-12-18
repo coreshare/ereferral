@@ -148,11 +148,11 @@ const ChooseReferralType = () => {
                         href="javascript:void(0)"
                         className="image-tile-link"
                         onClick={(event) => handleImageClick(event, imageUrl)}
-                        title={listData.SRGList[index]}
+                        title={listData.SRGList[index].Title}
                         >
-                        <div key={index} className="image-tile" title={listData.SRGList[index]}>
+                        <div key={index} className="image-tile" title={listData.SRGList[index].Title}>
                             {/*<img src={imageUrl} alt={`Image ${index}`} title={imageNames[index]}/>*/}
-                            <div className="image-name" title={listData.SRGList[index]}>{listData.SRGList[index]}</div>
+                            <div className="image-name" title={listData.SRGList[index].Title}>{listData.SRGList[index].Title}</div>
                         </div>
                     </a>
                 ))}
