@@ -147,9 +147,9 @@ const ChooseReferralType = () => {
                       href="javascript:void(0)"
                       className="image-tile-link"
                       onClick={(event) => handleSRGClick(event, imageUrls[index])}
-                      title={imageName.Title}>
-                      <div className="image-name" title={imageName.Title}>
-                          {imageName.Title}
+                      title={imageName.title}>
+                      <div className="image-name" title={imageName.title}>
+                          {imageName.title}
                       </div>
                   </a>
               ))}
