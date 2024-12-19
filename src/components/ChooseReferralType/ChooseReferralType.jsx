@@ -145,18 +145,23 @@ const ChooseReferralType = () => {
         <div className="image-container">
             <div className="image-header">Please choose a referral type</div>
             <div className="image-gallery">
-              {listData.SRGList.sort((a, b) => a.title.localeCompare(b.title)).map((imageName, index) => (
-                  <a key={index}
-                      href="javascript:void(0)"
-                      className="image-tile image-tile-link"
-                      onClick={(event) => handleSRGClick(event, imageUrls[index])}
-                      title={imageName.title}>
-                      <div className="image-name" title={imageName.title}>
-                          {imageName.title}
-                      </div>
-                  </a>
-              ))}
-          </div>
+            {listData.SRGList && listData.SRGList.length > 0 // Check if the array exists and has items
+                ? [...listData.SRGList]
+                    .sort((a, b) => a.title.localeCompare(b.title))
+                    .map((imageName, index) => (
+                        <a key={index}
+                            href="javascript:void(0)"
+                            className="image-tile image-tile-link"
+                            onClick={(event) => handleSRGClick(event, imageUrls[index])}
+                            title={imageName.title}>
+                            <div className="image-name" title={imageName.title}>
+                                {imageName.title}
+                            </div>
+                        </a>
+                    ))
+                : <div>No items to display</div> // Optional: Display a message if no items
+            }
+        </div>
           {listData.SRGList.length == 0 && 
           <ModalDialog isOpen={true} showCloseButton={false} isConfirmation={false}>
               {modalText}
