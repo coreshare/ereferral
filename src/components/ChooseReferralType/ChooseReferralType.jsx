@@ -129,7 +129,7 @@ const ChooseReferralType = () => {
       value = referrerEmail
       dispatch(updateDetails({title, value}))
       dispatch(setReferralTypeStageStep(currentStep + 1))
-
+      dispatch(setStage(null))
       if(e.target.title != selectedReferralType){
         dispatch(setStage(null))//add confirmation
       }
