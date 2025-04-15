@@ -229,7 +229,7 @@ const ChooseStages = () => {
                     <div className="rightColumn">
                         {selectedStage && (
                             <div>
-                            <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make {getArticle(selectedStage.stage)}  {selectedStage.stage} referral, the following information will be required (in pdf format):</h3>
+                            <h3 style={{marginTop:'0px',color: '#005cbb'}}>To make {getArticle(selectedStage.stage)}  {selectedStage.stage} referral, the following information will be required (in pdf format and up to 5MB max size):</h3>
                                 {selectedStage.reports.map((report, index) => (
                                     <div
                                     key={index}

@@ -145,7 +145,7 @@ const OTPValidation = () => {
                 setModalText("Another eReferral session already in progress. Please close all browsers and try again.")
             }
             else if(error.message.includes('Not valid')){
-                setModalText("Email not found. Please check and enter the correct address.")
+                setModalText("Email not found. Please check and enter the correct the address.")
             }
             else {
                 setModalText(error.message)
@@ -161,7 +161,7 @@ const OTPValidation = () => {
   return (
     <div className="OTPValidation">
       <center>
-        <p>Please enter the six digit code sent to your email address</p>
+        <p>Please enter the six digit code sent to your email address. Please check your inbox and spam/junk folder.</p>
         <p>
           {[...Array(6)].map((_, index) => (
             <input
