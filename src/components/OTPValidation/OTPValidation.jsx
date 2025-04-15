@@ -145,7 +145,7 @@ const OTPValidation = () => {
                 setModalText("Another eReferral session already in progress. Please close all browsers and try again.")
             }
             else if(error.message.includes('Not valid')){
-                setModalText("Email not found in our records.")
+                setModalText("Email not found. Please check and enter the correct address.")
             }
             else {
                 setModalText(error.message)
