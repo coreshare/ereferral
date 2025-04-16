@@ -69,8 +69,15 @@ export const saveData = async (data) => {
       throw new Error("Unexpected error: " + response.status);
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
+
+    // Other errors
     throw new Error("Request failed: " + error.message);
+    //throw new Error("Request failed: " + error.message);
   }
 }
 
