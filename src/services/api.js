@@ -17,6 +17,10 @@ export const emailOTP = async (data) => {
 
     return response;
   } catch (error) {
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Failed to submit data");
   }
 };
@@ -37,6 +41,10 @@ export const submitData = async (data) => {
 
     return response;
   } catch (error) {
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Failed to submit data");
   }
 };
@@ -108,6 +116,10 @@ export const generateOTP = async () => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -134,6 +146,10 @@ export const sendEmail = async (email, subject, emailText) => {
     return responseBody;
   } catch (error) {
     console.log(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
   }
 };
 
@@ -164,6 +180,10 @@ export const validateOTP = async (otpval) => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -195,6 +215,10 @@ export const validateReCaptcha = async (captchavalue) => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -226,6 +250,10 @@ export const validateDomain = async (emailval) => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -254,6 +282,10 @@ export const clearSession = async () => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -275,6 +307,10 @@ export const getNHSNumbers = async () => {
     return data;
   } catch (error) {
     console.log(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
   }
 };
 
@@ -303,6 +339,10 @@ export const getMasterData = async (type_name) => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -335,6 +375,10 @@ export const getPDSData = async (nhsNumber) => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -363,6 +407,10 @@ export const getReferralTypeStages = async () => {
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 };
@@ -383,6 +431,10 @@ export const uploadFileToLib = async (file, metadata) => {
     return responseBody;
   } catch (error) {
     console.log(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
   }
 };
 
@@ -403,6 +455,10 @@ export const uploadFile = async (file) => {
 
     return response;
   } catch (error) {
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Failed to upload file");
   }
 };
@@ -428,7 +484,11 @@ export const uploadFiles = async (files) => {
     
     return response;
   } catch (error) {
-    alert(error)
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
+    throw new Error("Failed to upload file");
     //throw new Error("Failed to upload file2");
   }
 };
@@ -453,6 +513,10 @@ export const uploadFilesTest = async (files) => {
     alert(responseData);
     return responseData;
   } catch (error) {
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Failed to upload file");
   }
 }
@@ -481,6 +545,10 @@ export const resetSession = async () => {debugger
     }
   } catch (error) {
     console.error(error);
+    if (error instanceof TypeError && error.message === "Failed to fetch") {
+      throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
+        "Please try again. If the problem continues, please contact support@coreshare.co.uk</div>");
+    }
     throw new Error("Request failed: " + error.message);
   }
 }
