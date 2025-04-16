@@ -47,7 +47,7 @@ export const saveData = async (data) => {
   formData.append("jsonObject", JSON.stringify(transformedData));
 
   try {
-    const response = await fetch(`${BASE_URL}/SPData1`, {
+    const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
       body: formData,
       credentials: "include"
