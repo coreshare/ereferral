@@ -96,7 +96,7 @@ const OTPValidation = () => {
       catch (error) {
           setShowCloseButton(true)
           if (error.message.includes('400')) {     
-              
+              alert(error.message);
               const serverMessage = error.response?.data ?? error.message;     
               if(error.message.includes('exceeded')){
                 dispatch(setUserValidationStep(0))
