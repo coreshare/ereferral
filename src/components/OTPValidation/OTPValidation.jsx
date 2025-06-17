@@ -5,6 +5,7 @@ import { generateOTP, validateOTP } from "../../Services/api";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppStep } from "../AppSlice";
+import { setUserValidationStep } from "../UserValidation/UserValidationSlice";
 
 const OTPValidation = () => {
   const dispatch = useDispatch()
@@ -94,8 +95,13 @@ const OTPValidation = () => {
       }
       catch (error) {
           setShowCloseButton(true)
-          if (error.message.includes('400')) {
-              setMaxAttempts(maxAttempts + 1)
+          if (error.message.includes('400')) {            
+              if(error.message.includes('exceeded')){
+                dispatch(setUserValidationStep(0))
+              }
+              setModalText(error.message);
+              
+              /*setMaxAttempts(maxAttempts + 1)
               if(error.message.includes('Invalid')){
                 if(maxAttempts < 5){
                   setMaxAttempts(maxAttempts + 1)
@@ -110,7 +116,7 @@ const OTPValidation = () => {
               }
               else {
                   setModalText(error.message)
-              }
+              }*/
           } else if (error.message.includes('500')) {
               setModalText(error.message)
           } else {
