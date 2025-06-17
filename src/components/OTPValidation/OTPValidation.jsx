@@ -95,13 +95,14 @@ const OTPValidation = () => {
       }
       catch (error) {
           setShowCloseButton(true)
-          if (error.message.includes('400')) {     
-              alert(error.message);
-              const serverMessage = error.response?.data ?? error.message;     
-              if(error.message.includes('exceeded')){
+          if (error.message.includes('400')) {  
+            
+              const serverMessage = error.response?.data ?? error.message;   
+              setModalText(serverMessage);
+
+              if(error.message.includes('exceeded') || error.message.includes('expired')){
                 dispatch(setUserValidationStep(0))
               }
-              setModalText(serverMessage);
 
               /*setMaxAttempts(maxAttempts + 1)
               if(error.message.includes('Invalid')){
