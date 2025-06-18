@@ -97,7 +97,7 @@ const OTPValidation = () => {
           setShowCloseButton(true)
           if (error.message.includes('400')) {  
               alert(error);
-              const serverMessage = error.response?.data ?? error.message;   
+              const serverMessage = error.response?.data?.messagetext ?? error.message;   
               setModalText(serverMessage);
 
               if(serverMessage.includes('exceeded') || serverMessage.includes('expired')){
