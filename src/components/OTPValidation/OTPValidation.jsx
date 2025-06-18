@@ -96,7 +96,7 @@ const OTPValidation = () => {
       catch (error) {
           setShowCloseButton(true)
           if (error.message.includes('400')) { 
-            console.log(error);
+            //console.log(error);
             alert(error.message);
               //const serverMessage = error.response?.data?.messagetext ?? error.message;   
               setModalText(error.message);
