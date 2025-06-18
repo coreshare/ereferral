@@ -13,6 +13,7 @@ const OTPValidation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showCloseButton,setShowCloseButton] = useState(true)
   const [modalText, setModalText] = useState("")
+  const [gotologin, setGoToLogin] = useState(false)
   const [isTimerActive, setIsTimerActive] = useState(true)
   const [remainingTime, setRemainingTime] = useState(300)
   const emailId = useSelector(state => state.sharedStrings.ReferrerEmail)
@@ -74,6 +75,9 @@ const OTPValidation = () => {
 
   const closeModal = () => {
       setIsModalOpen(false);
+      if(gotologin){
+        dispatch(setUserValidationStep(0))
+      }
   };
 
   const handleOTPValidation = async () => {
@@ -97,12 +101,12 @@ const OTPValidation = () => {
           setShowCloseButton(true)
           if (error.message.includes('400')) {  
               
-              const serverMessage = JSON.parse(error.message); 
-              //alert(serverMessage);  
+              const serverMessage = error.message; 
               setModalText(serverMessage);
 
               if(serverMessage.includes('exceeded') || serverMessage.includes('expired')){
-                dispatch(setUserValidationStep(0))
+                setGoToLogin(true);
+                //dispatch(setUserValidationStep(0))
               }
 
               /*setMaxAttempts(maxAttempts + 1)
