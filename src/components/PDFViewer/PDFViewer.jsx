@@ -20,6 +20,10 @@ const PDFViewer = ({ file }) => {
         if (pdfFile) setViewPDF(pdfFile);
     }, [pdfFile]);
 
+    useEffect(() => {
+        alert("Using PDF.js worker URL: " + workerUrl.toString());
+    }, []);
+    
     const newPlugin = defaultLayoutPlugin();
 
     return (
