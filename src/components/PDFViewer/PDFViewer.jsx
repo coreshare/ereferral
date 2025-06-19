@@ -3,6 +3,7 @@ import {Viewer, Worker} from "@react-pdf-viewer/core"
 import { DefaultLayoutPlugin, defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
+const workerUrl = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
 const PDFViewer = ({ file }) => {
     const [pdfFile, setPDFFile] = useState(null);
     const [viewPDF, setViewPDF] = useState(null);
@@ -26,7 +27,7 @@ const PDFViewer = ({ file }) => {
     return (
         <div>
             <div className="pdf-container">
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.worker.min.js">
+                <Worker workerUrl={workerUrl}>
                     {viewPDF && (
                         <Viewer fileUrl={viewPDF} plugins={[newPlugin]} />
                     )}
