@@ -26,7 +26,7 @@ const PDFViewer = ({ file }) => {
     return (
         <div>
             <div className="pdf-container">
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.worker.min.js">
                     {viewPDF && (
                         <Viewer fileUrl={viewPDF} plugins={[newPlugin]} />
                     )}
