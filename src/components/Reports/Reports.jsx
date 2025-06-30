@@ -334,7 +334,7 @@ const Reports = () => {
           const arrayBuffer = e.target.result;
           const dataView = new DataView(arrayBuffer);
   
-          if (
+          /*if (
             !(arrayBuffer.byteLength > 4 &&
               dataView.getUint8(0) === 0x25 &&
               dataView.getUint8(1) === 0x50 &&
@@ -343,7 +343,7 @@ const Reports = () => {
           ) {
             alert(`Invalid PDF file: ${selFile.name}`);
             return;
-          }
+          }*/
   
           const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
           const fileExtension = selFile.name.split('.').pop();
