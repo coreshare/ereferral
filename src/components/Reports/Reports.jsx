@@ -15,6 +15,7 @@ import videoSrc from "../../Images/NHSVideo.mp4"
 import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
 import { setLeftNavClearLinkText } from "../SharedStringsSlice";
+import { scanFileWithClamAV } from "../../Services/api";
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -315,6 +316,64 @@ const Reports = () => {
     });
   };
 
+  const uploadFilesToCollection = async (event) => {
+    const selectedFiles = event.target.files;
+    const validFiles = [];
+
+    for (const selFile of selectedFiles) {
+      if (!selFile.type.includes("pdf")) {
+        alert(`"${selFile.name}" is not a PDF file. Only PDF files are allowed.`);
+        continue;
+      }
+      if (selFile.size > 5 * 1024 * 1024) {
+        alert(`File "${selFile.name}" exceeds 5MB. Please upload files up to 5MB.`);
+        continue;
+      }
+
+      // Show scanning modal
+      setModalText(`<b>Scanning "${selFile.name}"...</b><br/><br/>Please wait while we check the file for security threats.`);
+      setIsConfirmation(false);
+      setShowCloseButton(false);
+      openModal();
+
+      try {
+        const scanResult = await scanFileWithClamAV(selFile);
+        if (scanResult.status && scanResult.status !== "") {
+          closeModal();
+          alert(`Malware detected in "${selFile.name}":\n${scanResult.status}`);
+          continue;
+        }
+
+        // Read file to array buffer
+        const arrayBuffer = await selFile.arrayBuffer();
+
+        const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+        const fileExtension = selFile.name.split('.').pop();
+        const baseName = selFile.name.replace(`.${fileExtension}`, '');
+        const internalFileName = `${baseName}_${timestamp}.${fileExtension}`;
+
+        const newFile = {
+          MappedReports: [],
+          ReportFile: selFile,
+          InternalFileName: internalFileName
+        };
+
+        validFiles.push(newFile);
+      } catch (err) {
+        console.error("Error scanning or reading file:", err);
+        alert(`Error processing "${selFile.name}": ${err.message}`);
+      } finally {
+        closeModal();
+      }
+    }
+
+    if (validFiles.length > 0) {
+      dispatch(updateFiles([...files, ...validFiles]));
+    }
+  };
+
+
+  /*
   const uploadFilesToCollection = (event) => {debugger;
     const selectedFiles = event.target.files;
       const validFiles = [];
@@ -328,13 +387,13 @@ const Reports = () => {
           alert(`File "${selFile.name}" exceeds 5MB. Please upload files up to 5MB.`);
           return;
         }
-  
+
         const reader = new FileReader();
         reader.onload = function (e) {
           const arrayBuffer = e.target.result;
           const dataView = new DataView(arrayBuffer);
   
-          /*if (
+          if (
             !(arrayBuffer.byteLength > 4 &&
               dataView.getUint8(0) === 0x25 &&
               dataView.getUint8(1) === 0x50 &&
@@ -343,7 +402,7 @@ const Reports = () => {
           ) {
             alert(`Invalid PDF file: ${selFile.name}`);
             return;
-          }*/
+          }
   
           const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
           const fileExtension = selFile.name.split('.').pop();
@@ -363,7 +422,7 @@ const Reports = () => {
         };
         reader.readAsArrayBuffer(selFile);
       });
-  }
+  }*/
 
   const handleDragOver = (e) => {
     e.preventDefault();

@@ -314,6 +314,24 @@ export const getNHSNumbers = async () => {
   }
 };
 
+export const scanFileWithClamAV = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${BASE_URL}/DocScan/ScanFile`, {
+    method: "POST",
+    body: formData,
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Scan failed: ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data;
+};
 
 export const getMasterData = async (type_name) => {
   try {
