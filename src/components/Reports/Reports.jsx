@@ -340,8 +340,11 @@ const Reports = () => {
         const scanResult = await scanFileWithClamAV(selFile);
         if (scanResult.status && scanResult.status !== "") {
           closeModal();
-          alert(`Malware detected in "${selFile.name}":\n${scanResult.status}`);
-          continue;
+          setTimeout(function(){
+            alert(`Malware detected in "${selFile.name}":\n${scanResult.status}`);
+            return;
+          },10)
+          
         }
 
         // Read file to array buffer
