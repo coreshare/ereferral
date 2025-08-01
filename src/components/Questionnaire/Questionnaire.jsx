@@ -244,7 +244,7 @@ const Questionnaire = () => {
                     setShowCloseButton(false)
                     setModalText("Validating NHS Number... Please wait.")
                     openModal()
-                    var pdsDataResponse = await getPDSData(details.NHSNumber);
+                    var pdsDataResponse = undefined;//await getPDSData(details.NHSNumber);
                     if(pdsDataResponse){
                         setPDSData(pdsDataResponse);
                         closeModal()
