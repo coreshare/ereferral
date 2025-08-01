@@ -123,10 +123,10 @@ const Questionnaire = () => {
             setModalText("Enter valid NHS Number")
             openModal()
             return
-        }
+        }/*
         else if(details.NHSNumber && details.NHSNumber != "" && (details.NHSNumber.length == 10)){
             getPatientData();
-        }
+        }*/
         else{
             dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
         }
