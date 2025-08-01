@@ -322,7 +322,7 @@ const PatientDetails = () => {
             }
             title = "IsExistingNHSNumber";
             dispatch(updateDetails({title, value}))
-            getPatientData();
+            //getPatientData();
         }
     }
 
