@@ -26,7 +26,7 @@ const HomeVideo = () => {
             <div class="video-container">
                 <div style={{marginTop: "100px"}}>
                     <div style={{textAlign: "right"}}><img src={configs.imageDataUri} style={{width:"100px",borderRadius:"100px",border:"2px solid #444"}}/></div>
-                    <div style={{marginTop: "20px"}} dangerouslySetInnerHTML={{ __html: configs.value }}></div>
+                    <div style={{marginTop: "20px",lineHeight:"1.5"}} dangerouslySetInnerHTML={{ __html: configs.value }}></div>
                 </div>
                 {/*<video controls>
                     <source src={videoSrc} type="video/mp4"/>
