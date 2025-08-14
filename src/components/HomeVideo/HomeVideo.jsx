@@ -1,13 +1,21 @@
-import React from "react"
+import React, { useEffect } from "react"
 import videoSrc from "../../Images/NHSVideo.mp4"
 import "./HomeVideo.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setReferralTypeStageStep } from "../ReferralTypeSlice"
+import { setConfigurations } from "../SharedStringsSlice"
 
 const HomeVideo = () => {
     const dispatch = useDispatch()
     const currentStep = useSelector(state => state.referralTypeStageStep)
+    const configs = useSelector(state => state.sharedStrings.configurations)
 
+    useEffect(() => {
+        getMasterData(type_name)
+              .then((data) => {alert(data);
+                dispatch(setConfigurations(data))
+              })
+    },[])
     const handleNext = () =>{
         dispatch(setReferralTypeStageStep(currentStep + 1))
     }

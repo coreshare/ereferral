@@ -9,7 +9,7 @@ const sharedStringsSlice = createSlice({
         enableNOKMandatory: false,
         enableReferMandatory: false,
         enableTTCMandatory: false,
-        pdsAPICallsCount: 0
+        pdsAPICallsCount: 0,configurations: {}
     },
     reducers: {
         setLeftNavClearLinkText: (state, action) => {
@@ -38,10 +38,12 @@ const sharedStringsSlice = createSlice({
             state.enableNOKMandatory = false
             state.enableReferMandatory = false
             state.enableTTCMandatory = false
+        },setConfigurations: (state, action) => {
+            state.configurations = action.payload
         }
     },
 });  
 
 export const { setLeftNavClearLinkText, setReferrerEmail, setPatientMandatory, setNOKMandatory,
-    setReferMandatory, setTTCMandatory, resetMandatory, setPDSAPICallsCount } = sharedStringsSlice.actions;
+    setReferMandatory, setTTCMandatory, resetMandatory, setPDSAPICallsCount, setConfigurations } = sharedStringsSlice.actions;
 export default sharedStringsSlice.reducer;
