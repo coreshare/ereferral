@@ -10,12 +10,10 @@ const HomeVideo = () => {
     const dispatch = useDispatch()
     const currentStep = useSelector(state => state.referralTypeStageStep)
     const configs = useSelector(state => state.sharedStrings.configurations)
-    const [testvar, setTestVar] = useState("11");
 
     useEffect(() => {
-        setTestVar("22");
         getMasterData("HomeContent")
-              .then((data) => {setTestVar("33" + data.Title);
+              .then((data) => {
                 dispatch(setConfigurations(data))
               })
     },[])
@@ -25,11 +23,15 @@ const HomeVideo = () => {
 
     return(
         <div>
-            <div class="video-container"><span>{testvar}</span>
-                <video controls>
+            <div class="video-container">
+                <div>
+                    <img src={configs.ImageDataUri}/>
+                    <div>{configs.Value}</div>
+                </div>
+                {/*<video controls>
                     <source src={videoSrc} type="video/mp4"/>
                     Your browser does not support the video tag.
-                </video><br/>
+                </video>*/}<br/>
                 <button onClick={handleNext} class="rightbtn">Skip {'>'}{'>'}</button>
             </div>
         </div>
