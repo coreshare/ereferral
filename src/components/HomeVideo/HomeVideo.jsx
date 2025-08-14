@@ -10,12 +10,12 @@ const HomeVideo = () => {
     const dispatch = useDispatch()
     const currentStep = useSelector(state => state.referralTypeStageStep)
     const configs = useSelector(state => state.sharedStrings.configurations)
-    const [testvar, setTestVar] = useState(1);
+    const [testvar, setTestVar] = useState("11");
 
     useEffect(() => {
-        setTestVar(2);
+        setTestVar("22");
         getMasterData("HomeContent")
-              .then((data) => {setTestVar(3);
+              .then((data) => {setTestVar("33" + data.Title);
                 dispatch(setConfigurations(data))
               })
     },[])

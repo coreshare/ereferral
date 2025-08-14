@@ -37,7 +37,7 @@ const Header = () => {
       <div>
         <img src={NHSLogoWhite} alt="NHS Logo" />
       </div>
-      <div>Patient Referral Portal&nbsp; testing</div>
+      <div>Patient Referral Portal&nbsp;</div>
       <div>
         {/* Corrected conditional rendering for firstNameSurname */}
         {firstNameSurname && (
