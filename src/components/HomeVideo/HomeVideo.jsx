@@ -25,8 +25,8 @@ const HomeVideo = () => {
         <div>
             <div class="video-container">
                 <div>
-                    <img src={configs.ImageDataUri}/>
-                    <div>{configs.Value}</div>
+                    <img src={configs.imageDataUri}/>
+                    <div>{configs.value}</div>
                 </div>
                 {/*<video controls>
                     <source src={videoSrc} type="video/mp4"/>
