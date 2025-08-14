@@ -1,18 +1,21 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import videoSrc from "../../Images/NHSVideo.mp4"
 import "./HomeVideo.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setReferralTypeStageStep } from "../ReferralTypeSlice"
 import { setConfigurations } from "../SharedStringsSlice"
+import { getMasterData } from "../../Services/api"
 
 const HomeVideo = () => {
     const dispatch = useDispatch()
     const currentStep = useSelector(state => state.referralTypeStageStep)
     const configs = useSelector(state => state.sharedStrings.configurations)
+    const [testvar, setTestVar] = useState(1);
 
     useEffect(() => {
-        getMasterData(type_name)
-              .then((data) => {alert(data);
+        setTestVar(2);
+        getMasterData("HomeContent")
+              .then((data) => {setTestVar(3);
                 dispatch(setConfigurations(data))
               })
     },[])
@@ -22,7 +25,7 @@ const HomeVideo = () => {
 
     return(
         <div>
-            <div class="video-container">
+            <div class="video-container"><span>{testvar}</span>
                 <video controls>
                     <source src={videoSrc} type="video/mp4"/>
                     Your browser does not support the video tag.
