@@ -5,5 +5,5 @@
     margin: 0 auto;
   }
 video{/*height:600px;*/width: 1100px;margin-top: 50px;}
-.rightbtn{float: right;background: transparent;border: 0px;cursor: pointer;font-weight: 600;font-size: 18px;margin-top: 5px;color: #005cbb;}
+.rightbtn{float: right;background: transparent;border: 0px;cursor: pointer;font-weight: 600;font-size: 18px;margin-top: 5px;color: #005cbb;text-decoration: underline;}
 .leftbtn{float: left;}
