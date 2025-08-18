@@ -95,10 +95,12 @@ const OTPValidation = () => {
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
       try{
-        const homecontent = await validateOTP(concatenatedNumberString);//"Success";//checkonce
-        dispatch(setConfigurations(homecontent))
+        await validateOTP(concatenatedNumberString);//"Success";//checkonce
+        getMasterData("HomeContent")
+              .then((data) => {
+                dispatch(setConfigurations(data))
+              })
         setTimeout(() => {
-          console.log("test: " + homecontent);
           closeModal()
           dispatch(setAppStep(1))
         } , 100);
