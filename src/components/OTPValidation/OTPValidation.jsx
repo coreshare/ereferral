@@ -22,6 +22,7 @@ const OTPValidation = () => {
   const maxResendAttempts = 3
   const [maxAttempts, setMaxAttempts] = useState(0)
   const [textBoxValues, setTextBoxValues] = useState(Array(6).fill(''))
+  const configs = useSelector(state => state.sharedStrings.configurations)
 
   useEffect(() => {
     let timer;
@@ -96,8 +97,11 @@ const OTPValidation = () => {
       try{
         const homecontent = await validateOTP(concatenatedNumberString);//"Success";//checkonce
         dispatch(setConfigurations(homecontent))
-        closeModal()
-        dispatch(setAppStep(1))
+        setTimeout(() => {
+          console.log("test: " + homecontent);
+          closeModal()
+          dispatch(setAppStep(1))
+        } , 100);
       }
       catch (error) {
           setShowCloseButton(true)
