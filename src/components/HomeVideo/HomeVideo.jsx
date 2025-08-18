@@ -10,13 +10,13 @@ const HomeVideo = () => {
     const dispatch = useDispatch()
     const currentStep = useSelector(state => state.referralTypeStageStep)
     const configs = useSelector(state => state.sharedStrings.configurations)
-    
+    /*
     useEffect(() => {
         getMasterData("HomeContent")
               .then((data) => {
                 dispatch(setConfigurations(data))
               })
-    },[])
+    },[])*/
     
     const handleNext = () =>{
         dispatch(setReferralTypeStageStep(currentStep + 1))

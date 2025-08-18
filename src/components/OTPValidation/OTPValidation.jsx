@@ -98,7 +98,8 @@ const OTPValidation = () => {
         //await validateOTP(concatenatedNumberString);//"Success";//checkonce
         validateOTP(concatenatedNumberString)
               .then((data) => {
-                dispatch(setConfigurations(data))
+                const parsedData = JSON.parse(data);
+                dispatch(setConfigurations(parsedData))
                   closeModal()
                   dispatch(setAppStep(1))
               })
