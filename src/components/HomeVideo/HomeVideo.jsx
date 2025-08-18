@@ -24,8 +24,11 @@ const HomeVideo = () => {
     return(
         <div>
             <div class="video-container">
-                <div style={{marginTop: "100px"}}>
-                    <div style={{textAlign: "right"}}><img src={configs.imageDataUri} style={{width:"100px",borderRadius:"100px",border:"2px solid #444"}}/></div>
+                <div style={{marginTop: "100px", background: "#fff", borderRadius: "10px", padding: "30px"}}>
+                        <div style={{display: "inline-block",width:"100%"}}>
+                            <span style={{float:"left",fontSize:"32px",color: "#005cbb", fontWeight: "600"}}>Welcome to the Patient eReferral Portal</span>
+                            <img src={configs.imageDataUri} style={{width:"100px",borderRadius:"100px",border:"2px solid #444", float: "right"}}/>
+                        </div>
                     <div style={{marginTop: "20px",lineHeight:"1.5"}} dangerouslySetInnerHTML={{ __html: configs.value }}></div>
                 </div>
                 {/*<video controls>
