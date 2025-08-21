@@ -95,14 +95,20 @@ const OTPValidation = () => {
       setShowCloseButton(false);
       setModalText("Validating OTP... Please wait.");
       try{
+        const data = await validateOTP(concatenatedNumberString);
+        const parsedData = JSON.parse(data);
+
+        dispatch(setConfigurations(parsedData));
+        closeModal();
+        dispatch(setAppStep(1));
         //await validateOTP(concatenatedNumberString);//"Success";//checkonce
-        validateOTP(concatenatedNumberString)
+        /*validateOTP(concatenatedNumberString)
               .then((data) => {
                 const parsedData = JSON.parse(data);
                 dispatch(setConfigurations(parsedData))
                   closeModal()
                   dispatch(setAppStep(1))
-              })
+              })*/
       }
       catch (error) {
           setShowCloseButton(true)
