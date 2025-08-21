@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFiles, updateReportsList, updateMandatoryReportsList } from "./ReportsSlice";
 import { setReferralSubmissionStep } from "../ReferralSubmissionSlice";
 import { warning_MandatoryText } from "../Config";
-import videoSrc from "../../Images/NHSVideo.mp4"
+import videoSrc from "../../Images/CCCeRefReportsUpload.mp4"
 import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
 import { setLeftNavClearLinkText } from "../SharedStringsSlice";
