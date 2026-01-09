@@ -29,7 +29,7 @@ const UserValidation = () => {
                     <img src={ClatterbridgeLogo} style={{width: '320px'}}/>
                 </p>
 
-      <div style={{fontSize: "28px", fontWeight: "bold", color:"#005cbb"}}>DEV Portal 1</div>
+      <div style={{fontSize: "28px", fontWeight: "bold", color:"#005cbb"}}>DEV Portal</div>
                 <p class="boldtxt" style={{ lineHeight: '50px', fontSize: '30px', marginTop: '0px' }}>
                     Patient Referral Portal
                 </p>

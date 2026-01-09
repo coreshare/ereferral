@@ -23,8 +23,8 @@ const RefererDetails = () => {
     const mandatoryFlag = true//useSelector(state => (state.details.IsExistingNHSNumber === 'Yes') ? false : true)
 
     useEffect(() => {
-        if(prevLeftNavClearText.current !== "Refer"){
-            dispatch(setLeftNavClearLinkText("Refer"))
+        if(prevLeftNavClearText.current !== "Referrer"){
+            dispatch(setLeftNavClearLinkText("Referrer"))
             if(listData.ReferringOrgs){
                 setReferringOrgsList(listData.ReferringOrgs.map((status) => ({
                     label: status.hospital,
@@ -32,7 +32,7 @@ const RefererDetails = () => {
                 })))
                 //[{label: "test1",value:"test1"}]//checkonce
             }
-            prevLeftNavClearText.current = "Refer"
+            prevLeftNavClearText.current = "Referrer"
         }
     },[])
 
