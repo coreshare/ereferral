@@ -232,7 +232,7 @@ const LeftNavForDetails = () => {
                     return
                 }
             }
-            if(sharedStrings.leftNavClearLinkText === "Refer"){
+            if(sharedStrings.leftNavClearLinkText === "Referrer"){
                 if ((step === 3 || step === 4) && checkReferDetailsFieldsValidation()){
                     const title = "enableReferMandatory"
                     const value = true
@@ -279,7 +279,7 @@ const LeftNavForDetails = () => {
             setIsConfirmation(true)
             setConfirmationBtnText("Yes")
             if(leftNavStep != 4)
-                setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + "details?")
+                setModalText("Do you want to clear " + sharedStrings.leftNavClearLinkText + " details?")
             else
                 setModalText("Are you sure you want to delete all the documents?")
             openModal()
