@@ -464,7 +464,7 @@ const Questionnaire = () => {
                             isFutureDate={false} disableCtrl={details && details.DiscussedatMDT == "No"} />
                             
                         </div><br/><br/>
-                        <div style={{marginBottom:"10px",fontWeight:"bold",color:"#005cbb",fontSize:"20px"}}>Treatment Proposal...:</div>
+                        <div style={{marginBottom:"10px",fontWeight:"bold",color:"#005cbb",fontSize:"20px"}}>Treatment Proposal:</div>
                         {treatmentDecisionOptions.map((option) => (<>
                             <div key={option.id}>
                                 <label htmlFor={option.id} style={{minWidth:"475px",display:"inline-block",fontWeight:"600",maxWidth:"475px"}}>{option.label}</label>
