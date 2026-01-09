@@ -264,7 +264,7 @@ const LeftNavForDetails = () => {
         else if(step == 1)
             dispatch(setLeftNavClearLinkText("Next of Kin"))
         else if(step == 2)
-            dispatch(setLeftNavClearLinkText("Refer"))
+            dispatch(setLeftNavClearLinkText("Referrer"))
         else if(step == 3)
             dispatch(setLeftNavClearLinkText("Treatment & Target Category"))
         else if(step == 4)
