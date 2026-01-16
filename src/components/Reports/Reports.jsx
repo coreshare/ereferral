@@ -210,7 +210,7 @@ const Reports = () => {
 
     if (!mainReportsWithFiles && formdata.IsExistingNHSNumber != "Yes") {
       setHighlightReport(true);
-      setModalText("Please upload files for all reports before proceeding")
+      setModalText("Please upload all required files and tag the relevant reports to continue")
       setShowCloseButton(true)
       setIsConfirmation(false)
       openModal()

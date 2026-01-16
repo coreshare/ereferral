@@ -104,7 +104,7 @@ const EmailOTPRequest = () =>{
                         setModalText("Another eReferral session already in progress. Please close all browsers and try again.")
                     }
                     else if(error.message.includes('Not valid')){
-                        setModalText("Email not found. Please check and enter the correct email address.")
+                        setModalText("Domain not found. Please check and enter the correct domain email address.")
                     }
                     else {
                         setModalText(error.message)
