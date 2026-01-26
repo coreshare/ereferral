@@ -133,7 +133,7 @@ const PatientDetails = () => {
                         value=pdsData["GP Address"];
                         dispatch(updateDetails({title,value}));
                         title="DateofBirth";
-                        value=pdsData["Date of Birth"];//formatDateToYYYYMMDD(pdsData["Date of Birth"]);
+                        value=formatDateToYYYYMMDD(pdsData["Date of Birth"]);//pdsData["Date of Birth"];//
                         dispatch(updateDetails({title,value}));
                         title="HomePhoneNumber";
                         value=pdsData["Primary Contact Number"];
