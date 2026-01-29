@@ -31,9 +31,7 @@ const UserValidation = () => {
                     item => item.Title === "App Offline Flag"
                 )
 
-                // Read value safely
-                const isOffline =
-                    offlineConfig?.Value?.toLowerCase() === "yes"
+                const isOffline = offlineConfig?.Value?.toLowerCase() === "yes"
 
                 setAppOfflineFlag(isOffline)
               })
