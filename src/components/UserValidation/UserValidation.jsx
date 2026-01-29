@@ -25,7 +25,7 @@ const UserValidation = () => {
         onNext();
     }*/
     useEffect(() => {
-        getMasterData("Configurations")
+        getMasterData("GetOfflineFlag")
               .then((data) => {
                 const offlineConfig = data.find(
                     item => item.Title === "App Offline Flag"
