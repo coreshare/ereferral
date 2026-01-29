@@ -14,4 +14,23 @@
   }
 
   .boldtxt{font-weight: 600;}
+  .headline {
+    font-size: 48px;
+    font-weight: 700;
+    color: #3f6aa8;
+    margin-bottom: 40px;
+}
+
+.message {
+    font-size: 46px;
+    font-weight: 400;
+    color: #3f6aa8;
+    margin-bottom: 30px;
+}
+
+.sub-message {
+    font-size: 44px;
+    font-weight: 400;
+    color: #3f6aa8;
+}
   
