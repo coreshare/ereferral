@@ -14,7 +14,7 @@ import { useIdleTimer } from "react-idle-timer"
 const SessionTimer = () => {
   const dispatch = useDispatch()
 
-  const sessionTimeout = 2 * 60 * 60 * 1000   // 2 hours
+  const sessionTimeout = 3 * 60 * 1000   // 2 hours
   const warningTimeout = 2 * 60 * 1000        // 2 minutes
 
   const [isModalOpen, setIsModalOpen] = useState(false)
