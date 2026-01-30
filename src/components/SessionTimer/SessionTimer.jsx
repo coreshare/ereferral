@@ -1,4 +1,141 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
+import ModalDialog from "../ModalDialog/ModalDialog"
+import "./SessionTimer.css"
+import { resetSession } from "../../Services/api"
+import { setAppStep } from "../AppSlice"
+import { setUserValidationStep } from "../UserValidation/UserValidationSlice"
+import { setReferralTypeStageStep } from "../ReferralTypeSlice"
+import { resetDetails } from "../DetailsSlice"
+import { setStage } from "../ChooseStages/StagesSlice"
+import { resetMandatory } from "../SharedStringsSlice"
+import { useDispatch } from "react-redux"
+import { useIdleTimer } from "react-idle-timer"
+
+const SessionTimer = () => {
+  const dispatch = useDispatch()
+
+  const sessionTimeout = 2 * 60 * 60 * 1000   // 2 hours
+  const warningTimeout = 2 * 60 * 1000        // 2 minutes
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [countdown, setCountdown] = useState(120)
+  const [startCountdown, setStartCountdown] = useState(false)
+  const [countdownOver, setCountdownOver] = useState(false)
+
+  const warningTimerRef = useRef(null)
+  const countdownTimerRef = useRef(null)
+
+  /* ---------------- Idle Timer ---------------- */
+
+  const { reset } = useIdleTimer({
+    timeout: sessionTimeout,
+    onIdle: () => {
+      setCountdownOver(true)
+      setIsModalOpen(true)
+    },
+    onActive: () => {
+      clearTimeout(warningTimerRef.current)
+      clearTimeout(countdownTimerRef.current)
+      setStartCountdown(false)
+      setCountdown(120)
+    },
+  })
+
+  /* ---------------- Warning Timer ---------------- */
+
+  const startWarningTimer = () => {
+    clearTimeout(warningTimerRef.current)
+
+    warningTimerRef.current = setTimeout(() => {
+      setCountdown(120)
+      setStartCountdown(true)
+      setIsModalOpen(true)
+    }, sessionTimeout - warningTimeout)
+  }
+
+  /* ---------------- Initial Setup ---------------- */
+
+  useEffect(() => {
+    startWarningTimer()
+
+    return () => {
+      clearTimeout(warningTimerRef.current)
+      clearTimeout(countdownTimerRef.current)
+    }
+  }, [])
+
+  /* ---------------- Countdown Logic ---------------- */
+
+  useEffect(() => {
+    if (!startCountdown) return
+
+    countdownTimerRef.current = setTimeout(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          setCountdownOver(true)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearTimeout(countdownTimerRef.current)
+  }, [startCountdown, countdown])
+
+  /* ---------------- Actions ---------------- */
+
+  const handleExtendSession = async () => {
+    await resetSession()
+    reset() // reset idle timer
+    setStartCountdown(false)
+    setCountdown(120)
+    startWarningTimer()
+    setIsModalOpen(false)
+  }
+
+  const handleCloseSession = () => {
+    dispatch(setAppStep(0))
+    dispatch(setUserValidationStep(0))
+    dispatch(setReferralTypeStageStep(0))
+    dispatch(resetDetails())
+    dispatch(setStage(null))
+    dispatch(resetMandatory())
+    setIsModalOpen(false)
+  }
+
+  /* ---------------- UI ---------------- */
+
+  return (
+    <>
+      {!countdownOver && (
+        <ModalDialog isOpen={isModalOpen} showCloseButton={false}>
+          Your session will end in{" "}
+          {Math.floor(countdown / 60)}:
+          {(countdown % 60).toString().padStart(2, "0")} minutes.
+          <br /><br />
+          <button className="timer-button" onClick={handleExtendSession}>
+            Extend session
+          </button>
+        </ModalDialog>
+      )}
+
+      {countdownOver && (
+        <ModalDialog isOpen={isModalOpen} showCloseButton={false}>
+          Your session has expired. Please login again.
+          <br /><br />
+          <button className="timer-button" onClick={handleCloseSession}>
+            Close session
+          </button>
+        </ModalDialog>
+      )}
+    </>
+  )
+}
+
+export default SessionTimer
+
+
+/*import React, { useEffect, useState } from "react"
 import ModalDialog from "../ModalDialog/ModalDialog"
 import "./SessionTimer.css"
 import { resetSession } from "../../Services/api"
@@ -138,4 +275,4 @@ const SessionTimer = () => {
         }
     </div>)
 }
-export default SessionTimer
+export default SessionTimer*/
