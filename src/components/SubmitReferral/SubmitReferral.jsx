@@ -46,11 +46,11 @@ const SubmitReferral = () => {
             setIsSubmitting(false)
             return
         }
-        //setModalText("Are you sure you want to submit this referral?")
-        //setIsConfirmation(true)
-        //setShowCloseButton(false)
-        //setConfirmationBtnText("Yes")
-        //openModal()
+        setModalText("Are you sure you want to submit this referral?")
+        setIsConfirmation(true)
+        setShowCloseButton(false)
+        setConfirmationBtnText("Yes")
+        openModal()
     }
 
     const openModal = () => {
@@ -113,7 +113,7 @@ const SubmitReferral = () => {
 
     return(
         <div className="container-submit">
-            <div style={{display: 'inline-block',width:'100%'}}>{isSubmitting ? "test1" : "test2"}
+            <div style={{display: 'inline-block',width:'100%'}}>
                 <h3 className="detailsHeader" style={{float:'left'}}>Submit Referral</h3>
                 <button onClick={handleBack} className="buttonCtrl" style={{float:'right'}}>Back</button>
             </div>
