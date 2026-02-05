@@ -113,7 +113,7 @@ const SubmitReferral = () => {
 
     return(
         <div className="container-submit">
-            <div style={{display: 'inline-block',width:'100%'}}>
+            <div style={{display: 'inline-block',width:'100%'}}>{isSubmitting}
                 <h3 className="detailsHeader" style={{float:'left'}}>Submit Referral</h3>
                 <button onClick={handleBack} className="buttonCtrl" style={{float:'right'}}>Back</button>
             </div>
