@@ -1,10 +1,10 @@
 import React from "react";
 import "./ButtonCtrl.css"
 
-const ButtonCtrl = ({btnText, btnClickHandler}) => {
+const ButtonCtrl = ({btnText, btnClickHandler, btnDisabled = false}) => {
     return(
         <div>
-            <button onClick={btnClickHandler} class="btnCtrl">{btnText}</button>
+            <button onClick={btnClickHandler} class="btnCtrl" disabled={btnDisabled}>{btnText}</button>
         </div>
     )
 }
