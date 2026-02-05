@@ -37,7 +37,7 @@ const SubmitReferral = () => {
     })
     const onSubmitHandle = async () =>{
         setContentInHtml(false)
-        setIsSubmitting(true)
+        setIsSubmitting(!isSubmitting)
         if(!navigator.onLine){
             setModalText("Submission is not possible because there is no internet connection.")
             setIsConfirmation(false)
