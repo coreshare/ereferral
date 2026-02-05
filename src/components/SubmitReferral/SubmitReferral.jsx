@@ -46,11 +46,11 @@ const SubmitReferral = () => {
             setIsSubmitting(false)
             return
         }
-        setModalText("Are you sure you want to submit this referral?")
-        setIsConfirmation(true)
-        setShowCloseButton(false)
-        setConfirmationBtnText("Yes")
-        openModal()
+        //setModalText("Are you sure you want to submit this referral?")
+        //setIsConfirmation(true)
+        //setShowCloseButton(false)
+        //setConfirmationBtnText("Yes")
+        //openModal()
     }
 
     const openModal = () => {
