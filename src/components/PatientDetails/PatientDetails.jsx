@@ -285,8 +285,23 @@ const PatientDetails = () => {
         else if(details.EmailAddress && details.EmailAddress != "" && !(emailPattern.test(details.EmailAddress))){
             setModalText(warning_ValidEmailText)
             return true
+        }//06022026
+        else if(details.DateofBirth && details.DateofBirth != "" && !isValidSharePointDate(details.DateofBirth)){
+            setModalText("Enter a valid Date of Birth (after 01/01/1753)")
+            return true
         }
         return false
+    }//06022026
+    const isValidSharePointDate = (value) => {
+        if (!value) return false;
+
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return false;
+
+        const min = new Date("1753-01-01");
+        const max = new Date("9999-12-31");
+
+        return date >= min && date <= max;
     }
     const handleBack = () => {
         /*if (checkFieldsValidation()){

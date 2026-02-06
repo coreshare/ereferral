@@ -110,11 +110,11 @@ const Questionnaire = () => {
                 setModalText("Enter date at MDT")
                 openModal()
                 return
-            }
+            }//06022026
             else if(!isValidSharePointDate(details.DateatMDT)){
                 setIsConfirmation(false)
                 setShowCloseButton(true)
-                setModalText("Enter a valid Date at MDT (after 01-01-1753)")
+                setModalText("Enter a valid Date at MDT (after 01/01/1753)")
                 openModal()
                 return
             }
@@ -143,7 +143,7 @@ const Questionnaire = () => {
         }*/
         //dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
     }
-
+    //06022026
     const isValidSharePointDate = (value) => {
         if (!value) return false;
 

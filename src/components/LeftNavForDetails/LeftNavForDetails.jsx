@@ -71,7 +71,23 @@ const LeftNavForDetails = () => {
             setModalText(warning_ValidEmailText)
             return true
         }
+        //06022026
+        else if(details.DateofBirth && details.DateofBirth != "" && !isValidSharePointDate(details.DateofBirth)){
+            setModalText("Enter a valid Date of Birth (after 01/01/1753)")
+            return true
+        }
         return false
+    }
+    const isValidSharePointDate = (value) => {
+        if (!value) return false;
+
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return false;
+
+        const min = new Date("1753-01-01");
+        const max = new Date("9999-12-31");
+
+        return date >= min && date <= max;
     }
     const checkNOKDetailsFieldsValidation = () => {
         //var errorMsg = "<div style='max-height:500px;overflow-y:auto;width:400px'><b style='line-height:28px'>You must ensure you complete all the below mandatory fields to continue:</b><br/><br/>"
