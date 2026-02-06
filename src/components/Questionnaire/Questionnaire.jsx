@@ -103,12 +103,22 @@ const Questionnaire = () => {
                 return
             }
         }
-        if(details && details.DiscussedatMDT == "Yes" && (!details.DateatMDT || details.DateatMDT == "")){
-            setIsConfirmation(false);
-            setShowCloseButton(true)
-            setModalText("Enter date at MDT")
-            openModal()
-            return
+        if(details && details.DiscussedatMDT == "Yes"){
+            if(!details.DateatMDT || details.DateatMDT == ""){
+                setIsConfirmation(false)
+                setShowCloseButton(true)
+                setModalText("Enter date at MDT")
+                openModal()
+                return
+            }
+            else if(!isValidSharePointDate(details.DateatMDT)){
+                setIsConfirmation(false)
+                setShowCloseButton(true)
+                setModalText("Enter a valid Date at MDT (after 01-01-1753)")
+                openModal()
+                return
+            }
+            
         }
         if(!details.TreatmentDecision || details.TreatmentDecision === ""){
             setIsConfirmation(false);
@@ -134,6 +144,17 @@ const Questionnaire = () => {
         //dispatch(setReferralTypeStageStep(refTypeStageStep + 1))
     }
 
+    const isValidSharePointDate = (value) => {
+        if (!value) return false;
+
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return false;
+
+        const min = new Date("1753-01-01");
+        const max = new Date("9999-12-31");
+
+        return date >= min && date <= max;
+    }
     const handleBack = () => {
         dispatch(setReferralTypeStageStep(refTypeStageStep-1))
     }
