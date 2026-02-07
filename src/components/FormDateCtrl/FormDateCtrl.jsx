@@ -37,7 +37,7 @@ const FormDateCtrl = ({
 
     if (raw < SP_MIN_DATE || raw > SP_MAX_DATE) {
       inputRef.current.setCustomValidity(
-        "Date must be between 01-01-1900 and 31-12-9999"
+        "Invalid date. Use a date after 01/01/1900"
       )
       setHasError(true)
     }
