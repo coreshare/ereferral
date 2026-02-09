@@ -36,24 +36,7 @@ const SubmitReferral = () => {
         }
     })
     const onSubmitHandle = async () =>{
-        await saveData(details)
-        var reportsMetadata = {};
-        for(var i=0;i < reports.length;i++){
-            if(!reportsMetadata.hasOwnProperty(reports[i].name))
-            {
-                reportsMetadata[reports[i].ReportFile.name] = {};
-            }
-            //reportsMetadata[reports[i].ReportFile.name].Report=reports[i].ReportName;
-            reportsMetadata[reports[i].ReportFile.name].Report=reports[i].MappedReports.join(";");
-            reportsMetadata[reports[i].ReportFile.name].ReportOrder=reports[i].ReportOrder;
-        }
-        
-        const uploadPromises = reports.map((report) => {
-            return uploadFileToLib(report.ReportFile, reportsMetadata[report.ReportFile.name]);
-        });
-    
-        await Promise.all(uploadPromises);
-        /*setContentInHtml(false)
+        setContentInHtml(false)
         setIsSubmitting(true)
         if(!navigator.onLine){
             setModalText("Submission is not possible because there is no internet connection.")
@@ -67,7 +50,7 @@ const SubmitReferral = () => {
         setIsConfirmation(true)
         setShowCloseButton(false)
         setConfirmationBtnText("Yes")
-        openModal()*/
+        openModal()
     }
 
     const openModal = () => {
