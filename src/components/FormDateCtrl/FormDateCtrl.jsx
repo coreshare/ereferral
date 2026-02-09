@@ -19,7 +19,6 @@ const FormDateCtrl = ({
   const details = useSelector(state => state.details)
   const inputRef = useRef(null)
 
-  // ✅ SharePoint supported range
   const SP_MIN_DATE = "1900-01-01"
   const SP_MAX_DATE = "9999-12-31"
 
