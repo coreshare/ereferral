@@ -281,6 +281,10 @@ export const clearSession = async () => {
       throw new Error("Unexpected error: " + response.status);
     }
   } catch (error) {
+    if (error.status === 503) {
+      window.location.href = "/maintenance";
+      return;
+    }
     console.error(error);
     if (error instanceof TypeError && error.message === "Failed to fetch") {
       throw new Error("<b>We couldn't submit your referral</b><br/><br/><div>There was a temporary issue connecting to the referral service." +
