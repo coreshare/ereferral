@@ -82,7 +82,7 @@ const PatientDetails = () => {
         }
         //getPatientData();
     },[])//details
-test
+    
     const getPatientData = async () => {
         if (pdsApiCallsAttempted >= MAX_ATTEMPTS) {
             setModalText("You have reached the maximum attempts to get patient data. Please continue updating manually or try refreshing.");
