@@ -281,7 +281,7 @@ export const clearSession = async () => {
       throw new Error("Unexpected error: " + response.status);
     }
   } catch (error) {
-    if (error.status === 503) {
+    if (error.message.includes("503")) {
       window.location.href = "/maintenance";
       return;
     }
