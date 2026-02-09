@@ -282,7 +282,7 @@ export const clearSession = async () => {
     }
   } catch (error) {
     if (error.message.includes("503")) {
-      window.location.href = "/maintenance";
+      window.location.href = "/maintenance.html";
       return;
     }
     console.error(error);
