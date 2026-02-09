@@ -1,5 +1,6 @@
 const BASE_URL = "https://api.coreshareonline.com";
 const Email_URL = "";
+var submissionId = "";
 
 export const emailOTP = async (data) => {
   try {
@@ -58,7 +59,10 @@ export const saveData = async (data) => {
     const response = await fetch(`${BASE_URL}/SPData`, {
       method: "POST",
       body: formData,
-      credentials: "include"
+      credentials: "include",
+      headers: {
+        "X-Idempotency-Key": submissionId
+      }
     });
 
     if (response.ok) {
@@ -257,8 +261,12 @@ export const validateDomain = async (emailval) => {
     throw new Error("Request failed: " + error.message);
   }
 };
+export const resetSubmissionId = () => {
+  submissionId = crypto.randomUUID();
+}
 
 export const clearSession = async () => {
+  resetSubmissionId();
   try {
     const response = await fetch(`${BASE_URL}/SPData/ClearSession`, {
       method: "POST",

@@ -6,11 +6,14 @@ import { resetDetails } from "../DetailsSlice"
 import { setStage } from "../ChooseStages/StagesSlice"
 import { setUserValidationStep } from "../UserValidation/UserValidationSlice"
 import { resetMandatory, setNOKMandatory, setPatientMandatory, setReferMandatory, setTTCMandatory } from "../SharedStringsSlice"
+import { resetSubmissionId } from "../../Services/api"
 
 const SuccessView = () => {
     const dispatch = useDispatch()
 
     const handleAddReferral = () => {
+        resetSubmissionId();
+
         dispatch(setAppStep(1))
         dispatch(setReferralTypeStageStep(1))
         dispatch(resetDetails())
