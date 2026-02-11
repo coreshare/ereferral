@@ -251,7 +251,10 @@ const Questionnaire = () => {
         { id: 'Radiotherapy', label: 'Radiotherapy' },
         { id: 'Systemictreatment', label: 'Chemotherapy / Immunotherapy' },
         { id: 'Combinationofsystemictreatmentandradiotherapy', label: 'Combination of radiotherapy and chemotherapy / immunotherapy' },
-        { id: 'ReferredforOncologyReview', label: 'Inpatient being referred for Oncology review'}
+        { id: 'ReferredforOncologyReview', label: 'Inpatient being referred for Oncology review'},
+        { id: 'HODiagnosisFurtherInvestigations', label: 'HO Diagnosis - further investigations'},
+        { id: 'MDTDiscussionOnly', label: 'MDT Discussion Only'},
+        { id: 'SecondOpinionTransferofCare', label: 'Second Opinion / Transfer of Care'}
     ];
 
     const getPatientData = async () => {
