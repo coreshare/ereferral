@@ -370,7 +370,7 @@ const Reports = () => {
           continue;
         }
 
-        const isProtected = await isPdfPasswordProtected(selFile);
+        /*const isProtected = await isPdfPasswordProtected(selFile);
         if (isProtected) {
           closeModal();
           setTimeout(function(){
@@ -379,7 +379,7 @@ const Reports = () => {
           },10)
           
           continue;
-        }
+        }*/
 
         // Read file to array buffer
         const arrayBuffer = await selFile.arrayBuffer();
