@@ -16,6 +16,8 @@ import PopupVideo from "../PopupVideo/PopupVideo";
 import infoIcon from "../../Images/info-filled.svg"
 import { setLeftNavClearLinkText } from "../SharedStringsSlice";
 import { scanFileWithClamAV } from "../../Services/api";
+//12022026
+import * as pdfjsLib from "pdfjs-dist"
 
 const Reports = () => {
   const dispatch = useDispatch()
@@ -75,6 +77,24 @@ const Reports = () => {
       dispatch(updateMandatoryReportsList(reportslist));
     }
   },[])
+
+  const isPdfPasswordProtected = async (file) => {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+
+      await pdfjsLib.getDocument({
+        data: arrayBuffer,
+        password: ""
+      }).promise;
+
+      return false;
+    } catch (error) {
+      if (error?.name === "PasswordException") {
+        return true;
+      }
+      throw error;
+    }
+  }
 
   const handleNext = () => {
     if(formdata.IsExistingNHSNumber != "Yes") {
@@ -345,6 +365,18 @@ const Reports = () => {
             return;
           },10)
           
+          continue;
+        }
+
+        const isProtected = await isPdfPasswordProtected(selFile);
+        if (isProtected) {
+          closeModal();
+          setTimeout(function(){
+            alert(`"${selFile.name}" is password protected. Please upload an unlocked PDF.`);
+            return;
+          },10)
+          
+          continue;
         }
 
         // Read file to array buffer
