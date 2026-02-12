@@ -82,10 +82,12 @@ const Reports = () => {
     try {
       const arrayBuffer = await file.arrayBuffer();
 
-      await pdfjsLib.getDocument({
+      const loadingTask = pdfjsLib.getDocument({
         data: arrayBuffer,
-        password: ""
-      }).promise;
+        workerSrc: `${process.env.PUBLIC_URL}/pdf.worker.min.js`
+      });
+
+      await loadingTask.promise;
 
       return false;
     } catch (error) {
